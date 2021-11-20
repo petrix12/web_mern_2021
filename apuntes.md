@@ -52,7 +52,7 @@
     + $ git push -u origin main
 
 ### 6. ¿Por que usamos Express JS?
-
++ **Contenido**: razones para utilizar Express.js.
 1. Commit Video 006:
     + $ git add .
     + $ git commit -m "¿Por que usamos Express JS?"
