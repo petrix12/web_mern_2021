@@ -89,8 +89,11 @@
     + $ git push -u origin main
 
 ### 011. Instalando Postman para Peticiones HTTP
-
-1. Commit Video 011:
+1. El autor del curso recomienda descargar e instalar [Postman](https://www.postman.com), yo en cambio recomiendo descargar la extensión de Visual Studio Code: 
+    + Thunder Client
+        + Ranga Vadhineni
+        + Rest API Client for VS Code, GUI based Http Client
+2. Commit Video 011:
     + $ git add .
     + $ git commit -m "Instalando Postman para Peticiones HTTP"
     + $ git push -u origin main
