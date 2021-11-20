@@ -177,14 +177,11 @@
     + $ git push -u origin main
 
 ### 018. Instalando Robot 3T
-
+1. Descargar e instalar [Robo 3T](https://robomongo.org)
 1. Commit Video 018:
     + $ git add .
     + $ git commit -m "Instalando Robot 3T"
     + $ git push -u origin main
-
-
-
 
 ## Sección 03: Conceptos básicos de React JS
 
