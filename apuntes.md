@@ -17,7 +17,7 @@
 ## Sección 01: Introducción
 
 ### 1. Introducción
-
++ **Contenido**: explicación de la aplicación que desarrollaremos.
 1. Commit Video 001:
     + $ git add .
     + $ git commit -m "Introducción"
