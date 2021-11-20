@@ -24,7 +24,7 @@
     + $ git push -u origin main
 
 ### 2. Una charla antes de empezar
-
++ **Contenido**: recomendaciones para seguir el curso.
 1. Commit Video 002:
     + $ git add .
     + $ git commit -m "Una charla antes de empezar"
