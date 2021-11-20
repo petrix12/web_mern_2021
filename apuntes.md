@@ -99,7 +99,7 @@
     + $ git push -u origin main
 
 ### 012. Seleccionando el Editor de Código
-
++ **Contenido**: razones para utilizar Visual Studio Code.
 1. Commit Video 012:
     + $ git add .
     + $ git commit -m "Seleccionando el Editor de Código"
