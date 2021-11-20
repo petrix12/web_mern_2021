@@ -31,7 +31,7 @@
     + $ git push -u origin main
 
 ### 3. ¿Que es el Stack MERN, MongoDB, ExpressJS, ReactJS y NodeJS?
-
++ **Continido**: acerca del Stack MERN.
 1. Commit Video 003:
     + $ git add .
     + $ git commit -m "¿Que es el Stack MERN, MongoDB, ExpressJS, ReactJS y NodeJS?"
