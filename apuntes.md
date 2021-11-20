@@ -91,7 +91,7 @@
 ### 011. Instalando Postman para Peticiones HTTP
 1. El autor del curso recomienda descargar e instalar [Postman](https://www.postman.com), yo en cambio recomiendo descargar la extensión de Visual Studio Code: 
     + Thunder Client
-        + Ranga Vadhineni
+        + Editor: Ranga Vadhineni
         + Rest API Client for VS Code, GUI based Http Client
 2. Commit Video 011:
     + $ git add .
@@ -106,8 +106,30 @@
     + $ git push -u origin main
 
 ### 013. Instalando las Extensiones en Visual Studio Code
-
-1. Commit Video 013:
+1. Extensiones de Visual Studio Code recomendadas:
+    + Bracket Pair Colorizer 2
+        + Editor: CoenraadS
+    + ES7 React/Redux/GraphQL/React-Native snippets
+        + Editor: dsznajder
+    + ESLint
+        + Editor: Microsoft
+    + HTML Snippets
+        + Editor: Mohamed Abusaid
+    + IntelliSense for CSS class names in HTML
+        + Editor: Zignd
+    + JavaScript (ES6) code snippets
+        + Editor: charalampos karypidis
+    + Material Icon Theme
+        + Editor: Philipp Kief
+    + Path Intellisense
+        + Editor: Christian Kohler
+    + Prettier - Code formatter
+        + Editor: Prettier
+    + Rainbow CSV
+        + Editor: mechatroner
+    + Reactjs code snippets
+        + Editor: charalampos karypidis
+2. Commit Video 013:
     + $ git add .
     + $ git commit -m "Instalando las Extensiones en Visual Studio Code"
     + $ git push -u origin main
