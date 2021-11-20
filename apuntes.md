@@ -160,8 +160,18 @@
     + $ git push -u origin main
 
 ### 017. Windows - Instalando MongoDB
-
-1. Commit Video 017:
++ https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
+1. Descargar e instalar MongoDB.
+2. Crear variables de entorno para ejecutar MongoDB desde cualquier ubicación.
+    + En **Windows**, ir a **Propiedades del sistema** y en las pestaña de **Opciones avanzadas** presionar el botón **Variables de entorno...**.
+    + En el grupo de Variables de usuario agregar la ruta **C:\Program Files\MongoDB\Server\5.0\bin** en **Path**.
+    + Para iniciar los servicios de MongoDB, ejecutar en una terminal de Windows:
+        + $ mongod
+        + **Nota**: MongoDB correra en el puerto 27017.
+    + Conexión para administrar **MongoDB** desde **Robo 3T**:
+        + Nombre: localhost
+        + Puerto: 27017
+5. Commit Video 017:
     + $ git add .
     + $ git commit -m "Windows - Instalando MongoDB"
     + $ git push -u origin main
@@ -176,40 +186,122 @@
 
 
 
-
+## Sección 03: Conceptos básicos de React JS
 
 ### 019. ¿Qué vamos hacer en esta sección?
-1 min
+
+1. Commit Video 019:
+    + $ git add .
+    + $ git commit -m "¿Qué vamos hacer en esta sección?"
+    + $ git push -u origin main
+
 ### 020. Introducción a JSX
-3 min
+
+1. Commit Video 020:
+    + $ git add .
+    + $ git commit -m "Introducción a JSX"
+    + $ git push -u origin main
+
 ### 021. Conceptos básicos de React JS
-4 min
+
+1. Commit Video 021:
+    + $ git add .
+    + $ git commit -m "Conceptos básicos de React JS"
+    + $ git push -u origin main
+
 ### 022. Creando nuestra primera app en React JS
-3 min
+
+1. Commit Video 022:
+    + $ git add .
+    + $ git commit -m "Creando nuestra primera app en React JS"
+    + $ git push -u origin main
+
 ### 023. Estructura de React JS
-8 min
+
+1. Commit Video 023:
+    + $ git add .
+    + $ git commit -m "Estructura de React JS"
+    + $ git push -u origin main
+
 ### 024. Nuestro primer Componente en React JS
-11 min
+
+1. Commit Video 024:
+    + $ git add .
+    + $ git commit -m "Nuestro primer Componente en React JS"
+    + $ git push -u origin main
+
 ### 025. ¿Que son los Props de React?
-4 min
+
+1. Commit Video 025:
+    + $ git add .
+    + $ git commit -m "¿Que son los Props de React?"
+    + $ git push -u origin main
+
 ### 026. Pasando props básicos entre componentes
-9 min
+
+1. Commit Video 026:
+    + $ git add .
+    + $ git commit -m "Pasando props básicos entre componentes"
+    + $ git push -u origin main
+
 ### 027. Pasando variables y objetos entre componentes por los props
-6 min
+
+1. Commit Video 027:
+    + $ git add .
+    + $ git commit -m "Pasando variables y objetos entre componentes por los props"
+    + $ git push -u origin main
+
 ### 028. Pasando funciones entre componente por los props
-7 min
+
+1. Commit Video 028:
+    + $ git add .
+    + $ git commit -m "Pasando funciones entre componente por los props"
+    + $ git push -u origin main
+
 ### 029. El uso de la Asignación por Destructuring
-4 min
+
+1. Commit Video 029:
+    + $ git add .
+    + $ git commit -m "El uso de la Asignación por Destructuring"
+    + $ git push -u origin main
+
 ### 030. Props por defecto
-2 min
+
+1. Commit Video 030:
+    + $ git add .
+    + $ git commit -m "Props por defecto"
+    + $ git push -u origin main
+
 ### 031. Template Strings
-3 min
+
+1. Commit Video 031:
+    + $ git add .
+    + $ git commit -m "Template Strings"
+    + $ git push -u origin main
+
 ### 032. Hook de estado - useState
-9 min
+
+1. Commit Video 032:
+    + $ git add .
+    + $ git commit -m "Hook de estado - useState"
+    + $ git push -u origin main
+
 ### 033. Hook de efecto - useEffect
-5 min
+
+1. Commit Video 033:
+    + $ git add .
+    + $ git commit -m "Hook de efecto - useEffect"
+    + $ git push -u origin main
+
+## Sección 04: Iniciando el proyecto
+
 ### 034. Creando el proyecto cliente en React JS
-5 min
+
+1. Commit Video 033:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 035. Añadiendo SASS al proyecto
 11 min
 ### 036. Añadiendo la librería Ant Design al proyecto
@@ -226,6 +318,9 @@
 3 min
 ### 042. Solucionando error DeprecationWarning useFindAndModify
 3 min
+
+
+
 ### 043. Instalando el Package react-router-dom
 5 min
 ### 044. Ejemplo de uso React Router Dom
