@@ -38,7 +38,7 @@
     + $ git push -u origin main
 
 ### 4. ¿Por que usamos React JS?
-
++ **Contenido**: razones para utilizar React JS.
 1. Commit Video 004:
     + $ git add .
     + $ git commit -m "¿Por que usamos React JS?"
