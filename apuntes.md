@@ -135,7 +135,7 @@
     + $ git push -u origin main
 
 ### 014. Instalando Node JS
-
+1. Descargar e instalar [Node.js](https://nodejs.org/es).
 1. Commit Video 014:
     + $ git add .
     + $ git commit -m "Instalando Node JS"
