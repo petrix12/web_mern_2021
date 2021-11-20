@@ -136,19 +136,23 @@
 
 ### 014. Instalando Node JS
 1. Descargar e instalar [Node.js](https://nodejs.org/es).
-1. Commit Video 014:
+2. Commit Video 014:
     + $ git add .
     + $ git commit -m "Instalando Node JS"
     + $ git push -u origin main
 
 ### 015. Instalando YARN
-
-1. Commit Video 015:
+1. Instalar [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable):
+    + $ npm install --global yarn
+        + Para chequear la instalación:
+            + $ yarn --version
+2. Commit Video 015:
     + $ git add .
     + $ git commit -m "Instalando YARN"
     + $ git push -u origin main
 
 ### 016. MacOs - Instalando MongoDB
++ https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x
 
 1. Commit Video 016:
     + $ git add .
