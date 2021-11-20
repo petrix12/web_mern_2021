@@ -66,7 +66,7 @@
     + $ git push -u origin main
 
 ### 8. ¿Por que usamos el ODM Mongoose?
-
++ **Contenido**: razones para utilizar ODM Mongoose.
 1. Commit Video 008:
     + $ git add .
     + $ git commit -m "¿Por que usamos el ODM Mongoose?"
