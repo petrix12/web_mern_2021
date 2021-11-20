@@ -59,7 +59,7 @@
     + $ git push -u origin main
 
 ### 7. ¿Por que usamos MongoDB?
-
++ **Contenido**: razones para utilizar MongoDB.
 1. Commit Video 007:
     + $ git add .
     + $ git commit -m "¿Por que usamos MongoDB?"
