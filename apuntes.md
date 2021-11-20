@@ -153,7 +153,7 @@
 
 ### 016. MacOs - Instalando MongoDB
 + https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x
-
++ **Contenido**: explicación de la instalación de MongoDB en Mac.
 1. Commit Video 016:
     + $ git add .
     + $ git commit -m "MacOs - Instalando MongoDB"
