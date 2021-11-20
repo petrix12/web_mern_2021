@@ -82,8 +82,8 @@
     + $ git push -u origin main
 
 ### 010. Instalando Extensiones para Google Chrome
-
-1. Commit Video 010:
+1. Instalar la extensión de Google Chrome: React Developer Tools.
+2. Commit Video 010:
     + $ git add .
     + $ git commit -m "Instalando Extensiones para Google Chrome"
     + $ git push -u origin main
