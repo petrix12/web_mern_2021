@@ -1,9 +1,15 @@
 export default function Saludar(props){
-    console.log(props)
+    /* console.log(props.userInfo.nombre) */
+    /* console.log(props.userInfo.edad) */
+    /* console.log(props.userInfo.color) */
 
     return(
         <div>
-            <h2>Hola {props.name}. Tienes {props.edad} años</h2>
+            <h2>
+                Hola {props.userInfo.nombre}. 
+                Tienes {props.userInfo.edad} años.
+                Tu color es {props.userInfo.color}
+            </h2>
         </div>
     )
 }

@@ -339,16 +339,58 @@
     + $ git push -u origin main
 
 ### 027. Pasando variables y objetos entre componentes por los props
+1. Modificar la aplicación padre **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import Saludar from './components/Saludar'
 
-1. Commit Video 027:
+    function App() {
+    /* const userName = "Pedro Bazó" */
+    /* const edad = 49 */ 
+
+    const user = {
+        nombre: "Pedro Bazó",
+        edad: 49,
+        color: "Azul"
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            {/* <Saludar name={userName} edad={edad}/> */}
+            {/* <Saludar name="Leticia Rodríguez" edad="44"/> */}
+            <Saludar userInfo={user}/>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+2. Modificar el componente **mi-primera-app\src\components\Saludar.js**:
+    ```js
+    export default function Saludar(props){
+        /* console.log(props.userInfo.nombre) */
+        /* console.log(props.userInfo.edad) */
+        /* console.log(props.userInfo.color) */
+
+        return(
+            <div>
+                <h2>
+                    Hola {props.userInfo.nombre}. 
+                    Tienes {props.userInfo.edad} años.
+                    Tu color es {props.userInfo.color}
+                </h2>
+            </div>
+        )
+    }
+    ```
+3. Commit Video 027:
     + $ git add .
     + $ git commit -m "Pasando variables y objetos entre componentes por los props"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 028. Pasando funciones entre componente por los props
 
@@ -356,6 +398,11 @@
     + $ git add .
     + $ git commit -m "Pasando funciones entre componente por los props"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 029. El uso de la Asignación por Destructuring
 
