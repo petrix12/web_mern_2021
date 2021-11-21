@@ -186,7 +186,7 @@
 ## Sección 03: Conceptos básicos de React JS
 
 ### 019. ¿Qué vamos hacer en esta sección?
-
++ **Contenido**: breve introducción a esta sección.
 1. Commit Video 019:
     + $ git add .
     + $ git commit -m "¿Qué vamos hacer en esta sección?"
