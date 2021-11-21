@@ -217,13 +217,8 @@
     + $ git commit -m "Creando nuestra primera app en React JS"
     + $ git push -u origin main
 
-
-    ≡
-    ```js
-    ```
-
 ### 023. Estructura de React JS
-
++ **Contenido**: estructura básica de una aplicación React.
 1. Commit Video 023:
     + $ git add .
     + $ git commit -m "Estructura de React JS"
@@ -235,6 +230,11 @@
     + $ git add .
     + $ git commit -m "Nuestro primer Componente en React JS"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 025. ¿Que son los Props de React?
 
