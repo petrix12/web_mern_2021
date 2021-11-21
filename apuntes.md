@@ -301,16 +301,42 @@
     + $ git push -u origin main
 
 ### 026. Pasando props básicos entre componentes
+1. Crear componente **mi-primera-app\src\components\Saludar.js**:
+    ```js
+    export default function Saludar(props){
+        console.log(props)
 
-1. Commit Video 026:
+        return(
+            <div>
+                <h2>Hola {props.name}. Tienes {props.edad} años</h2>
+            </div>
+        )
+    }
+    ```
+2. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import Saludar from './components/Saludar'
+
+    function App() {
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <Saludar name="Pedro Bazó" edad="49"/>
+            <Saludar name="Leticia Rodríguez" edad="44"/>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+3. Commit Video 026:
     + $ git add .
     + $ git commit -m "Pasando props básicos entre componentes"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 027. Pasando variables y objetos entre componentes por los props
 
@@ -318,6 +344,11 @@
     + $ git add .
     + $ git commit -m "Pasando variables y objetos entre componentes por los props"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 028. Pasando funciones entre componente por los props
 
