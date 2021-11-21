@@ -275,15 +275,15 @@
     import AdiosMundo from './components/AdiosMundo'
 
     function App() {
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <HolaMundo />
-            <AdiosMundo />
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <HolaMundo />
+                <AdiosMundo />
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -320,15 +320,15 @@
     import Saludar from './components/Saludar'
 
     function App() {
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Saludar name="Pedro Bazó" edad="49"/>
-            <Saludar name="Leticia Rodríguez" edad="44"/>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <Saludar name="Pedro Bazó" edad="49"/>
+                <Saludar name="Leticia Rodríguez" edad="44"/>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -346,25 +346,25 @@
     import Saludar from './components/Saludar'
 
     function App() {
-    /* const userName = "Pedro Bazó" */
-    /* const edad = 49 */ 
+        /* const userName = "Pedro Bazó" */
+        /* const edad = 49 */ 
 
-    const user = {
-        nombre: "Pedro Bazó",
-        edad: 49,
-        color: "Azul"
-    }
+        const user = {
+            nombre: "Pedro Bazó",
+            edad: 49,
+            color: "Azul"
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            {/* <Saludar name={userName} edad={edad}/> */}
-            {/* <Saludar name="Leticia Rodríguez" edad="44"/> */}
-            <Saludar userInfo={user}/>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                {/* <Saludar name={userName} edad={edad}/> */}
+                {/* <Saludar name="Leticia Rodríguez" edad="44"/> */}
+                <Saludar userInfo={user}/>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -417,25 +417,25 @@
     import Saludar from './components/Saludar'
 
     function App() { 
-    const user = {
-        nombre: "Pedro Bazó",
-        edad: 49,
-        color: "Azul"
-    }
+        const user = {
+            nombre: "Pedro Bazó",
+            edad: 49,
+            color: "Azul"
+        }
 
-    const saludarFn = name => {
-        /* console.log("Hola Petrix") */
-        console.log("Hola " + name)
-    }
+        const saludarFn = name => {
+            /* console.log("Hola Petrix") */
+            console.log("Hola " + name)
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Saludar userInfo={user} saludarFn={saludarFn}/>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <Saludar userInfo={user} saludarFn={saludarFn}/>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -491,25 +491,25 @@
     import Saludar from './components/Saludar'
 
     function App() { 
-    const user = {
-        /* nombre: "Pedro Bazó", */
-        edad: 49,
-        color: "Azul"
-    }
+        const user = {
+            /* nombre: "Pedro Bazó", */
+            edad: 49,
+            color: "Azul"
+        }
 
-    const saludarFn = name => {
-        /* console.log("Hola Petrix") */
-        console.log("Hola " + name)
-    }
+        const saludarFn = name => {
+            /* console.log("Hola Petrix") */
+            console.log("Hola " + name)
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Saludar userInfo={user} saludarFn={saludarFn}/>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <Saludar userInfo={user} saludarFn={saludarFn}/>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -527,25 +527,25 @@
     import Saludar from './components/Saludar'
 
     function App() { 
-    const user = {
-        nombre: "Pedro Bazó",
-        edad: 49,
-        color: "Azul"
-    }
+        const user = {
+            nombre: "Pedro Bazó",
+            edad: 49,
+            color: "Azul"
+        }
 
-    const saludarFn = (name, edad) => {
-        /* console.log("Hola " + name + ". Tienes " + edad + " años.") */
-        console.log(`Hola ${name}. Tienes ${edad} años.`)
-    }
+        const saludarFn = (name, edad) => {
+            /* console.log("Hola " + name + ". Tienes " + edad + " años.") */
+            console.log(`Hola ${name}. Tienes ${edad} años.`)
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <Saludar userInfo={user} saludarFn={saludarFn}/>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <Saludar userInfo={user} saludarFn={saludarFn}/>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -563,23 +563,23 @@
     import './App.css';
 
     function App() {
-    const [stateCar, setStateCar] = useState(false)
+        const [stateCar, setStateCar] = useState(false)
 
-    const encenderApagar = () => {
-        /* console.log("Encender / Apagar") */
-        /* setStateCar(!stateCar) */
-        setStateCar(preValue => !preValue)
-    }
+        const encenderApagar = () => {
+            /* console.log("Encender / Apagar") */
+            /* setStateCar(!stateCar) */
+            setStateCar(preValue => !preValue)
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
-            <button onClick={encenderApagar}>Encender / Apagar</button>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
+                <button onClick={encenderApagar}>Encender / Apagar</button>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -597,28 +597,28 @@
     import './App.css';
 
     function App() {
-    const [stateCar, setStateCar] = useState(false)
-    const [contar, setContar] = useState(0)
+        const [stateCar, setStateCar] = useState(false)
+        const [contar, setContar] = useState(0)
 
-    useEffect(() => {
-        console.log("Total: " + contar)
-    }, [contar])
+        useEffect(() => {
+            console.log("Total: " + contar)
+        }, [contar])
 
-    const encenderApagar = () => {
-        setStateCar(!stateCar)
-        setContar(contar + 1)
-    }
+        const encenderApagar = () => {
+            setStateCar(!stateCar)
+            setContar(contar + 1)
+        }
 
-    return (
-        <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
-            <h4>Clicks: {contar}</h4>
-            <button onClick={encenderApagar}>Encender / Apagar</button>
-        </header>
-        </div>
-    );
+        return (
+            <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
+                <h4>Clicks: {contar}</h4>
+                <button onClick={encenderApagar}>Encender / Apagar</button>
+            </header>
+            </div>
+        );
     }
 
     export default App;
@@ -631,10 +631,40 @@
 ## Sección 04: Iniciando el proyecto
 
 ### 034. Creando el proyecto cliente en React JS
+1. Crear el proyecto cliente (frontend):
+    + $ npx create-react-app client
+2. Ejecutar:
+    + $ cd client
+    + $ yarn
+    + $ yarn start
+3. Modificar **client\package.json**:
+    ```json
+    "scripts": {
+        "dev": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    ```
+    + **Nota**: ahora para levantar el proyecto será con:
+        + $ yarn dev
+4. Modificar el componente padre **client\src\App.js**:
+    ```js
+    import './App.css';
 
-1. Commit Video 033:
+    function App() {
+        return (
+            <div className="App">
+                <h1>Web Personal - Client</h1>
+            </div>
+        );
+    }
+
+    export default App;
+    ```
+5. Commit Video 033:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando el proyecto cliente en React JS"
     + $ git push -u origin main
 
 
@@ -643,26 +673,70 @@
     ```
 
 ### 035. Añadiendo SASS al proyecto
-11 min
+
+1. Commit Video 035:
+    + $ git add .
+    + $ git commit -m "Añadiendo SASS al proyecto"
+    + $ git push -u origin main
+
 ### 036. Añadiendo la librería Ant Design al proyecto
-12 min
+
+1. Commit Video 036:
+    + $ git add .
+    + $ git commit -m "Añadiendo la librería Ant Design al proyecto"
+    + $ git push -u origin main
+
 ### 037. Creando la estructura del proyecto server
-9 min
+
+1. Commit Video 037:
+    + $ git add .
+    + $ git commit -m "Creando la estructura del proyecto server"
+    + $ git push -u origin main
+
 ### 038. Instalando las dependencias que usaremos
-7 min
+
+1. Commit Video 038:
+    + $ git add .
+    + $ git commit -m "Instalando las dependencias que usaremos"
+    + $ git push -u origin main
+
 ### 039. 1/2 Conectando el proyecto server con MongoDB usando Mongoose
-15 min
+
+1. Commit Video 039:
+    + $ git add .
+    + $ git commit -m "1/2 Conectando el proyecto server con MongoDB usando Mongoose"
+    + $ git push -u origin main
+
 ### 040. 2/2 Conectando el proyecto server con MongoDB usando Mongoose
-5 min
+
+1. Commit Video 040:
+    + $ git add .
+    + $ git commit -m "2/2 Conectando el proyecto server con MongoDB usando Mongoose"
+    + $ git push -u origin main
+
 ### 041. Cambiando el proyecto para que lea los cambios de código automáticamente
-3 min
+
+1. Commit Video 041:
+    + $ git add .
+    + $ git commit -m "Cambiando el proyecto para que lea los cambios de código automáticamente"
+    + $ git push -u origin main
+
 ### 042. Solucionando error DeprecationWarning useFindAndModify
-3 min
 
+1. Commit Video 042:
+    + $ git add .
+    + $ git commit -m "Solucionando error DeprecationWarning useFindAndModify"
+    + $ git push -u origin main
 
+## Sección 05: Sistema de rutas
 
 ### 043. Instalando el Package react-router-dom
-5 min
+
+1. Commit Video 03:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 044. Ejemplo de uso React Router Dom
 15 min
 ### 045. Creando paginas básicas para usar en las rutas
