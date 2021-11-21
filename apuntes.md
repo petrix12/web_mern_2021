@@ -446,16 +446,26 @@
     + $ git push -u origin main
 
 ### 029. El uso de la Asignación por Destructuring
+1. Modificar el componente **mi-primera-app\src\components\Saludar.js**:
+    ```js
+    export default function Saludar(props){
+        const { userInfo, saludarFn} = props
+        const { nombre } = userInfo
+        console.log(props)
+        console.log(userInfo)
+        console.log(saludarFn)
 
-1. Commit Video 029:
+        return(
+            <div>
+                <button onClick={() => saludarFn(nombre)}>Saludar</button>
+            </div>
+        )
+    }
+    ```
+2. Commit Video 029:
     + $ git add .
     + $ git commit -m "El uso de la Asignación por Destructuring"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 030. Props por defecto
 
@@ -463,6 +473,11 @@
     + $ git add .
     + $ git commit -m "Props por defecto"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 031. Template Strings
 

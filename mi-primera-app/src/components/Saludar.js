@@ -1,14 +1,13 @@
 export default function Saludar(props){
+    const { userInfo, saludarFn} = props
+    const { nombre } = userInfo
     console.log(props)
-
-    const saludar = () => {
-        alert("Hola Pedro")
-    }
+    console.log(userInfo)
+    console.log(saludarFn)
 
     return(
         <div>
-            {/* <button onClick={saludar}>Saludar</button> */}
-            <button onClick={() => props.saludarFn(props.userInfo.nombre)}>Saludar</button>
+            <button onClick={() => saludarFn(nombre)}>Saludar</button>
         </div>
     )
 }
