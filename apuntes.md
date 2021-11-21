@@ -393,16 +393,57 @@
     + $ git push -u origin main
 
 ### 028. Pasando funciones entre componente por los props
+1. Modificar el componente **mi-primera-app\src\components\Saludar.js**:
+    ```js
+    export default function Saludar(props){
+        console.log(props)
 
-1. Commit Video 028:
+        const saludar = () => {
+            alert("Hola Pedro")
+        }
+
+        return(
+            <div>
+                {/* <button onClick={saludar}>Saludar</button> */}
+                <button onClick={() => props.saludarFn(props.userInfo.nombre)}>Saludar</button>
+            </div>
+        )
+    }
+    ```
+2. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import Saludar from './components/Saludar'
+
+    function App() { 
+    const user = {
+        nombre: "Pedro Bazó",
+        edad: 49,
+        color: "Azul"
+    }
+
+    const saludarFn = name => {
+        /* console.log("Hola Petrix") */
+        console.log("Hola " + name)
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <Saludar userInfo={user} saludarFn={saludarFn}/>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+3. Commit Video 028:
     + $ git add .
     + $ git commit -m "Pasando funciones entre componente por los props"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 029. El uso de la Asignación por Destructuring
 
@@ -410,6 +451,11 @@
     + $ git add .
     + $ git commit -m "El uso de la Asignación por Destructuring"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 030. Props por defecto
 
