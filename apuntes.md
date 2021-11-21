@@ -514,23 +514,46 @@
 
     export default App;
     ```
-3. ddd
-4. Commit Video 030:
+3. Commit Video 030:
     + $ git add .
     + $ git commit -m "Props por defecto"
     + $ git push -u origin main
 
 ### 031. Template Strings
+1. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import Saludar from './components/Saludar'
 
-1. Commit Video 031:
+    function App() { 
+    const user = {
+        nombre: "Pedro Bazó",
+        edad: 49,
+        color: "Azul"
+    }
+
+    const saludarFn = (name, edad) => {
+        /* console.log("Hola " + name + ". Tienes " + edad + " años.") */
+        console.log(`Hola ${name}. Tienes ${edad} años.`)
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <Saludar userInfo={user} saludarFn={saludarFn}/>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+2. Commit Video 031:
     + $ git add .
     + $ git commit -m "Template Strings"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 032. Hook de estado - useState
 
@@ -538,6 +561,11 @@
     + $ git add .
     + $ git commit -m "Hook de estado - useState"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 033. Hook de efecto - useEffect
 
