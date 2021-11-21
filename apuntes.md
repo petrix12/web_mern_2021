@@ -667,14 +667,63 @@
     + $ git commit -m "Creando el proyecto cliente en React JS"
     + $ git push -u origin main
 
-
-    ≡
-    ```js
-    ```
-
 ### 035. Añadiendo SASS al proyecto
++ https://sass-lang.com
++ https://yarnpkg.com
+1. Instalar **node-sass** al proyecto **client**:
+    + $ yarn add sass
+2. Eliminar el archivo de estilo **client\src\App.css**.
+3. Crear el archivo de estilo **client\src\App.scss**:
+    ```js
+    @import './scss/index';
 
-1. Commit Video 035:
+    /* .app {
+        color: red;
+    } */
+
+    /* .app h1 {
+        color: red;
+    }
+
+    .app h2 {
+        color: green;
+    } */
+
+    .app{
+        h1 {
+            /* color: red; */
+            color: $primary-color;
+        }
+        
+        h2 {
+            color: green;
+        }
+    }
+    ```
+4. Modificar el componente padre **client\src\App.js**:
+    ```js
+    import './App.scss';
+
+    function App() {
+    return (
+        <div className="app">
+            <h1>Web Personal - Client</h1>
+            <h2>Web Personal - Client</h2>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+5. Crear archivo **client\src\scss\index.scss**:
+    ```js
+    @import './variables';
+    ```
+6. Crear archivo **client\src\scss\_variables.scss**:
+    ```js
+    $primary-color: #0098d3;
+    ```
+7. Commit Video 035:
     + $ git add .
     + $ git commit -m "Añadiendo SASS al proyecto"
     + $ git push -u origin main
@@ -685,6 +734,11 @@
     + $ git add .
     + $ git commit -m "Añadiendo la librería Ant Design al proyecto"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 037. Creando la estructura del proyecto server
 
