@@ -556,16 +556,38 @@
     + $ git push -u origin main
 
 ### 032. Hook de estado - useState
+1. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import { useState } from 'react'
+    import logo from './logo.svg';
+    import './App.css';
 
-1. Commit Video 032:
+    function App() {
+    const [stateCar, setStateCar] = useState(false)
+
+    const encenderApagar = () => {
+        /* console.log("Encender / Apagar") */
+        /* setStateCar(!stateCar) */
+        setStateCar(preValue => !preValue)
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
+            <button onClick={encenderApagar}>Encender / Apagar</button>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+2. Commit Video 032:
     + $ git add .
     + $ git commit -m "Hook de estado - useState"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 033. Hook de efecto - useEffect
 
@@ -573,6 +595,11 @@
     + $ git add .
     + $ git commit -m "Hook de efecto - useEffect"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ## Sección 04: Iniciando el proyecto
 
