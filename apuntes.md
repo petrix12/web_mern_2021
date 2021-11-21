@@ -225,16 +225,73 @@
     + $ git push -u origin main
 
 ### 024. Nuestro primer Componente en React JS
+1. Crear componente **mi-primera-app\src\components\HolaMundo.js**:
+    ```js
+    import React from 'react';
 
-1. Commit Video 024:
+    // La función del componente debe comenzar obligatoriamente en mayúscula, pero si se puede llamar diferente.
+    // La función del componente obligatoriamente deber retornar algún valor.
+    export default function HolaMundo(){
+        const mifuncion = () => {
+            console.log('Mi función')
+        }
+                
+        return (
+            <div>
+                <h1>Soluciones++</h1>
+                <h2>Pedro Bazó</h2>
+            </div>
+        )
+    }
+
+    /* export function AdiosMundo(){
+        return(
+            <div>
+                <h3>Adios</h3>
+            </div>
+        )
+    } */
+
+    /* export default HolaMundo */
+    ```
+    + **Nota**: obligatoriamente todo componente en React debe comenzar en mayúscula.
+2. Crear componente **mi-primera-app\src\components\AdiosMundo.js**:
+    ```js
+    import React from 'react';
+
+    export default function AdiosMundo(){
+        return(
+            <div>
+                <h3>Adios</h3>
+            </div>
+        )
+    }
+    ```
+3. Modificar **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import HolaMundo/* , { AdiosMundo } */ from './components/HolaMundo'
+    import AdiosMundo from './components/AdiosMundo'
+
+    function App() {
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <HolaMundo />
+            <AdiosMundo />
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+4. Commit Video 024:
     + $ git add .
     + $ git commit -m "Nuestro primer Componente en React JS"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 025. ¿Que son los Props de React?
 
@@ -242,6 +299,11 @@
     + $ git add .
     + $ git commit -m "¿Que son los Props de React?"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 026. Pasando props básicos entre componentes
 
