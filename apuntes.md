@@ -193,25 +193,34 @@
     + $ git push -u origin main
 
 ### 020. Introducción a JSX
-
++ **Contenido**: introducción a JSX.
 1. Commit Video 020:
-    + $ git add .
+    + $ git push -u origin main
     + $ git commit -m "Introducción a JSX"
     + $ git push -u origin main
 
 ### 021. Conceptos básicos de React JS
-
++ **Contenido**: Virtual DOM vs. Real DOM.
 1. Commit Video 021:
     + $ git add .
     + $ git commit -m "Conceptos básicos de React JS"
     + $ git push -u origin main
 
 ### 022. Creando nuestra primera app en React JS
-
-1. Commit Video 022:
+1. Crear proyecto React:
+    + $ npx create-react-app mi-primera-app
+2. Ejecutar proyecto **mi-primera-app**:
+    + $ cd mi-primera-app
+    + $ yarn start
+4. Commit Video 022:
     + $ git add .
     + $ git commit -m "Creando nuestra primera app en React JS"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 023. Estructura de React JS
 
