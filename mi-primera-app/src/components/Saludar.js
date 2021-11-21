@@ -1,6 +1,6 @@
 export default function Saludar(props){
     const { userInfo, saludarFn} = props
-    const { nombre } = userInfo
+    const { nombre = "Petrix" } = userInfo
     console.log(props)
     console.log(userInfo)
     console.log(saludarFn)

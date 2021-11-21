@@ -4,7 +4,7 @@ import Saludar from './components/Saludar'
 
 function App() { 
   const user = {
-    nombre: "Pedro Bazó",
+    /* nombre: "Pedro Bazó", */
     edad: 49,
     color: "Azul"
   }

@@ -468,16 +468,57 @@
     + $ git push -u origin main
 
 ### 030. Props por defecto
+1. Modificar el componente **mi-primera-app\src\components\Saludar.js**:
+    ```js
+    export default function Saludar(props){
+        const { userInfo, saludarFn} = props
+        const { nombre = "Petrix" } = userInfo
+        console.log(props)
+        console.log(userInfo)
+        console.log(saludarFn)
 
-1. Commit Video 030:
+        return(
+            <div>
+                <button onClick={() => saludarFn(nombre)}>Saludar</button>
+            </div>
+        )
+    }
+    ```
+2. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import logo from './logo.svg';
+    import './App.css';
+    import Saludar from './components/Saludar'
+
+    function App() { 
+    const user = {
+        /* nombre: "Pedro Bazó", */
+        edad: 49,
+        color: "Azul"
+    }
+
+    const saludarFn = name => {
+        /* console.log("Hola Petrix") */
+        console.log("Hola " + name)
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <Saludar userInfo={user} saludarFn={saludarFn}/>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+3. ddd
+4. Commit Video 030:
     + $ git add .
     + $ git commit -m "Props por defecto"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 031. Template Strings
 
@@ -485,6 +526,11 @@
     + $ git add .
     + $ git commit -m "Template Strings"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 032. Hook de estado - useState
 
