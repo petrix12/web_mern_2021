@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   const [stateCar, setStateCar] = useState(false)
+  const [contar, setContar] = useState(0)
+
+  useEffect(() => {
+    console.log("Total: " + contar)
+  }, [contar])
 
   const encenderApagar = () => {
-    /* console.log("Encender / Apagar") */
-    /* setStateCar(!stateCar) */
-    setStateCar(preValue => !preValue)
+    setStateCar(!stateCar)
+    setContar(contar + 1)
   }
 
   return (
@@ -16,6 +20,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
+        <h4>Clicks: {contar}</h4>
         <button onClick={encenderApagar}>Encender / Apagar</button>
       </header>
     </div>

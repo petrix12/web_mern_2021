@@ -590,16 +590,43 @@
     + $ git push -u origin main
 
 ### 033. Hook de efecto - useEffect
+1. Modificar el componente padre **mi-primera-app\src\App.js**:
+    ```js
+    import { useState, useEffect } from 'react'
+    import logo from './logo.svg';
+    import './App.css';
 
-1. Commit Video 033:
+    function App() {
+    const [stateCar, setStateCar] = useState(false)
+    const [contar, setContar] = useState(0)
+
+    useEffect(() => {
+        console.log("Total: " + contar)
+    }, [contar])
+
+    const encenderApagar = () => {
+        setStateCar(!stateCar)
+        setContar(contar + 1)
+    }
+
+    return (
+        <div className="App">
+        <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h3>El coche esta: {stateCar ? 'Encendido' : 'Apagado'}</h3>
+            <h4>Clicks: {contar}</h4>
+            <button onClick={encenderApagar}>Encender / Apagar</button>
+        </header>
+        </div>
+    );
+    }
+
+    export default App;
+    ```
+2. Commit Video 033:
     + $ git add .
     + $ git commit -m "Hook de efecto - useEffect"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ## Sección 04: Iniciando el proyecto
 
@@ -609,6 +636,11 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 035. Añadiendo SASS al proyecto
 11 min
