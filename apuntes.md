@@ -267,7 +267,7 @@
         )
     }
     ```
-3. Modificar **mi-primera-app\src\App.js**:
+3. Modificar el compoente padre **mi-primera-app\src\App.js**:
     ```js
     import logo from './logo.svg';
     import './App.css';
@@ -294,16 +294,11 @@
     + $ git push -u origin main
 
 ### 025. ¿Que son los Props de React?
-
++ **Contenido**: utilidad de los Props en React.
 1. Commit Video 025:
     + $ git add .
     + $ git commit -m "¿Que son los Props de React?"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 026. Pasando props básicos entre componentes
 
@@ -311,6 +306,11 @@
     + $ git add .
     + $ git commit -m "Pasando props básicos entre componentes"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 027. Pasando variables y objetos entre componentes por los props
 
