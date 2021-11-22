@@ -1186,15 +1186,42 @@
     + $ git push -u origin main
 
 ### 047. Creando la configuración de rutas para el Panel de Administrador
+1. Crear archivo de rutas **client\src\config\routes.js**:
+    ```js
+    // Layout
+    import LayoutAdmin from "../layouts/LayoutAdmin"
 
-1. Commit Video 047:
+    // Admin Pages
+    import AdminHome from "../pages/Admin"
+    import AdminSingIn from "../pages/Admin/SignIn"
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            component: LayoutAdmin,
+            exact: false,
+            routes: [
+                {
+                    path: "/admin",
+                    component: AdminHome, 
+                    exact: true
+                },
+                {
+                    path: "/admin/login",
+                    component: AdminSingIn, 
+                    exact: true
+                }
+            ]
+        }
+    ]
+
+    export default routes
+    ```
+2. Commit Video 047:
     + $ git add .
     + $ git commit -m "Creando la configuración de rutas para el Panel de Administrador"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 048. Programando el sistema de rutas para renderizar el Layout correspondiente
 
@@ -1202,6 +1229,10 @@
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para renderizar el Layout correspondiente"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 049. Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin
 
