@@ -1,9 +1,18 @@
 {
-  "name": "solucionesppBackend",
+  "name": "solucionespp-backend",
   "version": "0.0.1",
   "description": "Backend para la web www.solucionesppBackend.com",
   "main": "index.js",
   "repository": "https://github.com/petrix12/web_mern_2021.git",
   "author": "Pedro Bazó <bazo.pedro@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-node": "^0.1.0",
+    "body-parser": "^1.19.0",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.13"
+  }
 }

@@ -801,15 +801,28 @@
     + $ git push -u origin main
 
 ### 038. Instalando las dependencias que usaremos
-
-1. Commit Video 038:
+1. Modificar **server\package.json**:
+    ```json
+    ```
+2. Instalar las siguientes dependencias:
+    + $ yarn add bcrypt-node
+    + $ yarn add body-parser
+    + $ yarn add connect-multiparty
+    + $ yarn add express
+    + $ yarn add jwt-simple
+    + $ yarn add moment
+    + $ yarn add mongoose
+3. Ejecutar:
+    + $ yarn
+4. Crear archivo **server\.gitignore**:
+    ```gitignore
+    # dependencies
+    /node_modules
+    ```
+5. Commit Video 038:
     + $ git add .
     + $ git commit -m "Instalando las dependencias que usaremos"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 039. 1/2 Conectando el proyecto server con MongoDB usando Mongoose
 
@@ -817,6 +830,10 @@
     + $ git add .
     + $ git commit -m "1/2 Conectando el proyecto server con MongoDB usando Mongoose"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 040. 2/2 Conectando el proyecto server con MongoDB usando Mongoose
 
