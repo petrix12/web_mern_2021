@@ -985,25 +985,73 @@
 ### 043. Instalando el Package react-router-dom
 + https://reactrouter.com/docs/en/v6/getting-started/installation
 1. Ir al proyecto **client** e instalar React Router Dom:
-    + $ yarn add react-router-dom@6
-        + $ yarn add react-router-dom
-1. Commit Video 043:
+    + $ yarn add react-router-dom
+2. Commit Video 043:
     + $ git add .
     + $ git commit -m "Instalando el Package react-router-dom"
     + $ git push -u origin main
 
 ### 044. Ejemplo de uso React Router Dom
+1. Modificar **client\src\index.js**:
+    ```js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import { BrowserRouter } from "react-router-dom";
+    ≡
 
-2. dddd
+    ReactDOM.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
+    document.getElementById('root')
+    );
+    ≡
+    ```
+2. Modificar componente padre **client\src\App.js**:
+    ```js
+    import './App.scss';
+    import { Routes, Route, Link } from "react-router-dom";
 
-3. Commit Video 044:
+    function App() {
+
+    return (
+        <div className="App">
+            <h1>Sistema de rutas básico</h1>
+            <Link to="/">Home</Link><br/>
+            <Link to="/contact">Contact</Link><br/>
+            <Link to="/users">Users</Link><br/>
+            <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="contact" element={<Cantact />} />
+            <Route path="users" element={<Users />} />
+            <Route path="*" element={<Error404 />} />
+            </Routes>
+        </div>
+    );
+    }
+
+    function Home(){
+    return <h2>Estamos en el componente Home</h2>
+    }
+
+    function Cantact(){
+    return <h2>Estamos en el componente Cantact</h2>
+    }
+
+    function Users(){
+    return <h2>Estamos en el componente Users</h2>
+    }
+
+    function Error404(){
+    return <h2>Error 404...</h2>
+    }
+
+    export default App;
+    ```
+3. Commit Video 043:
     + $ git add .
     + $ git commit -m "Ejemplo de uso React Router Dom"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 045. Creando paginas básicas para usar en las rutas
 
@@ -1011,6 +1059,10 @@
     + $ git add .
     + $ git commit -m "Creando paginas básicas para usar en las rutas"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 046. Creando Layouts de los cuales partirán la sección de usuario y admin
 
