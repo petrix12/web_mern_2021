@@ -816,6 +816,7 @@
     + $ yarn add jwt-simple
     + $ yarn add moment
     + $ yarn add mongoose
+    + $ yarn add nodemon
 3. Ejecutar:
     + $ yarn
 4. Crear archivo **server\.gitignore**:
@@ -931,15 +932,19 @@
     + $ git push -u origin main
 
 ### 041. Cambiando el proyecto para que lea los cambios de código automáticamente
-
-1. Commit Video 041:
+1. Modificar **server\package.json**:
+    ```json
+    {
+        ≡
+        "scripts": {
+            "start": "nodemon index.js"
+        }
+    }
+    ```
+2. Commit Video 041:
     + $ git add .
     + $ git commit -m "Cambiando el proyecto para que lea los cambios de código automáticamente"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 042. Solucionando error DeprecationWarning useFindAndModify
 
@@ -947,6 +952,10 @@
     + $ git add .
     + $ git commit -m "Solucionando error DeprecationWarning useFindAndModify"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 05: Sistema de rutas
 
