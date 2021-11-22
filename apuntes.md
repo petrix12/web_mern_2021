@@ -1148,15 +1148,42 @@
     + $ git push -u origin main
 
 ### 046. Creando Layouts de los cuales partirán la sección de usuario y admin
+1. Crear layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { Layout } from "antd"
 
-1. Commit Video 046:
+    export default function LayoutAdmin() {
+        return (
+            <Layout>
+                <h2>Menú Sider</h2>
+                <div>
+                    Contenido...
+                </div>
+                <h5>Footer...</h5>
+            </Layout>
+        )
+    }
+    ```
+2. Crear layout **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Layout } from "antd"
+
+    export default function LayoutBasic() {
+        return (
+            <Layout>
+                <h2>Menú Sider</h2>
+                <div>
+                    Contenido...
+                </div>
+                <h5>Footer...</h5>
+            </Layout>
+        )
+    }
+    ```
+3. Commit Video 046:
     + $ git add .
     + $ git commit -m "Creando Layouts de los cuales partirán la sección de usuario y admin"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 047. Creando la configuración de rutas para el Panel de Administrador
 
@@ -1164,6 +1191,10 @@
     + $ git add .
     + $ git commit -m "Creando la configuración de rutas para el Panel de Administrador"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 048. Programando el sistema de rutas para renderizar el Layout correspondiente
 
