@@ -983,38 +983,100 @@
 ## Sección 05: Sistema de rutas
 
 ### 043. Instalando el Package react-router-dom
-
-1. Commit Video 03:
++ https://reactrouter.com/docs/en/v6/getting-started/installation
+1. Ir al proyecto **client** e instalar React Router Dom:
+    + $ yarn add react-router-dom@6
+        + $ yarn add react-router-dom
+1. Commit Video 043:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Instalando el Package react-router-dom"
+    + $ git push -u origin main
+
+### 044. Ejemplo de uso React Router Dom
+
+2. dddd
+
+3. Commit Video 044:
+    + $ git add .
+    + $ git commit -m "Ejemplo de uso React Router Dom"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
 
-### 044. Ejemplo de uso React Router Dom
-15 min
 ### 045. Creando paginas básicas para usar en las rutas
-12 min
+
+1. Commit Video 045:
+    + $ git add .
+    + $ git commit -m "Creando paginas básicas para usar en las rutas"
+    + $ git push -u origin main
+
 ### 046. Creando Layouts de los cuales partirán la sección de usuario y admin
-8 min
+
+1. Commit Video 046:
+    + $ git add .
+    + $ git commit -m "Creando Layouts de los cuales partirán la sección de usuario y admin"
+    + $ git push -u origin main
+
 ### 047. Creando la configuración de rutas para el Panel de Administrador
-10 min
+
+1. Commit Video 047:
+    + $ git add .
+    + $ git commit -m "Creando la configuración de rutas para el Panel de Administrador"
+    + $ git push -u origin main
+
 ### 048. Programando el sistema de rutas para renderizar el Layout correspondiente
-16 min
+
+1. Commit Video 048:
+    + $ git add .
+    + $ git commit -m "Programando el sistema de rutas para renderizar el Layout correspondiente"
+    + $ git push -u origin main
+
 ### 049. Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin
-15 min
+
+1. Commit Video 049:
+    + $ git add .
+    + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin"
+    + $ git push -u origin main
+
 ### 050. Añadiendo la configuración de rutas para usuarios normales
-6 min
+
+1. Commit Video 050:
+    + $ git add .
+    + $ git commit -m "Añadiendo la configuración de rutas para usuarios normales"
+    + $ git push -u origin main
+
 ### 051. Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic
-10 min
+
+1. Commit Video 051:
+    + $ git add .
+    + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic"
+    + $ git push -u origin main
+
 ### 052. Página Error404
-9 min
+
+1. Commit Video 052:
+    + $ git add .
+    + $ git commit -m "Página Error404"
+    + $ git push -u origin main
+
 ### 053. Fix de la sección
-1 min
+
+1. Commit Video 053:
+    + $ git add .
+    + $ git commit -m "Fix de la sección"
+    + $ git push -u origin main
+
+## Sección 06: Maquetación del LayoutAdmin
+
 ### 054. Creando variables de colores y tamaños SASS para reutilizarlas en componentes
-11 min
+
+1. Commit Video 05:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 055. Dando estilos al LayoutAdmin
 9 min
 ### 056. Creando el componente MenuTop
