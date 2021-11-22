@@ -729,16 +729,47 @@
     + $ git push -u origin main
 
 ### 036. Añadiendo la librería Ant Design al proyecto
+1. Instalar libreria de CSS **Ant Design**:
+    + $ yarn add antd@3.23.2
+2. Importar la libreria Ant Design en **client\src\index.js**:
+    ```js
+    ≡
+    import ReactDOM from 'react-dom';
+    import 'antd/dist/antd.css';
+    ≡
+    ```
+3. Modificar el componente padre **client\src\App.js**:
+    ```js
+    import './App.scss';
+    import { DatePicker, Card } from 'antd';
 
-1. Commit Video 036:
+    function App() {
+        const test = (date, dateString) => {
+            console.log(date, dateString)
+        }
+
+        return (
+            <div className="app">
+                <h1>Web Personal - Client</h1>
+                <h2>Proyecto</h2>
+
+                <DatePicker onChange={test}/>
+                
+                <Card title="Default size card" extra={<a href="#">More</a>} style={{ width: 300 }}>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                </Card>
+            </div>
+        );
+    }
+
+    export default App;
+    ```
+4. Commit Video 036:
     + $ git add .
     + $ git commit -m "Añadiendo la librería Ant Design al proyecto"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 037. Creando la estructura del proyecto server
 
@@ -746,6 +777,10 @@
     + $ git add .
     + $ git commit -m "Creando la estructura del proyecto server"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 038. Instalando las dependencias que usaremos
 
