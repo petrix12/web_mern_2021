@@ -894,15 +894,41 @@
     + $ git push -u origin main
 
 ### 040. 2/2 Conectando el proyecto server con MongoDB usando Mongoose
+1. Modificar **server\index.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const app = require("./app")
+    const port = process.env.PORT || 3977
+    const { API_VERSION, IP_SERVER, PORT_DB } = require("./config")
 
-1. Commit Video 040:
+    mongoose.connect(`mongodb://${IP_SERVER}:${PORT_DB}/solucionespp`, 
+        {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
+        if(err){
+            throw err
+        }else{
+            console.log('Conexión exitosa a MongoDB')
+            app.listen(port, () => {
+                console.log("########################")
+                console.log("####### API REST #######")
+                console.log("########################")
+                console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`)
+            })
+        }
+    });
+    ```
+2. Agregar script en **server\package.json** para iniciar servidor:
+    ```json
+    {
+        ≡
+        "scripts": {
+            "start": "node index.js"
+        }
+    }
+    ```
+3. Commit Video 040:
     + $ git add .
     + $ git commit -m "2/2 Conectando el proyecto server con MongoDB usando Mongoose"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 041. Cambiando el proyecto para que lea los cambios de código automáticamente
 
@@ -910,6 +936,10 @@
     + $ git add .
     + $ git commit -m "Cambiando el proyecto para que lea los cambios de código automáticamente"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 042. Solucionando error DeprecationWarning useFindAndModify
 
