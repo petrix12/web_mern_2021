@@ -803,6 +803,10 @@
 ### 038. Instalando las dependencias que usaremos
 1. Modificar **server\package.json**:
     ```json
+    {
+        "name": "solucionespp-backend",
+        ≡
+    }
     ```
 2. Instalar las siguientes dependencias:
     + $ yarn add bcrypt-node
@@ -825,15 +829,69 @@
     + $ git push -u origin main
 
 ### 039. 1/2 Conectando el proyecto server con MongoDB usando Mongoose
+1. Verificar que esta iniciado el servicio de MongoDB, en caso de no estarlo:
+    + $ mongod
+2. Programar la configuración básica de **server\config.js**:
+    ```js
+    const API_VERSION = "v1"
+    const IP_SERVER = "localhost"
+    const PORT_DB = 27017
 
-1. Commit Video 039:
+    module.exports = {
+        API_VERSION,
+        IP_SERVER,
+        PORT_DB
+    }
+    ```
+3. Programar la configuración básica de **server\app.js**:
+    ```js
+    const express = require("express")
+    const bodyParser = require("body-parser")
+
+    const app = express()
+    const { API_VERSION } = require('./config')
+
+    // Load routings
+    // ....
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+
+    // Configure Header HTTP
+    // ....
+
+    // Basic Routers
+    // ....
+
+    module.exports = app
+    ```
+4. Programar la configuración básica de **server\index.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const app = require("./app")
+    const port = process.env.PORT || 3977
+    const { API_VERSION, IP_SERVER, PORT_DB } = require("./config")
+
+    mongoose.connect(`mongodb://${IP_SERVER}:${PORT_DB}/solucionespp`, {useNewUrlParser: true}, (err, res) => {
+        if(err){
+            throw err
+        }else{
+            console.log('Conexión exitosa a MongoDB')
+            app.listen(port, () => {
+                console.log("########################")
+                console.log("####### API REST #######")
+                console.log("########################")
+                console.log(`http://${IP_SERVER}:${PORT_DB}/api/${API_VERSION}/`)
+            })
+        }
+    });
+    ```
+5. Comprobar la conexión ejecutando:
+    + $ node index.js
+6. Commit Video 039:
     + $ git add .
     + $ git commit -m "1/2 Conectando el proyecto server con MongoDB usando Mongoose"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 040. 2/2 Conectando el proyecto server con MongoDB usando Mongoose
 
@@ -841,6 +899,10 @@
     + $ git add .
     + $ git commit -m "2/2 Conectando el proyecto server con MongoDB usando Mongoose"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 041. Cambiando el proyecto para que lea los cambios de código automáticamente
 
