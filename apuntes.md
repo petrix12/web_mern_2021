@@ -1000,10 +1000,10 @@
     ≡
 
     ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
-    document.getElementById('root')
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>,
+        document.getElementById('root')
     );
     ≡
     ```
@@ -1013,37 +1013,38 @@
     import { Routes, Route, Link } from "react-router-dom";
 
     function App() {
+        return (
+            <div className="App">
+                <h1>Sistema de rutas básico</h1>
+                
+                <Link to="/">Home</Link><br/>
+                <Link to="/contact">Contact</Link><br/>
+                <Link to="/users">Users</Link><br/>
 
-    return (
-        <div className="App">
-            <h1>Sistema de rutas básico</h1>
-            <Link to="/">Home</Link><br/>
-            <Link to="/contact">Contact</Link><br/>
-            <Link to="/users">Users</Link><br/>
-            <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="contact" element={<Cantact />} />
-            <Route path="users" element={<Users />} />
-            <Route path="*" element={<Error404 />} />
-            </Routes>
-        </div>
-    );
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="contact" element={<Cantact />} />
+                    <Route path="users" element={<Users />} />
+                    <Route path="*" element={<Error404 />} />
+                </Routes>
+            </div>
+        );
     }
 
     function Home(){
-    return <h2>Estamos en el componente Home</h2>
+        return <h2>Estamos en el componente Home</h2>
     }
 
     function Cantact(){
-    return <h2>Estamos en el componente Cantact</h2>
+        return <h2>Estamos en el componente Cantact</h2>
     }
 
     function Users(){
-    return <h2>Estamos en el componente Users</h2>
+        return <h2>Estamos en el componente Users</h2>
     }
 
     function Error404(){
-    return <h2>Error 404...</h2>
+        return <h2>Error 404...</h2>
     }
 
     export default App;
@@ -1054,15 +1055,97 @@
     + $ git push -u origin main
 
 ### 045. Creando paginas básicas para usar en las rutas
+1. Modificar componente padre **client\src\App.js**:
+    ```js
+    import Admin from './pages/Admin'
+    import SignIn from './pages/Admin/SignIn'
+    import Home from './pages/Home'
+    import Contact from './pages/Contact'
 
-1. Commit Video 045:
+    import './App.scss';
+
+    function App() {
+    return (
+        <div>
+        <h1>Estamos en App.js</h1>
+        <Admin />
+        <SignIn />
+        <Home />
+        <Contact />
+        </div>
+    )
+    }
+
+    export default App;
+    ```
+2. Crear página **client\src\pages\Admin\index.js**:
+    ```js
+    export { default } from "./Admin"
+    ```
+3. Crear página **client\src\pages\Admin\Admin.js**:
+    ```js
+    export default function Admin(){
+        return(
+            <div>
+                <h1>Estamos en Admin</h1>
+            </div>
+        )
+    }
+    ```
+4. Modificar **client\src\index.js**:
+    ```js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import './index.css';
+    import App from './App';
+    import reportWebVitals from './reportWebVitals';
+
+    ReactDOM.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root')
+    );
+
+    // If you want to start measuring performance in your app, pass a function
+    // to log results (for example: reportWebVitals(console.log))
+    // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+    reportWebVitals();
+    ```
+5. Crear página **client\src\pages\Admin\SignIn.js**:
+    ```js
+    export default function SignIn(){
+        return(
+            <div>
+                <h1>Estamos en SignIn</h1>
+            </div>
+        )
+    }
+    ```
+6. Crear página principal **client\src\pages\Home.js**:
+    ```js
+    export default function Home(){
+        return(
+            <div>
+                <h1>Estamos en Home</h1>
+            </div>
+        )
+    }
+    ```
+7. Crear página **client\src\pages\Contact.js**:
+    ```js
+    export default function Contact(){
+        return(
+            <div>
+                <h1>Estamos en Contact</h1>
+            </div>
+        )
+    }
+    ```
+8. Commit Video 045:
     + $ git add .
     + $ git commit -m "Creando paginas básicas para usar en las rutas"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 046. Creando Layouts de los cuales partirán la sección de usuario y admin
 
@@ -1070,6 +1153,10 @@
     + $ git add .
     + $ git commit -m "Creando Layouts de los cuales partirán la sección de usuario y admin"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 047. Creando la configuración de rutas para el Panel de Administrador
 
