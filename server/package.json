@@ -1,0 +1,9 @@
+{
+  "name": "solucionesppBackend",
+  "version": "0.0.1",
+  "description": "Backend para la web www.solucionesppBackend.com",
+  "main": "index.js",
+  "repository": "https://github.com/petrix12/web_mern_2021.git",
+  "author": "Pedro Bazó <bazo.pedro@gmail.com>",
+  "license": "MIT"
+}

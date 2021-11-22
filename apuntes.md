@@ -772,15 +772,33 @@
     + $ git push -u origin main
 
 ### 037. Creando la estructura del proyecto server
-
-1. Commit Video 037:
+1. Crear carpeta **server** para la aplicación servidor.
+2. Ubicados en **server**, ejecutar:
+    + $ yarn init
+        + question name (31MERN): solucionesppBackend
+        + question version (1.0.0): 0.0.1
+        + question description: Backend para la web www.solucionesppBackend.com
+        + question entry point (index.js): ENTER
+        + question repository url (https://github.com/petrix12/web_mern_2021.git): ENTER
+        + question author (Pedro Bazó <bazo.pedro@gmail.com>): ENTER
+        + question license (MIT): ENTER
+        + question private: ENTER
+    + $ yarn
+3. Crear la estructura base del proyecto:
+    + Estructura de directorios
+        + controllers
+        + middleware
+        + models
+        + routers
+        + services
+    + Estructura de ficheros:
+        + index.js
+        + app.js
+        + config.js
+4. Commit Video 037:
     + $ git add .
     + $ git commit -m "Creando la estructura del proyecto server"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 038. Instalando las dependencias que usaremos
 
@@ -788,6 +806,10 @@
     + $ git add .
     + $ git commit -m "Instalando las dependencias que usaremos"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 039. 1/2 Conectando el proyecto server con MongoDB usando Mongoose
 
