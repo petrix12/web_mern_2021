@@ -947,15 +947,38 @@
     + $ git push -u origin main
 
 ### 042. Solucionando error DeprecationWarning useFindAndModify
+1. Modificar **server\index.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const app = require("./app")
+    const port = process.env.PORT || 3977
+    const { API_VERSION, IP_SERVER, PORT_DB } = require("./config")
 
-1. Commit Video 042:
+    /* mongoose.set("useFindAndModify", false) */
+
+    mongoose.connect(`mongodb://${IP_SERVER}:${PORT_DB}/solucionespp`, 
+        {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
+        if(err){
+            throw err
+        }else{
+            console.log('Conexión exitosa a MongoDB')
+            app.listen(port, () => {
+                console.log("########################")
+                console.log("####### API REST #######")
+                console.log("########################")
+                console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`)
+            })
+        }
+    });
+    ```
+    + Nota: ya no es necesario éscribir la línea de código:
+    ```js
+    mongoose.set("useFindAndModify", false)
+    ```
+2. Commit Video 042:
     + $ git add .
     + $ git commit -m "Solucionando error DeprecationWarning useFindAndModify"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ## Sección 05: Sistema de rutas
 
@@ -965,6 +988,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 044. Ejemplo de uso React Router Dom
 15 min
