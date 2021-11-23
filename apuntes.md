@@ -1514,26 +1514,109 @@
 ## Sección 06: Maquetación del LayoutAdmin
 
 ### 054. Creando variables de colores y tamaños SASS para reutilizarlas en componentes
+1. Modificar el archivo de estilos client\src\scss\_variables.scss:
+    ```scss
+    $defaultFontSize: 16px;
 
-1. Commit Video 05:
+    $primary-color: #0098d3;
+    $primary-color-hover: #0280b3;
+
+    $menu-color: #252527;
+
+    $font-light: #fff;
+    $font-grey-light: #e8e8e8;
+    $font-grey: #808080;
+    $font-grey-dark: #000;
+    $font-dark-light: #252527;
+    $font-dark: #000;
+
+    $border-light: #fff;
+    $border-grey-light: #e8e8e8;
+    $border-grey: #808080;
+    $border-grey-dark: #595959;
+    $border-dark-light: #252527;
+    $border-dark: #000;
+
+    $background-light: #fff;
+    $background-grey-light: #e8e8e8;
+    $background-grey: #808080;
+    $background-grey-dark: #595959;
+    $background-dark-light: #252527;
+    $background-dark: #000;
+    $background-success: #84b84c1f;
+    $background-error: #ff00001f;
+    $background-dark-web: #16202b;
+    $background-dark-light-web: #1a2734;
+
+    $success: #84b84c;
+    $error: #f00;
+
+    // Social Color
+    $youtube: #cd201f;
+    $twitter: #1da1f2;
+    $facebook: #3b5998;
+    $linkedin: #0077b5;
+
+    // Responsive down size
+    $media-breackpoint-down-xs: 413.98px;
+    $media-breackpoint-down-sm: 573.98px;
+    $media-breackpoint-down-md: 767.98px;
+    $media-breackpoint-down-lg: 991.98px;
+    $media-breackpoint-down-xl: 1199.98px;
+
+    // Responsive up size
+    $media-breackpoint-up-xs: 320px;
+    $media-breackpoint-up-sm: 576px;
+    $media-breackpoint-up-md: 768px;
+    $media-breackpoint-up-lg: 992px;
+    $media-breackpoint-up-xl: 1200px;
+    ```
+2. Commit Video 05:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando variables de colores y tamaños SASS para reutilizarlas en componentes"
+    + $ git push -u origin main
+
+### 055. Dando estilos al LayoutAdmin
+
+1. Commit Video 055:
+    + $ git add .
+    + $ git commit -m "Dando estilos al LayoutAdmin"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
 
-### 055. Dando estilos al LayoutAdmin
-9 min
 ### 056. Creando el componente MenuTop
-16 min
+
+1. Commit Video 056:
+    + $ git add .
+    + $ git commit -m "Creando el componente MenuTop"
+    + $ git push -u origin main
+
 ### 057. Creando el componente MenuSider
-12 min
+
+1. Commit Video 057:
+    + $ git add .
+    + $ git commit -m "Creando el componente MenuSider"
+    + $ git push -u origin main
+
 ### 058. Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider
-11 min
+
+1. Commit Video 058:
+    + $ git add .
+    + $ git commit -m "Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider"
+    + $ git push -u origin main
+
+## Sección 07: Creación del registro de nuevos usuarios
+
 ### 059. Creación del controlador, modelo y ruta para los usuarios
-12 min
+
+1. Commit Video 05:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 060. 1/2 - Endpoint para crear nuevos usuarios
 9 min
 ### 061. 2/2 - Endpoint para crear nuevos usuarios
