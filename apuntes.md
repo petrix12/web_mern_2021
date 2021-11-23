@@ -1309,15 +1309,52 @@
     + $ git push -u origin main
 
 ### 050. Añadiendo la configuración de rutas para usuarios normales
+1. Modificar archivo de rutas **client\src\config\routes.js**:
+    ```js
+    // Layout
+    ≡
+    import LayoutBasic from "../layouts/LayoutBasic"
 
-1. Commit Video 050:
+
+    // Admin Pages
+    ≡
+
+    // Pages
+    import Home from '../pages/Home'
+    import Contact from '../pages/Contact'
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            ≡
+        },
+        {
+            path: "/",
+            component: LayoutBasic,
+            exact: false,
+            routes: [
+                {
+                    path: "/",
+                    component: Home, 
+                    exact: true
+                },
+                {
+                    path: "/contact",
+                    component: Contact, 
+                    exact: true
+                }
+            ]
+
+        }
+    ]
+
+    export default routes
+    ```
+2. Commit Video 050:
     + $ git add .
     + $ git commit -m "Añadiendo la configuración de rutas para usuarios normales"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 051. Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic
 
@@ -1325,6 +1362,10 @@
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 052. Página Error404
 
