@@ -13,7 +13,7 @@ export default function LayoutAdmin(props) {
             <Layout>
                 <Header>Header...</Header>
                 <Content>
-                    <LoadRouters routes={routes}/>
+                    <LoadRoutes routes={routes}/>
                 </Content>
                 <Footer>Soluciones++ 2021</Footer>
             </Layout>
@@ -21,7 +21,7 @@ export default function LayoutAdmin(props) {
     )
 }
 
-function LoadRouters({ routes }){
+function LoadRoutes({ routes }){
     /* console.log(routes) */
     return routes.map((route, index) => (
         <Route

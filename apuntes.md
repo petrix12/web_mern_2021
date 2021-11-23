@@ -1283,7 +1283,7 @@
                 <Layout>
                     <Header>Header...</Header>
                     <Content>
-                        <LoadRouters routes={routes}/>
+                        <LoadRoutes routes={routes}/>
                     </Content>
                     <Footer>Soluciones++ 2021</Footer>
                 </Layout>
@@ -1291,7 +1291,7 @@
         )
     }
 
-    function LoadRouters({ routes }){
+    function LoadRoutes({ routes }){
         /* console.log(routes) */
         return routes.map((route, index) => (
             <Route
@@ -1357,15 +1357,47 @@
     + $ git push -u origin main
 
 ### 051. Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic
+1. Crear archivo de estilo **client\src\layouts\LayoutBasic.scss** (por ahora lo dejaremos vacio).
+2. Modificar layout **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Route } from "react-router-dom"
+    import { Layout } from "antd"
+    import './LayoutBasic.scss'
 
-1. Commit Video 051:
+    export default function LayoutBasic(props) {
+        const { routes } = props
+        const { Content, Footer } = Layout
+        console.log(routes)
+
+        return (
+            <Layout>
+                <h2>Menú...</h2>
+                <Layout>
+                    <Content>
+                        <LoadRoutes routes={routes}/>
+                    </Content>
+                    <Footer>Soluciones++</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        /* console.log(routes) */
+        return routes.map((route, index) => (
+            <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+            />
+        ))
+    }
+    ```
+3. Commit Video 051:
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 052. Página Error404
 
@@ -1373,6 +1405,10 @@
     + $ git add .
     + $ git commit -m "Página Error404"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 053. Fix de la sección
 
