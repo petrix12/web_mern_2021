@@ -1265,16 +1265,48 @@
     + $ git push -u origin main
 
 ### 049. Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin
+1. Crear archivo de estilo **client\src\layouts\LayoutAdmin.scss** (por ahora lo dejaremos vacio).
+2. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { Route } from 'react-router-dom'
+    import { Layout } from "antd"
+    import "./LayoutAdmin.scss"
 
-1. Commit Video 049:
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const { Header, Content, Footer } = Layout
+        /* console.log(props) */
+
+        return (
+            <Layout>
+                <h2>Menú Sider Admin</h2>
+                <Layout>
+                    <Header>Header...</Header>
+                    <Content>
+                        <LoadRouters routes={routes}/>
+                    </Content>
+                    <Footer>Soluciones++ 2021</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
+
+    function LoadRouters({ routes }){
+        /* console.log(routes) */
+        return routes.map((route, index) => (
+            <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+            />
+        ))
+    }
+    ```
+3. Commit Video 049:
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin"
     + $ git push -u origin main
-
-
-    ≡
-    ```js
-    ```
 
 ### 050. Añadiendo la configuración de rutas para usuarios normales
 
@@ -1282,6 +1314,10 @@
     + $ git add .
     + $ git commit -m "Añadiendo la configuración de rutas para usuarios normales"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 051. Programando el sistema de rutas para cargar las páginas dentro del LayoutBasic
 
