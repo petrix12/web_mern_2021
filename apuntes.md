@@ -1101,10 +1101,10 @@
     import reportWebVitals from './reportWebVitals';
 
     ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById('root')
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>,
+        document.getElementById('root')
     );
 
     // If you want to start measuring performance in your app, pass a function
@@ -1224,15 +1224,45 @@
     + $ git push -u origin main
 
 ### 048. Programando el sistema de rutas para renderizar el Layout correspondiente
+1. Regresar a la versión 5 de react router:
+    + $ yarn remove react-router-dom
+    + $ yarn add react-router-dom@5
+2. Modificar el componente padre **client\src\App.js**:
+    ```js
+    import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+    import routes from "./config/routes"
 
-1. Commit Video 048:
+    import './App.scss';
+
+    function App() {
+    return (
+        <Router>
+            <Switch>
+                {routes.map((route, index) => (
+                    <RouteWithSubRoutes key={index} {...route}/>
+                ))}
+            </Switch>
+        </Router>
+    )
+    }
+
+    function RouteWithSubRoutes(route) {
+    console.log(route)
+    return (
+        <Route
+            path={route.path}
+            exact={route.exact}
+            render={props => <route.component routes={route.routes} {...props} />}
+        />
+    )
+    }
+
+    export default App;
+    ```
+3. Commit Video 048:
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para renderizar el Layout correspondiente"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 049. Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin
 
@@ -1240,6 +1270,11 @@
     + $ git add .
     + $ git commit -m "Programando el sistema de rutas para cargar las páginas dentro del LayoutAdmin"
     + $ git push -u origin main
+
+
+    ≡
+    ```js
+    ```
 
 ### 050. Añadiendo la configuración de rutas para usuarios normales
 
@@ -1518,5 +1553,3 @@
 ### 209. Subiendo Cliente a Netlify
 ### 210. Repositorio de la aplicación
 ### 211. Clase Extra
-
-ddd
