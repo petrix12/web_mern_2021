@@ -1504,16 +1504,12 @@
     + $ git commit -m "Página Error404"
     + $ git push -u origin main
 
-### 053. Fix de la sección
-
+### 053. Fin de la sección
++ **Contenido**: corrección de error en layout **client\src\layouts\LayoutAdmin.js**.
 1. Commit Video 053:
     + $ git add .
-    + $ git commit -m "Fix de la sección"
+    + $ git commit -m "Fin de la sección"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ## Sección 06: Maquetación del LayoutAdmin
 
@@ -1523,6 +1519,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 055. Dando estilos al LayoutAdmin
 9 min
