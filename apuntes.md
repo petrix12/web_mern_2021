@@ -1400,15 +1400,109 @@
     + $ git push -u origin main
 
 ### 052. Página Error404
+1. Crear página **client\src\pages\Error404.js**:
+    ```js
+    export default function Error404(){
+        return(
+            <div>
+                <h1>Estamos en Error404</h1>
+            </div>
+        )
+    }
+    ```
+2. Modificar archivo de rutas **client\src\config\routes.js**:
+    ```js
+    // Layout
+    ≡
 
-1. Commit Video 052:
+
+    // Admin Pages
+    ≡
+
+    // Pages
+    ≡
+
+    // Otros
+    import Error404 from '../pages/Error404'
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            ≡
+            routes: [
+                ≡
+                {
+                    component: Error404
+                }
+            ]
+        },
+        {
+            ≡
+            routes: [
+                ≡
+                {
+                    component: Error404
+                }
+            ]
+
+        }
+    ]
+
+    export default routes
+    ```
+3. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { Route, Switch } from 'react-router-dom'
+    ≡
+
+    export default function LayoutAdmin(props) {
+        ≡
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+4. Modificar layout **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Route, Switch } from "react-router-dom"
+    ≡
+
+    export default function LayoutBasic(props) {
+        ≡
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+5. Commit Video 052:
     + $ git add .
     + $ git commit -m "Página Error404"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 053. Fix de la sección
 
@@ -1416,6 +1510,10 @@
     + $ git add .
     + $ git commit -m "Fix de la sección"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 06: Maquetación del LayoutAdmin
 
