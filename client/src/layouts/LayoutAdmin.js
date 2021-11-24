@@ -5,17 +5,18 @@ import "./LayoutAdmin.scss"
 export default function LayoutAdmin(props) {
     const { routes } = props
     const { Header, Content, Footer } = Layout
-    /* console.log(props) */
 
     return (
         <Layout>
-            <h2>Menú Sider Admin</h2>
-            <Layout>
-                <Header>Header...</Header>
-                <Content>
+            {/* TO DO: Menú Saider */}
+            <Layout className="layout-admin">
+                <Header className="layout-admin__header">
+                    {/* TO DO: Menú Top */}
+                </Header>
+                <Content className="layout-admin__content">
                     <LoadRoutes routes={routes}/>
                 </Content>
-                <Footer>Soluciones++ 2021</Footer>
+                <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
             </Layout>
         </Layout>
     )

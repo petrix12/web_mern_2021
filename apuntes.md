@@ -1577,15 +1577,65 @@
     + $ git push -u origin main
 
 ### 055. Dando estilos al LayoutAdmin
+1. Establecer estilos en client\src\layouts\LayoutAdmin.scss:
+    ```scss
+    @import "../scss/index.scss";
 
-1. Commit Video 055:
+    .layout-admin {
+        transition: margin-left 0.2s;
+
+        &__header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 0;
+            height: 65px;
+        }
+
+        &__content {
+            min-height: calc(100vh - 65px);
+            padding: 90px 25px 25px 25px;
+        }
+
+        &__footer {
+            padding: 20px;
+        }
+    }
+    ```
+2. Modificar **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    ≡
+
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const { Header, Content, Footer } = Layout
+
+        return (
+            <Layout>
+                {/* TO DO: Menú Saider */}
+                <Layout className="layout-admin">
+                    <Header className="layout-admin__header">
+                        {/* TO DO: Menú Top */}
+                    </Header>
+                    <Content className="layout-admin__content">
+                        <LoadRoutes routes={routes}/>
+                    </Content>
+                    <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        ≡
+    }
+    ```
+3. Commit Video 055:
     + $ git add .
     + $ git commit -m "Dando estilos al LayoutAdmin"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 056. Creando el componente MenuTop
 
@@ -1593,6 +1643,10 @@
     + $ git add .
     + $ git commit -m "Creando el componente MenuTop"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 057. Creando el componente MenuSider
 
