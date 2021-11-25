@@ -1854,15 +1854,89 @@
     + $ git push -u origin main
 
 ### 057. Creando el componente MenuSider
+1. Crear **client\src\components\Admin\MenuSider\index.js**:
+    ```js
+    export { default } from "./MenuSider";
+    ```
+2. Crear componente **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    import React from "react";
+    import { Link, withRouter } from "react-router-dom";
+    import { Layout, Menu/* , Icon */ } from "antd";
+    import { HomeOutlined, MenuFoldOutlined } from '@ant-design/icons';
 
-1. Commit Video 057:
+    import "./MenuSider.scss";
+
+    function MenuSider(props) {
+        const { Sider } = Layout;
+
+        return (
+            <Sider className="admin-sider" >
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={["1"]}
+                >
+                    <Menu.Item key="1">
+                        <Link to="/admin">
+                            <HomeOutlined />
+                            <span className="nav-text">Home</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        <Link to="/admin/menu-web">
+                            <MenuFoldOutlined />
+                            <span className="nav-text">Menú Web</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+
+    export default withRouter(MenuSider);
+    ```
+3. Crear archivo de estilos **client\src\components\Admin\MenuSider\MenuSider.scss**:
+    ```js
+    @import "../../../scss/index.scss";
+
+    .admin-sider {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        height: 100vh;
+        overflow: auto;
+    }
+    ```
+4. Modificar layout **client\src\layouts\LayoutAdmin.js** para incorporar el componente **MenuSider**:
+    ```js
+    ≡
+    import MenuTop from '../components/Admin/MenuTop'
+    import MenuSider from '../components/Admin/MenuSider/MenuSider'
+    import "./LayoutAdmin.scss"
+
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const { Header, Content, Footer } = Layout
+
+        return (
+            <Layout>
+                <MenuSider />
+                <Layout className="layout-admin">
+                    ≡
+                </Layout>
+            </Layout>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        ≡
+    }
+    ```
+5. Commit Video 057:
     + $ git add .
     + $ git commit -m "Creando el componente MenuSider"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 058. Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider
 
@@ -1870,6 +1944,10 @@
     + $ git add .
     + $ git commit -m "Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 07: Creación del registro de nuevos usuarios
 
