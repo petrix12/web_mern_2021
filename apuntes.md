@@ -1615,8 +1615,6 @@
     + $ git commit -m "Dando estilos al LayoutAdmin"
     + $ git push -u origin main
 
-
-**** VOY POR ACÁ ****
 ### 056. Creando el componente MenuTop
 1. Colocar logo de la aplicación en **client\src\assets\img\png\logo.png**.
 2. Instalar iconos de Ant Design:
@@ -1627,7 +1625,7 @@
     ```
 4. Crear componente **client\src\components\Admin\MenuTop\MenuTop.js**:
     ```js
-    import { Button, Icon } from 'antd'
+    import { BarsOutlined, PoweroffOutlined } from '@ant-design/icons';
     import 'antd/dist/antd.css';
     import LogoSolucionespp from '../../../assets/img/png/logo.png'
     import './MenuTop.scss'
@@ -1641,132 +1639,22 @@
                         src={LogoSolucionespp}
                         alt="Logo Soluciones++"
                     />
-                    <Button type="link" onClick={() => console.log('Click')} >
-                        <Icon type="menu-fold" />
-                    </Button>
+                    <BarsOutlined className="menu-top__button" type="link" onClick={() => console.log('Click')} />
                 </div>
 
                 <div className="menu-top__right">
-                    <Button type="link" onClick={() => console.log('Desconexión')} >
-                        <Icon type="poweroff" />
-                    </Button>
+                    <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
                 </div>
             </div>
         )
     }
-    ```
-
-
-
-    
+    ``` 
 5. Crear archivo de estilos **client\src\components\Admin\MenuTop\MenuTop.scss**:
     ```scss
     @import "../../../scss/index.scss";
 
     .menu-top {
         display: flex;
-
-        button {
-            color: $font-light;
-
-            &:hover {
-                color: $primary-color;
-            }
-            &:focus,
-            &:active {
-                color: $font-light;
-            }
-        }
-
-        &__left {
-            &-logo {
-                width: 200px;
-                padding: 0 10px;
-            }
-        }
-
-        &__right {
-            position: absolute;
-            right: 0;
-        }
-    }
-    ```
-7. Modificar layout **client\src\layouts\LayoutAdmin.js**:
-    ```js
-    import { Route, Switch } from 'react-router-dom'
-    import { Layout } from "antd"
-    import MenuTop from '../components/Admin/MenuTop'
-    import "./LayoutAdmin.scss"
-
-    export default function LayoutAdmin(props) {
-        const { routes } = props
-        const { Header, Content, Footer } = Layout
-
-        return (
-            <Layout>
-                {/* TO DO: Menú Saider */}
-                <Layout className="layout-admin">
-                    <Header className="layout-admin__header">
-                        <MenuTop />
-                    </Header>
-                    <Content className="layout-admin__content">
-                        <LoadRoutes routes={routes}/>
-                    </Content>
-                    <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
-                </Layout>
-            </Layout>
-        )
-    }
-
-    function LoadRoutes({ routes }){
-        ≡
-    }
-    ```
-8. Commit Video 056:
-    + $ git add .
-    + $ git commit -m "Creando el componente MenuTop"
-    + $ git push -u origin main
-
-### Ajustes - Creando el componente MenuTop
-1. client\src\components\Admin\MenuTop\MenuTop.js:
-    ```js
-    /* import { Button, Icon } from 'antd' */
-    import { BarsOutlined, PoweroffOutlined } from '@ant-design/icons';
-    import LogoSolucionespp from '../../../assets/img/png/logo.png'
-    import './MenuTop.scss'
-
-    export default function MenuTop(){
-        return (
-            <div className="menu-top">
-                <div className="menu-top__left">
-                    <img 
-                        className="menu-top__left-logo"
-                        src={LogoSolucionespp}
-                        alt="Logo Soluciones++"
-                    />
-                    {/* <Button type="link" onClick={() => console.log('Click')} >
-                        <Icon type="menu-fold" />
-                    </Button> */}
-                    <BarsOutlined className="menu-top__button" type="link" onClick={() => console.log('Click')} />
-                </div>
-
-                <div className="menu-top__right">
-                    {/* <Button type="link" onClick={() => console.log('Desconexión')} >
-                        <Icon type="poweroff" />
-                    </Button> */}
-                    <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
-                </div>
-            </div>
-        )
-    }
-    ```
-2. client\src\components\Admin\MenuTop\MenuTop.scss:
-    ```scss
-    @import "../../../scss/index.scss";
-
-    .menu-top {
-        display: flex;
-        align-items: center;
 
         button {
             color: $font-light;
@@ -1801,41 +1689,45 @@
 
         &__right {
             position: absolute;
-            right: 0;
+            right: 10px;
         }
     }
     ```
-3. client\src\layouts\LayoutAdmin.scss:
-    ```scss
-    @import "../scss/index.scss";
+6. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { Route, Switch } from 'react-router-dom'
+    import { Layout } from "antd"
+    import 'antd/dist/antd.css'
+    import MenuTop from '../components/Admin/MenuTop'
+    import "./LayoutAdmin.scss"
 
-    .layout-admin {
-        transition: margin-left 0.2s;
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const { Header, Content, Footer } = Layout
 
-        &__header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            padding: 0;
-            height: 65px;
-            background-color: rgb(7, 7, 36);
-        }
+        return (
+            <Layout>
+                {/* TO DO: Menú Saider */}
+                <Layout className="layout-admin">
+                    <Header className="layout-admin__header">
+                        <MenuTop />
+                    </Header>
+                    <Content className="layout-admin__content">
+                        <LoadRoutes routes={routes}/>
+                    </Content>
+                    <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
 
-        &__content {
-            min-height: calc(100vh - 65px);
-            padding: 90px 25px 25px 25px;
-        }
-
-        &__footer {
-            padding: 20px;
-        }
+    function LoadRoutes({ routes }){
+        ≡
     }
     ```
-4. Commit Video 056 - Ajustes:
+7. Commit Video 056:
     + $ git add .
-    + $ git commit -m "Ajustes - Creando el componente MenuTop"
+    + $ git commit -m "Creando el componente MenuTop"
     + $ git push -u origin main
 
 ### 057. Creando el componente MenuSider
@@ -1845,10 +1737,10 @@
     ```
 2. Crear componente **client\src\components\Admin\MenuSider\MenuSider.js**:
     ```js
-    import React from "react";
-    import { Link, withRouter } from "react-router-dom";
-    import { Layout, Menu/* , Icon */ } from "antd";
-    import { HomeOutlined, MenuFoldOutlined } from '@ant-design/icons';
+    import { Link, withRouter } from "react-router-dom"
+    import { Layout, Menu } from "antd"
+    import { HomeOutlined, MenuFoldOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css';
 
     import "./MenuSider.scss";
 
@@ -1924,15 +1816,91 @@
     + $ git push -u origin main
 
 ### 058. Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider
+1. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { useState } from "react"
+    ≡
 
-1. Commit Video 058:
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const [menuCollapsed, setMenuCollapsed] = useState(false)
+        const { Header, Content, Footer } = Layout
+
+        return (
+            <Layout>
+                <MenuSider menuCollapsed={menuCollapsed} />
+                <Layout className="layout-admin" style={{ marginLeft: menuCollapsed ? "80px" : "200px" }} >
+                    <Header className="layout-admin__header">
+                        <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed} />
+                    </Header>
+                    <Content className="layout-admin__content">
+                        <LoadRoutes routes={routes}/>
+                    </Content>
+                    <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        ≡
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    ≡
+
+    function MenuSider(props) {
+        /* console.log(props) */
+        const { menuCollapsed } = props
+        const { Sider } = Layout;
+
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                ≡
+            </Sider>
+        )
+    }
+
+    export default withRouter(MenuSider);
+    ```
+3. Modificar componente **client\src\components\Admin\MenuTop\MenuTop.js**:
+    ```js
+    import { MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined } from '@ant-design/icons';
+    import 'antd/dist/antd.css';
+    import LogoSolucionespp from '../../../assets/img/png/logo.png'
+    import './MenuTop.scss'
+
+    export default function MenuTop(props){
+        /* console.log(props) */
+        const { menuCollapsed, setMenuCollapsed } = props 
+        return (
+            <div className="menu-top">
+                <div className="menu-top__left">
+                    <a href="/">
+                        <img 
+                            className="menu-top__left-logo"
+                            src={LogoSolucionespp}
+                            alt="Logo Soluciones++"
+                        />
+                    </a>
+                    {menuCollapsed ?
+                        <MenuUnfoldOutlined className="menu-top__button" type="link" onClick={() => setMenuCollapsed(!menuCollapsed)} /> :
+                        <MenuFoldOutlined className="menu-top__button" type="link" onClick={() => setMenuCollapsed(!menuCollapsed)} />
+                    }
+                </div>
+
+                <div className="menu-top__right" >
+                    <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
+                </div>
+            </div>
+        )
+    }
+    ```
+4. Commit Video 058:
     + $ git add .
     + $ git commit -m "Centrando Contenido y añadiendo funcionalidad al botón de abrir el MenuSider"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ## Sección 07: Creación del registro de nuevos usuarios
 
@@ -1942,6 +1910,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 060. 1/2 - Endpoint para crear nuevos usuarios
 9 min
