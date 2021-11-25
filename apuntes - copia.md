@@ -636,6 +636,7 @@
 2. Ejecutar:
     + $ cd client
     + $ yarn
+    + $ yarn start
 3. Modificar **client\package.json**:
     ```json
     "scripts": {
@@ -704,12 +705,12 @@
     import './App.scss';
 
     function App() {
-        return (
-            <div className="app">
-                <h1>Web Personal - Client</h1>
-                <h2>Proyecto</h2>
-            </div>
-        );
+    return (
+        <div className="app">
+            <h1>Web Personal - Client</h1>
+            <h2>Web Personal - Client</h2>
+        </div>
+    );
     }
 
     export default App;
@@ -722,23 +723,25 @@
     ```js
     $primary-color: #0098d3;
     ```
-7. Para la ejecución de la aplicación **client** en caso de que este corriendo y ejecutar:
-    + $ yarn cache clean
-    + $ yarn
-    + $ yarn run dev
-8. Commit Video 035:
+7. Commit Video 035:
     + $ git add .
     + $ git commit -m "Añadiendo SASS al proyecto"
     + $ git push -u origin main
 
 ### 036. Añadiendo la librería Ant Design al proyecto
 1. Instalar libreria de CSS **Ant Design**:
-    + $ yarn add antd
-2. Modificar el componente padre **client\src\App.js**:
+    + $ yarn add antd@3.23.2
+2. Importar la libreria Ant Design en **client\src\index.js**:
+    ```js
+    ≡
+    import ReactDOM from 'react-dom';
+    import 'antd/dist/antd.css';
+    ≡
+    ```
+3. Modificar el componente padre **client\src\App.js**:
     ```js
     import './App.scss';
     import { DatePicker, Card } from 'antd';
-    import 'antd/dist/antd.css';
 
     function App() {
         const test = (date, dateString) => {
@@ -763,7 +766,7 @@
 
     export default App;
     ```
-3. Commit Video 036:
+4. Commit Video 036:
     + $ git add .
     + $ git commit -m "Añadiendo la librería Ant Design al proyecto"
     + $ git push -u origin main
@@ -1052,7 +1055,34 @@
     + $ git push -u origin main
 
 ### 045. Creando paginas básicas para usar en las rutas
-1. Crear página **client\src\pages\Admin\Admin.js**:
+1. Modificar componente padre **client\src\App.js**:
+    ```js
+    import Admin from './pages/Admin'
+    import SignIn from './pages/Admin/SignIn'
+    import Home from './pages/Home'
+    import Contact from './pages/Contact'
+
+    import './App.scss';
+
+    function App() {
+    return (
+        <div>
+        <h1>Estamos en App.js</h1>
+        <Admin />
+        <SignIn />
+        <Home />
+        <Contact />
+        </div>
+    )
+    }
+
+    export default App;
+    ```
+2. Crear página **client\src\pages\Admin\index.js**:
+    ```js
+    export { default } from "./Admin"
+    ```
+3. Crear página **client\src\pages\Admin\Admin.js**:
     ```js
     export default function Admin(){
         return(
@@ -1062,11 +1092,27 @@
         )
     }
     ```
-2. Crear página **client\src\pages\Admin\index.js**:
+4. Modificar **client\src\index.js**:
     ```js
-    export { default } from "./Admin"
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import './index.css';
+    import App from './App';
+    import reportWebVitals from './reportWebVitals';
+
+    ReactDOM.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+
+    // If you want to start measuring performance in your app, pass a function
+    // to log results (for example: reportWebVitals(console.log))
+    // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+    reportWebVitals();
     ```
-3. Crear página **client\src\pages\Admin\SignIn.js**:
+5. Crear página **client\src\pages\Admin\SignIn.js**:
     ```js
     export default function SignIn(){
         return(
@@ -1076,7 +1122,7 @@
         )
     }
     ```
-4. Crear página principal **client\src\pages\Home.js**:
+6. Crear página principal **client\src\pages\Home.js**:
     ```js
     export default function Home(){
         return(
@@ -1086,7 +1132,7 @@
         )
     }
     ```
-5. Crear página **client\src\pages\Contact.js**:
+7. Crear página **client\src\pages\Contact.js**:
     ```js
     export default function Contact(){
         return(
@@ -1096,30 +1142,7 @@
         )
     }
     ```
-6. Modificar componente padre **client\src\App.js**:
-    ```js
-    import Admin from './pages/Admin'
-    import SignIn from './pages/Admin/SignIn'
-    import Home from './pages/Home'
-    import Contact from './pages/Contact'
-
-    import './App.scss'
-
-    function App() {
-        return (
-            <div>
-                <h1>Estamos en App.js</h1>
-                <Admin />
-                <SignIn />
-                <Home />
-                <Contact />
-            </div>
-        )
-    }
-
-    export default App;
-    ```
-7. Commit Video 045:
+8. Commit Video 045:
     + $ git add .
     + $ git commit -m "Creando paginas básicas para usar en las rutas"
     + $ git push -u origin main
@@ -1212,26 +1235,26 @@
     import './App.scss';
 
     function App() {
-        return (
-            <Router>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <RouteWithSubRoutes key={index} {...route}/>
-                    ))}
-                </Switch>
-            </Router>
-        )
+    return (
+        <Router>
+            <Switch>
+                {routes.map((route, index) => (
+                    <RouteWithSubRoutes key={index} {...route}/>
+                ))}
+            </Switch>
+        </Router>
+    )
     }
 
     function RouteWithSubRoutes(route) {
     console.log(route)
-        return (
-            <Route
-                path={route.path}
-                exact={route.exact}
-                render={props => <route.component routes={route.routes} {...props} />}
-            />
-        )
+    return (
+        <Route
+            path={route.path}
+            exact={route.exact}
+            render={props => <route.component routes={route.routes} {...props} />}
+        />
+    )
     }
 
     export default App;
@@ -1247,7 +1270,6 @@
     ```js
     import { Route } from 'react-router-dom'
     import { Layout } from "antd"
-    import 'antd/dist/antd.css'
     import "./LayoutAdmin.scss"
 
     export default function LayoutAdmin(props) {
@@ -1615,8 +1637,6 @@
     + $ git commit -m "Dando estilos al LayoutAdmin"
     + $ git push -u origin main
 
-
-**** VOY POR ACÁ ****
 ### 056. Creando el componente MenuTop
 1. Colocar logo de la aplicación en **client\src\assets\img\png\logo.png**.
 2. Instalar iconos de Ant Design:
@@ -1628,7 +1648,6 @@
 4. Crear componente **client\src\components\Admin\MenuTop\MenuTop.js**:
     ```js
     import { Button, Icon } from 'antd'
-    import 'antd/dist/antd.css';
     import LogoSolucionespp from '../../../assets/img/png/logo.png'
     import './MenuTop.scss'
 
@@ -1655,10 +1674,6 @@
         )
     }
     ```
-
-
-
-    
 5. Crear archivo de estilos **client\src\components\Admin\MenuTop\MenuTop.scss**:
     ```scss
     @import "../../../scss/index.scss";
@@ -2173,8 +2188,3 @@
 ### 209. Subiendo Cliente a Netlify
 ### 210. Repositorio de la aplicación
 ### 211. Clase Extra
-
-
-    + $ yarn cache clean
-    + $ yarn
-    + $ yarn run dev

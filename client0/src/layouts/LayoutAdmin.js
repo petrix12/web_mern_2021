@@ -1,22 +1,19 @@
-import { useState } from "react"
 import { Route, Switch } from 'react-router-dom'
 import { Layout } from "antd"
-import 'antd/dist/antd.css'
 import MenuTop from '../components/Admin/MenuTop'
 import MenuSider from '../components/Admin/MenuSider/MenuSider'
 import "./LayoutAdmin.scss"
 
 export default function LayoutAdmin(props) {
     const { routes } = props
-    const [menuCollapsed, setMenuCollapsed] = useState(false)
     const { Header, Content, Footer } = Layout
 
     return (
         <Layout>
-            <MenuSider menuCollapsed={menuCollapsed} />
-            <Layout className="layout-admin" style={{ marginLeft: menuCollapsed ? "80px" : "200px" }} >
+            <MenuSider />
+            <Layout className="layout-admin">
                 <Header className="layout-admin__header">
-                    <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed} />
+                    <MenuTop />
                 </Header>
                 <Content className="layout-admin__content">
                     <LoadRoutes routes={routes}/>

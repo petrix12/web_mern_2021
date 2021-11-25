@@ -2,6 +2,7 @@
 import LayoutAdmin from "../layouts/LayoutAdmin"
 import LayoutBasic from "../layouts/LayoutBasic"
 
+
 // Admin Pages
 import AdminHome from "../pages/Admin"
 import AdminSingIn from "../pages/Admin/SignIn"
@@ -54,6 +55,7 @@ const routes = [
                 component: Error404
             }
         ]
+
     }
 ]
 
