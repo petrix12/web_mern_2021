@@ -2,8 +2,21 @@
 
 .menu-top {
     display: flex;
+    align-items: center;
 
     button {
+        color: $font-light;
+
+        &:hover {
+            color: $primary-color;
+        }
+        &:focus,
+        &:active {
+            color: $font-light;
+        }
+    }
+
+    &__button {
         color: $font-light;
 
         &:hover {

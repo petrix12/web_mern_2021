@@ -1639,11 +1639,13 @@
 
 ### 056. Creando el componente MenuTop
 1. Colocar logo de la aplicación en **client\src\assets\img\png\logo.png**.
-2. Crear **client\src\components\Admin\MenuTop\index.js**:
+2. Instalar iconos de Ant Design:
+    + $ yarn add @ant-design/icons
+3. Crear **client\src\components\Admin\MenuTop\index.js**:
     ```js
     export { default } from "./MenuTop";
     ```
-3. Crear componente **client\src\components\Admin\MenuTop\MenuTop.js**:
+4. Crear componente **client\src\components\Admin\MenuTop\MenuTop.js**:
     ```js
     import { Button, Icon } from 'antd'
     import LogoSolucionespp from '../../../assets/img/png/logo.png'
@@ -1672,7 +1674,7 @@
         )
     }
     ```
-4. Crear archivo de estilos **client\src\components\Admin\MenuTop\MenuTop.scss**:
+5. Crear archivo de estilos **client\src\components\Admin\MenuTop\MenuTop.scss**:
     ```scss
     @import "../../../scss/index.scss";
 
@@ -1704,7 +1706,7 @@
         }
     }
     ```
-5. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+7. Modificar layout **client\src\layouts\LayoutAdmin.js**:
     ```js
     import { Route, Switch } from 'react-router-dom'
     import { Layout } from "antd"
@@ -1735,9 +1737,120 @@
         ≡
     }
     ```
-6. Commit Video 056:
+8. Commit Video 056:
     + $ git add .
     + $ git commit -m "Creando el componente MenuTop"
+    + $ git push -u origin main
+
+### Ajustes - Creando el componente MenuTop
+1. client\src\components\Admin\MenuTop\MenuTop.js:
+    ```js
+    /* import { Button, Icon } from 'antd' */
+    import { BarsOutlined, PoweroffOutlined } from '@ant-design/icons';
+    import LogoSolucionespp from '../../../assets/img/png/logo.png'
+    import './MenuTop.scss'
+
+    export default function MenuTop(){
+        return (
+            <div className="menu-top">
+                <div className="menu-top__left">
+                    <img 
+                        className="menu-top__left-logo"
+                        src={LogoSolucionespp}
+                        alt="Logo Soluciones++"
+                    />
+                    {/* <Button type="link" onClick={() => console.log('Click')} >
+                        <Icon type="menu-fold" />
+                    </Button> */}
+                    <BarsOutlined className="menu-top__button" type="link" onClick={() => console.log('Click')} />
+                </div>
+
+                <div className="menu-top__right">
+                    {/* <Button type="link" onClick={() => console.log('Desconexión')} >
+                        <Icon type="poweroff" />
+                    </Button> */}
+                    <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
+                </div>
+            </div>
+        )
+    }
+    ```
+2. client\src\components\Admin\MenuTop\MenuTop.scss:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .menu-top {
+        display: flex;
+        align-items: center;
+
+        button {
+            color: $font-light;
+
+            &:hover {
+                color: $primary-color;
+            }
+            &:focus,
+            &:active {
+                color: $font-light;
+            }
+        }
+
+        &__button {
+            color: $font-light;
+
+            &:hover {
+                color: $primary-color;
+            }
+            &:focus,
+            &:active {
+                color: $font-light;
+            }
+        }
+
+        &__left {
+            &-logo {
+                width: 200px;
+                padding: 0 10px;
+            }
+        }
+
+        &__right {
+            position: absolute;
+            right: 0;
+        }
+    }
+    ```
+3. client\src\layouts\LayoutAdmin.scss:
+    ```scss
+    @import "../scss/index.scss";
+
+    .layout-admin {
+        transition: margin-left 0.2s;
+
+        &__header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 0;
+            height: 65px;
+            background-color: rgb(7, 7, 36);
+        }
+
+        &__content {
+            min-height: calc(100vh - 65px);
+            padding: 90px 25px 25px 25px;
+        }
+
+        &__footer {
+            padding: 20px;
+        }
+    }
+    ```
+4. Commit Video 056 - Ajustes:
+    + $ git add .
+    + $ git commit -m "Ajustes - Creando el componente MenuTop"
     + $ git push -u origin main
 
 ### 057. Creando el componente MenuSider

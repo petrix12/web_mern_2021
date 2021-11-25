@@ -1,4 +1,5 @@
-import { Button, Icon } from 'antd'
+/* import { Button, Icon } from 'antd' */
+import { BarsOutlined, PoweroffOutlined } from '@ant-design/icons';
 import LogoSolucionespp from '../../../assets/img/png/logo.png'
 import './MenuTop.scss'
 
@@ -11,15 +12,17 @@ export default function MenuTop(){
                     src={LogoSolucionespp}
                     alt="Logo Soluciones++"
                 />
-                <Button type="link" onClick={() => console.log('Click')} >
+                {/* <Button type="link" onClick={() => console.log('Click')} >
                     <Icon type="menu-fold" />
-                </Button>
+                </Button> */}
+                <BarsOutlined className="menu-top__button" type="link" onClick={() => console.log('Click')} />
             </div>
 
             <div className="menu-top__right">
-                <Button type="link" onClick={() => console.log('Desconexión')} >
+                {/* <Button type="link" onClick={() => console.log('Desconexión')} >
                     <Icon type="poweroff" />
-                </Button>
+                </Button> */}
+                <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
             </div>
         </div>
     )
