@@ -2155,7 +2155,7 @@
     export { default } from "./SignIn"
     ```
 5. Crear archivo de estilo **client\src\pages\Admin\SignIn\SingIn.scss**:
-    ```js
+    ```scss
     @import "../../../scss/index.scss";
 
     .sign-in {
@@ -2179,15 +2179,123 @@
     + $ git push -u origin main
 
 ### 063. 2/2 - Creando la estructura básica de la pagina de SignIn con Tabs
+1. Modificar el archivo de estilos **client\src\pages\Admin\SignIn\SingIn.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
 
-7. Commit Video 063:
+    .sign-in {
+        background-image: url("../../../assets/img/png/background-v1.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+
+            &-logo {
+                padding: 60px 20px;
+                img {
+                    width: 100%;
+                }
+            }
+
+            &-tabs {
+                background-color: $background-light;
+
+                .ant-tabs {
+                    width: 90vw;
+                    @media (min-width: $media-breackpoint-up-lg) {
+                        width: auto;
+                    }
+                }
+
+                .ant-tabs-nav-container {
+                    height: 60px !important;
+                }
+
+                .ant-tabs-nav {
+                    width: 100%;
+                }
+
+                .ant-tabs-tab {
+                    width: 50%;
+                    height: 60px !important;
+                    text-align: center;
+                    font-size: 0em + 19px / $defaultFontSize;
+                    border-top: 4px solid $border-grey !important;
+                    border-radius: 0 !important;
+                    margin: 0 !important;
+                    @media (min-width: $media-breackpoint-up-lg) {
+                        width: 220px;
+                        font-size: 0em + 23px / $defaultFontSize;
+                    }
+
+                    &:hover {
+                        color: $font-grey-dark;
+                    }
+                    &:before {
+                        content: none;
+                    }
+                    span {
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+                .ant-tabs-tab-active {
+                    color: $primary-color !important;
+                    border-top: 4px solid $primary-color !important;
+                    border-radius: 0 !important;
+                    border-right: 0 !important;
+                    border-left: 0 !important;
+                }
+
+                .ant-tabs-content {
+                    padding: 0 16px 16px 16px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+    ```
+2. Modificar componente **client\src\pages\Admin\SignIn\SignIn.js**:
+    ```js
+    ≡
+    export default function SignIn() {
+        const { Content } = Layout;
+        const { TabPane } = Tabs;
+
+        return (
+            <Layout className="sign-in">
+                <Content className="sign-in__content">
+                    <h1 className="sign-in__content-logo">
+                        <img src={Logo} alt="Soluciones++" />
+                    </h1>
+
+                    <div className="sign-in__content-tabs">
+                        <Tabs type="card">
+                            <TabPane tab={<span>Entrar</span>} key="1">
+                                Componente LonginForm
+                            </TabPane>
+                            <TabPane tab={<span>Nuevo usuario</span>} key="2">
+                                Componente RegisterForm
+                            </TabPane>
+                        </Tabs>
+                    </div> 
+                </Content>
+            </Layout>
+        )
+    }
+    ```
+3. Commit Video 063:
     + $ git add .
     + $ git commit -m "2/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 064. Creando la estructura del formulario de registro en la pagina SignIn
 
@@ -2195,6 +2303,10 @@
     + $ git add .
     + $ git commit -m "Creando la estructura del formulario de registro en la pagina SignIn"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 065. Escribiendo el SASS del formulario de registro en la pagina SignIn
 

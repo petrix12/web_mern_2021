@@ -22,16 +22,18 @@ export default function SignIn() {
                     <img src={Logo} alt="Soluciones++" />
                 </h1>
 
-                {/* <div className="sign-in__content-tabs">
+                 <div className="sign-in__content-tabs">
                     <Tabs type="card">
                         <TabPane tab={<span>Entrar</span>} key="1">
-                            <LoginForm />
+                            Componente LonginForm
+                            {/*<LoginForm />*/}
                         </TabPane>
                         <TabPane tab={<span>Nuevo usuario</span>} key="2">
-                            <RegisterForm />
+                            Componente RegisterForm
+                            {/* <RegisterForm /> */}
                         </TabPane>
                     </Tabs>
-                </div> */}
+                </div> 
             </Content>
         </Layout>
     )
