@@ -12,34 +12,34 @@ import { signUpApi } from "../../../api/user";
 import "./RegisterForm.scss";
 
 export default function RegisterForm() {
-  /*const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-    repeatPassword: "",
-    privacyPolicy: false
-  });
-  const [formValid, setFormValid] = useState({
+    const [inputs, setInputs] = useState({
+        email: "",
+        password: "",
+        repeatPassword: "",
+        privacyPolicy: false
+    });
+  /*  const [formValid, setFormValid] = useState({
     email: false,
     password: false,
     repeatPassword: false,
     privacyPolicy: false
   });
-
-  const changeForm = e => {
-    if (e.target.name === "privacyPolicy") {
-      setInputs({
-        ...inputs,
-        [e.target.name]: e.target.checked
-      });
-    } else {
-      setInputs({
-        ...inputs,
-        [e.target.name]: e.target.value
-      });
+*/
+    const changeForm = e => {
+        if (e.target.name === "privacyPolicy") {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.checked
+            });
+        } else {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.value
+            });
+        }
     }
-  };
 
-  const inputValidation = e => {
+/*  const inputValidation = e => {
     const { type, name } = e.target;
 
     if (type === "email") {
@@ -52,40 +52,41 @@ export default function RegisterForm() {
       setFormValid({ ...formValid, [name]: e.target.checked });
     }
   };
+*/
+    const register = /* async */ e => {
+        e.preventDefault()
+        console.log(inputs)
 
-  const register = async e => {
-    e.preventDefault();
+        /*const emailVal = inputs.email;
+        const passwordVal = inputs.password;
+        const repeatPasswordVal = inputs.repeatPassword;
+        const privacyPolicyVal = inputs.privacyPolicy;
 
-    const emailVal = inputs.email;
-    const passwordVal = inputs.password;
-    const repeatPasswordVal = inputs.repeatPassword;
-    const privacyPolicyVal = inputs.privacyPolicy;
-
-    if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
-      notification["error"]({
-        message: "Todos los campos son obligatorios"
-      });
-    } else {
-      if (passwordVal !== repeatPasswordVal) {
-        notification["error"]({
-          message: "Las contraseñas tienen que ser iguales."
-        });
-      } else {
-        const result = await signUpApi(inputs);
-        if (!result.ok) {
-          notification["error"]({
-            message: result.message
-          });
+        if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
+            notification["error"]({
+                message: "Todos los campos son obligatorios"
+            });
         } else {
-          notification["success"]({
-            message: result.message
-          });
-          resetForm();
-        }
-      }
+            if (passwordVal !== repeatPasswordVal) {
+                notification["error"]({
+                    message: "Las contraseñas tienen que ser iguales."
+                });
+            } else {
+                const result = await signUpApi(inputs);
+                if (!result.ok) {
+                    notification["error"]({
+                        message: result.message
+                    });
+                } else {
+                    notification["success"]({
+                        message: result.message
+                    });
+                    resetForm();
+                }
+            }                       
+        } */
     }
-  };
-
+/*
   const resetForm = () => {
     const inputs = document.getElementsByTagName("input");
 
@@ -111,7 +112,7 @@ export default function RegisterForm() {
   */
 
     return (
-        <Form className="register-form" /* onSubmit={register} onChange={changeForm} */>
+        <Form className="register-form" onSubmit={register} onChange={changeForm} >
             <Form.Item>
                 <Input
                     prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -120,7 +121,7 @@ export default function RegisterForm() {
                     placeholder="Correo electrónico"
                     className="register-form__input"
                     /* onChange={inputValidation} */
-                    /* value={inputs.email} */
+                    value={inputs.email}
                 />
             </Form.Item>
              <Form.Item>
@@ -131,7 +132,7 @@ export default function RegisterForm() {
                     placeholder="Contraseña"
                     className="register-form__input"
                     /* onChange={inputValidation} */
-                    /* value={inputs.password} */
+                    value={inputs.password}
                 />
             </Form.Item>
             <Form.Item>
@@ -142,14 +143,14 @@ export default function RegisterForm() {
                     placeholder="Repetir contraseña"
                     className="register-form__input"
                     /* onChange={inputValidation} */
-                    /* value={inputs.repeatPassword} */
+                    value={inputs.repeatPassword}
                 />
             </Form.Item>
             <Form.Item>
                 <Checkbox
                     name="privacyPolicy"
                     /* onChange={inputValidation} */
-                    /* checked={inputs.privacyPolicy} */
+                    checked={inputs.privacyPolicy}
                 >
                     He leído y acepto la política de privacidad.
                 </Checkbox>
