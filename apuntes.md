@@ -2298,15 +2298,97 @@
     + $ git push -u origin main
 
 ### 064. Creando la estructura del formulario de registro en la pagina SignIn
+1. Crear **client\src\components\Admin\RegisterForm\index.js**:
+    ```js
+    export { default } from "./RegisterForm"
+    ```
+2. Crear archivo de estilo **client\src\components\Admin\RegisterForm\RegisterForm.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+    ```
+3. Crear componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+    ```js
+    import { useState } from "react";
+    import { Form, Input, Button, Checkbox, notification } from "antd"
+    import { UserOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./RegisterForm.scss";
 
-7. Commit Video 064:
+    export default function RegisterForm() {
+        return (
+            <Form className="register-form" >
+                <Form.Item>
+                    <Input
+                        prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="email"
+                        name="email"
+                        placeholder="Correo electrónico"
+                        className="register-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="register-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="repeatPassword"
+                        placeholder="Repetir contraseña"
+                        className="register-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Checkbox
+                        name="privacyPolicy"
+                    >
+                        He leído y acepto la política de privacidad.
+                    </Checkbox>
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit" className="register-form__button">
+                        Crear cuenta
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+4. Modificar vista **client\src\pages\Admin\SignIn\SignIn.js**:
+    ```js
+    ≡
+    import RegisterForm from "../../../components/Admin/RegisterForm"
+    import "./SingIn.scss"
+
+    export default function SignIn() {
+        ≡
+        return (
+            <Layout className="sign-in">
+                <Content className="sign-in__content">
+                    ≡
+                    <div className="sign-in__content-tabs">
+                        <Tabs type="card">
+                            ≡
+                            <TabPane tab={<span>Nuevo usuario</span>} key="2">
+                                <RegisterForm />
+                            </TabPane>
+                        </Tabs>
+                    </div> 
+                </Content>
+            </Layout>
+        )
+    }
+    ```
+5. Commit Video 064:
     + $ git add .
     + $ git commit -m "Creando la estructura del formulario de registro en la pagina SignIn"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 065. Escribiendo el SASS del formulario de registro en la pagina SignIn
 
@@ -2314,6 +2396,10 @@
     + $ git add .
     + $ git commit -m "Escribiendo el SASS del formulario de registro en la pagina SignIn"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 066. Guardando la información del formulario de registro en un estado con useState
 
