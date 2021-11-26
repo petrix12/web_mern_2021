@@ -2,13 +2,10 @@ import { useState } from "react";
 import { Form, Input, Button, Checkbox, notification } from "antd"
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
+import { emailValidation, minLengthValidation } from "../../../utils/formValidation"
 
-/*import {
-  emailValidation,
-  minLengthValidation
-} from "../../../utils/formValidation";
-import { signUpApi } from "../../../api/user";
-*/
+/* import { signUpApi } from "../../../api/user"; */
+
 import "./RegisterForm.scss";
 
 export default function RegisterForm() {
@@ -17,14 +14,15 @@ export default function RegisterForm() {
         password: "",
         repeatPassword: "",
         privacyPolicy: false
-    });
-  /*  const [formValid, setFormValid] = useState({
-    email: false,
-    password: false,
-    repeatPassword: false,
-    privacyPolicy: false
-  });
-*/
+    })
+
+    const [formValid, setFormValid] = useState({
+        email: false,
+        password: false,
+        repeatPassword: false,
+        privacyPolicy: false
+    })
+
     const changeForm = e => {
         if (e.target.name === "privacyPolicy") {
             setInputs({
@@ -39,20 +37,21 @@ export default function RegisterForm() {
         }
     }
 
-/*  const inputValidation = e => {
-    const { type, name } = e.target;
+    const inputValidation = e => {
+        /* console.log('Validando...') */
+        const { type, name } = e.target;
 
-    if (type === "email") {
-      setFormValid({ ...formValid, [name]: emailValidation(e.target) });
+        if (type === "email") {
+            setFormValid({ ...formValid, [name]: emailValidation(e.target) });
+        }
+        if (type === "password") {
+            setFormValid({ ...formValid, [name]: minLengthValidation(e.target, 6) });
+        }
+        if (type === "checkbox") {
+            setFormValid({ ...formValid, [name]: e.target.checked });
+        }
     }
-    if (type === "password") {
-      setFormValid({ ...formValid, [name]: minLengthValidation(e.target, 6) });
-    }
-    if (type === "checkbox") {
-      setFormValid({ ...formValid, [name]: e.target.checked });
-    }
-  };
-*/
+
     const register = /* async */ e => {
         e.preventDefault()
         console.log(inputs)
@@ -120,7 +119,7 @@ export default function RegisterForm() {
                     name="email"
                     placeholder="Correo electrónico"
                     className="register-form__input"
-                    /* onChange={inputValidation} */
+                    onChange={inputValidation}
                     value={inputs.email}
                 />
             </Form.Item>
@@ -131,7 +130,7 @@ export default function RegisterForm() {
                     name="password"
                     placeholder="Contraseña"
                     className="register-form__input"
-                    /* onChange={inputValidation} */
+                    onChange={inputValidation}
                     value={inputs.password}
                 />
             </Form.Item>
@@ -142,14 +141,14 @@ export default function RegisterForm() {
                     name="repeatPassword"
                     placeholder="Repetir contraseña"
                     className="register-form__input"
-                    /* onChange={inputValidation} */
+                    onChange={inputValidation}
                     value={inputs.repeatPassword}
                 />
             </Form.Item>
             <Form.Item>
                 <Checkbox
                     name="privacyPolicy"
-                    /* onChange={inputValidation} */
+                    onChange={inputValidation}
                     checked={inputs.privacyPolicy}
                 >
                     He leído y acepto la política de privacidad.

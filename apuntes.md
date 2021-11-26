@@ -2578,15 +2578,121 @@
     + $ git push -u origin main
 
 ### 068. Reutilizando las funciónes de validación en el formulario de registro de usuario
+1. Modificar componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+    ```js
+    import { useState } from "react";
+    import { Form, Input, Button, Checkbox, notification } from "antd"
+    import { UserOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { emailValidation, minLengthValidation } from "../../../utils/formValidation"
+    import "./RegisterForm.scss";
 
-7. Commit Video 068:
+    export default function RegisterForm() {
+        const [inputs, setInputs] = useState({
+            email: "",
+            password: "",
+            repeatPassword: "",
+            privacyPolicy: false
+        })
+
+        const [formValid, setFormValid] = useState({
+            email: false,
+            password: false,
+            repeatPassword: false,
+            privacyPolicy: false
+        })
+
+        const changeForm = e => {
+            if (e.target.name === "privacyPolicy") {
+                setInputs({
+                    ...inputs,
+                    [e.target.name]: e.target.checked
+                });
+            } else {
+                setInputs({
+                    ...inputs,
+                    [e.target.name]: e.target.value
+                });
+            }
+        }
+
+        const inputValidation = e => {
+            /* console.log('Validando...') */
+            const { type, name } = e.target;
+
+            if (type === "email") {
+                setFormValid({ ...formValid, [name]: emailValidation(e.target) });
+            }
+            if (type === "password") {
+                setFormValid({ ...formValid, [name]: minLengthValidation(e.target, 6) });
+            }
+            if (type === "checkbox") {
+                setFormValid({ ...formValid, [name]: e.target.checked });
+            }
+        }
+
+        const register = /* async */ e => {
+            e.preventDefault()
+            console.log(inputs)
+        }
+
+        return (
+            <Form className="register-form" onSubmit={register} onChange={changeForm} >
+                <Form.Item>
+                    <Input
+                        prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="email"
+                        name="email"
+                        placeholder="Correo electrónico"
+                        className="register-form__input"
+                        onChange={inputValidation}
+                        value={inputs.email}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="register-form__input"
+                        onChange={inputValidation}
+                        value={inputs.password}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="repeatPassword"
+                        placeholder="Repetir contraseña"
+                        className="register-form__input"
+                        onChange={inputValidation}
+                        value={inputs.repeatPassword}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Checkbox
+                        name="privacyPolicy"
+                        onChange={inputValidation}
+                        checked={inputs.privacyPolicy}
+                    >
+                        He leído y acepto la política de privacidad.
+                    </Checkbox>
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit" className="register-form__button">
+                        Crear cuenta
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+2. Commit Video 068:
     + $ git add .
     + $ git commit -m "Reutilizando las funciónes de validación en el formulario de registro de usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 069. Terminando la validando del formulario de registro de usuarios
 
@@ -2594,6 +2700,10 @@
     + $ git add .
     + $ git commit -m "Terminando la validando del formulario de registro de usuarios"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 070. 1/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
 
