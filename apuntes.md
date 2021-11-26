@@ -2534,15 +2534,48 @@
     + $ git push -u origin main
 
 ### 067. Creando funciones reutilizables de validaciones
+1. Crear **client\src\utils\formValidation.js**:
+    ```js
+    export function minLengthValidation(inputData, minLength) {
+        const { value } = inputData
 
-7. Commit Video 067:
+        removeClassErrorSuccess(inputData)
+
+        if (value.length >= minLength) {
+            inputData.classList.add("success")
+            return true
+        } else {
+            inputData.classList.add("error")
+            return false
+        }
+    }
+
+    export function emailValidation(inputData) {
+        // eslint-disable-next-line no-useless-escape
+        const emailValid = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        const { value } = inputData
+
+        removeClassErrorSuccess(inputData)
+
+        const resultValidation = emailValid.test(value)
+        if (resultValidation) {
+            inputData.classList.add("success");
+            return true;
+        } else {
+            inputData.classList.add("error");
+            return false;
+        }
+    }
+
+    function removeClassErrorSuccess(inputData) {
+        inputData.classList.remove("success")
+        inputData.classList.remove("error")
+    }
+    ```
+2. Commit Video 067:
     + $ git add .
     + $ git commit -m "Creando funciones reutilizables de validaciones"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 068. Reutilizando las funciónes de validación en el formulario de registro de usuario
 
@@ -2550,6 +2583,10 @@
     + $ git add .
     + $ git commit -m "Reutilizando las funciónes de validación en el formulario de registro de usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 069. Terminando la validando del formulario de registro de usuarios
 
