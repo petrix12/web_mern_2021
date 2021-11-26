@@ -2088,15 +2088,95 @@
     + $ git push -u origin main
 
 ### 062. 1/2 - Creando la estructura básica de la pagina de SignIn con Tabs
+1. Modificar **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { useState } from "react"
+    import { Route, Switch, Redirect } from 'react-router-dom'
+    import { Layout } from "antd"
+    import 'antd/dist/antd.css'
+    import MenuTop from '../components/Admin/MenuTop'
+    import MenuSider from '../components/Admin/MenuSider/MenuSider'
+    import AdminSignIn from '../pages/Admin/SignIn/SignIn'
+    import "./LayoutAdmin.scss"
 
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const [menuCollapsed, setMenuCollapsed] = useState(false)
+        const { Header, Content, Footer } = Layout
+
+        const user = null
+        if(!user){
+            return (
+                <>
+                    <Route path="/admin/login" component={AdminSignIn} />
+                    <Redirect to="/admin/login" />
+                </>
+            )
+        }
+
+        return (
+            ≡
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        ≡
+    }
+    ```
+2. Mover **SignIn.js**:
+    + De: client\src\pages\Admin\
+    + A: client\src\pages\Admin\SignIn\
+3. Modificar vista **client\src\pages\Admin\SignIn\SignIn.js**:
+    ```js
+    import { Layout, Tabs } from "antd"
+    import 'antd/dist/antd.css'
+    import { Redirect } from "react-router-dom"
+    import Logo from "../../../assets/img/png/logo.png"
+
+    import "./SingIn.scss"
+
+    export default function SignIn() {
+        const { Content } = Layout;
+        const { TabPane } = Tabs;
+
+        return (
+            <Layout className="sign-in">
+                <Content className="sign-in__content">
+                    <h1 className="sign-in__content-logo">
+                        <img src={Logo} alt="Soluciones++" />
+                    </h1>
+                </Content>
+            </Layout>
+        )
+    }
+    ```
+4. Crear **client\src\pages\Admin\SignIn\index.js**:
+    ```js
+    export { default } from "./SignIn"
+    ```
+5. Crear archivo de estilo **client\src\pages\Admin\SignIn\SingIn.scss**:
+    ```js
+    @import "../../../scss/index.scss";
+
+    .sign-in {
+        background-image: url("../../../assets/img/png/background-v1.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+    }
+    ```
+6. Ubicar una imagen de fondo negro y almacenarla en **client\src\assets\img\png\background-v1.jpg**.
 7. Commit Video 062:
     + $ git add .
     + $ git commit -m "1/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 063. 2/2 - Creando la estructura básica de la pagina de SignIn con Tabs
 
@@ -2104,6 +2184,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 064. Creando la estructura del formulario de registro en la pagina SignIn
 
