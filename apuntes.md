@@ -1913,7 +1913,7 @@
 
     const UserSchema = Schema({
         name: String,
-        lastnmae: String,
+        lastname: String,
         email: {
             type: String,
             unique: true
@@ -1979,7 +1979,7 @@
     + $ git push -u origin main
 
 ### 060. 1/2 - Endpoint para crear nuevos usuarios
-1. Modificar controlador server\controllers\user.js:
+1. Modificar controlador **server\controllers\user.js**:
     ```js
     ≡
     function signUp(req, res){
@@ -2021,15 +2021,71 @@
     + $ git push -u origin main
 
 ### 061. 2/2 - Endpoint para crear nuevos usuarios
+1. Modificar controlador **server\controllers\user.js**:
+    ```js
+    const bcrypt = require("bcrypt-node")
+    const User = require("../models/user")
 
-7. Commit Video 061:
+    function signUp(req, res){
+        const user = new User()
+        console.log(req.body)
+        const { name, lastname, email, password, repeatPassword } = req.body
+        user.name = name    
+        user.lastname = lastname
+        user.email = email
+        user.role = "admin"
+        user.active = false
+        if(!password || !repeatPassword){
+            res.status(404).send({message: "Las contraseñas son requeridas"})
+        }else{
+            if(password !== repeatPassword){
+                res.status(404).send({message: "Las contraseñas tienen que ser iguales"})
+            }else{
+                // res.status(200).send({message: "Todo bien ..."})
+                bcrypt.hash(password, null, null, function(err, hash) {
+                    if(err){
+                        res.status(500).send({message: "Error al encriptar la contraseña"})
+                    }else{
+                        // res.status(200).send({message: hash})
+                        user.password = hash
+                        user.save((err, userStored) => {
+                            if(err){
+                                res.status(500).send({message: "Error del servidor al crear nuevo usuario. Error: " + err })
+                            }else{
+                                if(!userStored){
+                                    res.status(404).send({message: "Error al crear nuevo usuario"})
+                                }else{
+                                    res.status(200).send({user: userStored})
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    }
+
+    module.exports = {
+        signUp
+    }
+    ```
+2. Realizar petición http (sign-up):
+    + Método: post
+    + URL: http://localhost:3977/api/v1/sign-up
+        + Body:
+            ```json
+            {
+                "name": "Pedro Jesús",
+                "lastname": "Bazó Canelón",
+                "email": "bazo.pedro@gmail.com",
+                "password": "12345678",
+                "repeatPassword": "12345678"
+            }
+            ```
+3. Commit Video 061:
     + $ git add .
     + $ git commit -m "2/2 - Endpoint para crear nuevos usuarios"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 062. 1/2 - Creando la estructura básica de la pagina de SignIn con Tabs
 
@@ -2037,6 +2093,10 @@
     + $ git add .
     + $ git commit -m "1/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 063. 2/2 - Creando la estructura básica de la pagina de SignIn con Tabs
 
