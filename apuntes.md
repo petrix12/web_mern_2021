@@ -2302,11 +2302,7 @@
     ```js
     export { default } from "./RegisterForm"
     ```
-2. Crear archivo de estilo **client\src\components\Admin\RegisterForm\RegisterForm.scss**:
-    ```scss
-    @import "../../../scss/index.scss";
-    ```
-3. Crear componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+2. Crear componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
     ```js
     import { useState } from "react";
     import { Form, Input, Button, Checkbox, notification } from "antd"
@@ -2360,7 +2356,7 @@
         )
     }
     ```
-4. Modificar vista **client\src\pages\Admin\SignIn\SignIn.js**:
+3. Modificar vista **client\src\pages\Admin\SignIn\SignIn.js**:
     ```js
     ≡
     import RegisterForm from "../../../components/Admin/RegisterForm"
@@ -2385,21 +2381,67 @@
         )
     }
     ```
-5. Commit Video 064:
+4. Commit Video 064:
     + $ git add .
     + $ git commit -m "Creando la estructura del formulario de registro en la pagina SignIn"
     + $ git push -u origin main
 
 ### 065. Escribiendo el SASS del formulario de registro en la pagina SignIn
+1. Crear archivo de estilo **client\src\components\Admin\RegisterForm\RegisterForm.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
 
-7. Commit Video 065:
+    .register-form {
+        text-align: left;
+
+        .ant-form-item {
+            &:nth-child(3),
+            &:last-of-type {
+                margin: 0;
+            }
+        }
+
+        &__input {
+            .ant-input-prefix {
+                i {
+                    font-size: 0em + 22px / $defaultFontSize;
+                }
+            }
+
+            input {
+                font-size: 0em + 18px / $defaultFontSize;
+                padding: 5px 5px 5px 10px !important;
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: none;
+                }
+            }
+        }
+
+    &__button {
+            width: 100%;
+            font-size: 0em + 22px / $defaultFontSize;
+            background-color: $primary-color;
+            color: $font-light;
+            height: 42px;
+
+            &:hover {
+                background-color: $primary-color-hover;
+                color: $font-light;
+            }
+            &:focus,
+            &:active {
+                background-color: $primary-color;
+                color: $font-light;
+                border: 0;
+            }
+        }
+    }   
+    ```
+2. Commit Video 065:
     + $ git add .
     + $ git commit -m "Escribiendo el SASS del formulario de registro en la pagina SignIn"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 066. Guardando la información del formulario de registro en un estado con useState
 
@@ -2407,6 +2449,10 @@
     + $ git add .
     + $ git commit -m "Guardando la información del formulario de registro en un estado con useState"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 067. Creando funciones reutilizables de validaciones
 

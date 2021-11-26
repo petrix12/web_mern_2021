@@ -1,7 +1,7 @@
 @import "../../../scss/index.scss";
 
 .register-form {
-    /* text-align: left;
+    text-align: left;
 
     .ant-form-item {
         &:nth-child(3),
@@ -18,8 +18,8 @@
         }
 
         input {
-            font-size: 0em + 20px / $defaultFontSize;
-            padding: 20px 20px 20px 40px !important;
+            font-size: 0em + 18px / $defaultFontSize;
+            padding: 5px 5px 5px 10px !important;
             &:focus {
                 border-color: $primary-color;
                 box-shadow: none;
@@ -27,7 +27,7 @@
         }
     }
 
-    &__button {
+   &__button {
         width: 100%;
         font-size: 0em + 22px / $defaultFontSize;
         background-color: $primary-color;
@@ -44,5 +44,5 @@
             color: $font-light;
             border: 0;
         }
-    } */
+    }
 }
