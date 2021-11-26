@@ -1905,46 +1905,225 @@
 ## Sección 07: Creación del registro de nuevos usuarios
 
 ### 059. Creación del controlador, modelo y ruta para los usuarios
+1. Ir al proyecto **server**.
+2. Crear modelo **server\models\user.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const Schema = mongoose.Schema
 
-1. Commit Video 05:
+    const UserSchema = Schema({
+        name: String,
+        lastnmae: String,
+        email: {
+            type: String,
+            unique: true
+        },
+        password: String,
+        role: String,
+        active: Boolean
+    })
+
+    module.exports = mongoose.model("User", UserSchema)
+    ```
+3. Crear controlador **server\controllers\user.js**:
+    ```js
+    const bcrypt = require("bcrypt-node")
+    const User = require("../models/user")
+
+    function signUp(req, res){
+        console.log('Endpoint de signUp ejecutado')
+    }
+
+    module.exports = {
+        signUp
+    }
+    ```
+4. Crear archivo de rutas **server\routers\user.js**:
+    ```js
+    const express = require("express")
+    const UserController = require("../controllers/user")
+
+    const api = express.Router()
+
+    api.post("/sign-up", UserController.signUp)
+
+    module.exports = api
+    ```
+5. Modificar **server\app.js**:
+    ```js
+    ≡
+
+    // Load routings
+    const userRoutes = require('./routers/user')
+
+    ≡
+
+    // Configure Header HTTP
+    // ....
+
+    // Basic Routers
+    app.use(`/api/${API_VERSION}`, userRoutes)
+
+    module.exports = app
+    ```
+6. Prueba http:
+    + Iniciar aplicación servidor:
+        + $ yarn start
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/sign-up
+    + Guardar endpoint como: **sign-up**
+7. Commit Video 05:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creación del controlador, modelo y ruta para los usuarios"
+    + $ git push -u origin main
+
+### 060. 1/2 - Endpoint para crear nuevos usuarios
+1. Modificar controlador server\controllers\user.js:
+    ```js
+    ≡
+    function signUp(req, res){
+        const user = new User()
+        console.log(req.body)
+        const { email, password, repeatPassword } = req.body
+        user.mail = email
+        user.role = "admin"
+        user.active = false
+        if(!password || !repeatPassword){
+            res.status(404).send({message: "Las contraseñas son requeridas"})
+        }else{
+            if(password !== repeatPassword){
+                res.status(404).send({message: "Las contraseñas tienen que ser iguales"})
+            }else{
+                // res.status(200).send({message: "Todo bien ..."})
+                bcrypt.hash(password, null, null, function(err, hash) {
+                    
+                })
+            }
+        }
+    }
+    ≡
+    ```
+2. Realizar petición http (sign-up):
+    + Método: post
+    + URL: http://localhost:3977/api/v1/sign-up
+        + Body:
+            ```json
+            {
+                "email": "bazo.pedro@gmail.com",
+                "password": "12345678",
+                "repeatPassword": "12345678"
+            }
+            ```
+3. Commit Video 060:
+    + $ git add .
+    + $ git commit -m "1/2 - Endpoint para crear nuevos usuarios"
+    + $ git push -u origin main
+
+### 061. 2/2 - Endpoint para crear nuevos usuarios
+
+7. Commit Video 061:
+    + $ git add .
+    + $ git commit -m "2/2 - Endpoint para crear nuevos usuarios"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
 
-### 060. 1/2 - Endpoint para crear nuevos usuarios
-9 min
-### 061. 2/2 - Endpoint para crear nuevos usuarios
-11 min
 ### 062. 1/2 - Creando la estructura básica de la pagina de SignIn con Tabs
-14 min
+
+7. Commit Video 062:
+    + $ git add .
+    + $ git commit -m "1/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
+    + $ git push -u origin main
+
 ### 063. 2/2 - Creando la estructura básica de la pagina de SignIn con Tabs
-18 min
+
+7. Commit Video 063:
+    + $ git add .
+    + $ git commit -m "2/2 - Creando la estructura básica de la pagina de SignIn con Tabs"
+    + $ git push -u origin main
+
 ### 064. Creando la estructura del formulario de registro en la pagina SignIn
-13 min
+
+7. Commit Video 064:
+    + $ git add .
+    + $ git commit -m "Creando la estructura del formulario de registro en la pagina SignIn"
+    + $ git push -u origin main
+
 ### 065. Escribiendo el SASS del formulario de registro en la pagina SignIn
-8 min
+
+7. Commit Video 065:
+    + $ git add .
+    + $ git commit -m "Escribiendo el SASS del formulario de registro en la pagina SignIn"
+    + $ git push -u origin main
+
 ### 066. Guardando la información del formulario de registro en un estado con useState
-13 min
+
+7. Commit Video 066:
+    + $ git add .
+    + $ git commit -m "Guardando la información del formulario de registro en un estado con useState"
+    + $ git push -u origin main
+
 ### 067. Creando funciones reutilizables de validaciones
-11 min
+
+7. Commit Video 067:
+    + $ git add .
+    + $ git commit -m "Creando funciones reutilizables de validaciones"
+    + $ git push -u origin main
+
 ### 068. Reutilizando las funciónes de validación en el formulario de registro de usuario
-14 min
+
+7. Commit Video 068:
+    + $ git add .
+    + $ git commit -m "Reutilizando las funciónes de validación en el formulario de registro de usuario"
+    + $ git push -u origin main
+
 ### 069. Terminando la validando del formulario de registro de usuarios
-12 min
+
+7. Commit Video 069:
+    + $ git add .
+    + $ git commit -m "Terminando la validando del formulario de registro de usuarios"
+    + $ git push -u origin main
+
 ### 070. 1/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
-15 min
+
+7. Commit Video 070:
+    + $ git add .
+    + $ git commit -m "1/2 - Conectando con el Enpoint de registro de usuario y creando el usuario"
+    + $ git push -u origin main
+
 ### 071. 2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
-14 min
+
+7. Commit Video 071:
+    + $ git add .
+    + $ git commit -m "2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario"
+    + $ git push -u origin main
+
 ### 072. Reseteando el formulario cuando el registro es correcto
-5 min
-### 03. Formateando Email de registro con toLowerCase
-3 min
+
+7. Commit Video 072:
+    + $ git add .
+    + $ git commit -m "Reseteando el formulario cuando el registro es correcto"
+    + $ git push -u origin main
+
+### 073. Formateando Email de registro con toLowerCase
+
+7. Commit Video 073:
+    + $ git add .
+    + $ git commit -m "Formateando Email de registro con toLowerCase"
+    + $ git push -u origin main
+
+## Sección 08: Creación del login de usuario con JWT y el sistema de auth con TOKENS
+
 ### 074. Creando el servicio para la creación de los tokens
-12 min
+
+1. Commit Video 07:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 075. 1/2 - Creación del ENDPOINT para hacer login
 17 min
 ### 076. 2/2 - Creación del ENDPOINT para hacer login
@@ -2146,7 +2325,26 @@
 ### 210. Repositorio de la aplicación
 ### 211. Clase Extra
 
+## Reiniciar aplicación
++ $ yarn cache clean
++ $ yarn
++ $ yarn run dev
 
-    + $ yarn cache clean
-    + $ yarn
-    + $ yarn run dev
+## Equivalencias entre yarn y npm
++ https://shift.infinite.red/npm-vs-yarn-cheat-sheet-8755b092e5cc
++ npm install === yarn
++ npm install taco --save === yarn add taco
++ npm uninstall taco --save === yarn remove taco
++ npm install taco --save-dev === yarn add taco --dev
++ npm update --save === yarn upgrade
++ npm install taco@latest --save === yarn add taco
++ npm install taco --global === yarn global add taco
++ npm init === yarn init
++ npm link === yarn link
++ npm outdated === yarn outdated
++ npm publish === yarn publish
++ npm run === yarn run
++ npm cache clean === yarn cache clean
++ npm login === yarn login (and logout)
++ npm test === yarn test
++ npm install --production === yarn --production
