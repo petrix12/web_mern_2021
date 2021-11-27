@@ -2904,15 +2904,59 @@
     + $ git push -u origin main
 
 ### 071. 2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
-
-7. Commit Video 071:
+1. Modificar **client\src\api\user.js**:
+    ```js
+    ≡
+    export function signUpApi(data) {
+        ≡
+        return fetch(url, params)
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                if (result.user) {
+                    return { ok: true, message: "Usuario creado correctamente" }
+                }
+                return { ok: false, message: result.message }
+            })
+            .catch(err => {
+                return { ok: false, message: err.message }
+            })
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+    ```js
+    const register = async e => {
+        ≡
+        if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
+            notification["error"]({
+                message: "Todos los campos son obligatorios"
+            });
+        } else {
+            if (passwordVal !== repeatPasswordVal) {
+                notification["error"]({
+                    message: "Las contraseñas tienen que ser iguales."
+                })
+            } else {
+                const result = await signUpApi(inputs)
+                /* console.log(result) */
+                if (!result.ok) {
+                    notification["error"]({
+                        message: result.message
+                    });
+                } else {
+                    notification["success"]({
+                        message: result.message
+                    });
+                }
+            }                       
+        } 
+    }
+    ```
+3. Commit Video 071:
     + $ git add .
     + $ git commit -m "2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 072. Reseteando el formulario cuando el registro es correcto
 
@@ -2920,6 +2964,10 @@
     + $ git add .
     + $ git commit -m "Reseteando el formulario cuando el registro es correcto"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 073. Formateando Email de registro con toLowerCase
 

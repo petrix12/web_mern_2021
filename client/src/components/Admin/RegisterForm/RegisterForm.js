@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { emailValidation, minLengthValidation } from "../../../utils/formValidation"
 import { signUpApi } from "../../../api/user"
-import "./RegisterForm.scss";
+import "./RegisterForm.scss"
 
 export default function RegisterForm() {
     const [inputs, setInputs] = useState({
@@ -37,28 +37,28 @@ export default function RegisterForm() {
 
     const inputValidation = e => {
         /* console.log('Validando...') */
-        const { type, name } = e.target;
+        const { type, name } = e.target
 
         if (type === "email") {
-            setFormValid({ ...formValid, [name]: emailValidation(e.target) });
+            setFormValid({ ...formValid, [name]: emailValidation(e.target) })
         }
         if (type === "password") {
-            setFormValid({ ...formValid, [name]: minLengthValidation(e.target, 6) });
+            setFormValid({ ...formValid, [name]: minLengthValidation(e.target, 6) })
         }
         if (type === "checkbox") {
-            setFormValid({ ...formValid, [name]: e.target.checked });
+            setFormValid({ ...formValid, [name]: e.target.checked })
         }
     }
 
-    const register = /* async */ e => {
+    const register = async e => {
         /* e.preventDefault() */
         /* console.log(inputs) */
         const {email, password, repeatPassword, privacyPolicy} = formValid
 
-        const emailVal = inputs.email;
-        const passwordVal = inputs.password;
-        const repeatPasswordVal = inputs.repeatPassword;
-        const privacyPolicyVal = inputs.privacyPolicy;
+        const emailVal = inputs.email
+        const passwordVal = inputs.password
+        const repeatPasswordVal = inputs.repeatPassword
+        const privacyPolicyVal = inputs.privacyPolicy
 
         if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
             notification["error"]({
@@ -68,10 +68,11 @@ export default function RegisterForm() {
             if (passwordVal !== repeatPasswordVal) {
                 notification["error"]({
                     message: "Las contraseñas tienen que ser iguales."
-                });
+                })
             } else {
-                const result = /* await */ signUpApi(inputs);
-                /* if (!result.ok) {
+                const result = await signUpApi(inputs)
+                /* console.log(result) */
+                if (!result.ok) {
                     notification["error"]({
                         message: result.message
                     });
@@ -79,8 +80,8 @@ export default function RegisterForm() {
                     notification["success"]({
                         message: result.message
                     });
-                    resetForm();
-                } */
+                    /* resetForm() */
+                }
             }                       
         } 
     }
