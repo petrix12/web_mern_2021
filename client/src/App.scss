@@ -1,24 +1,11 @@
-@import './scss/index';
+@import "./scss/index.scss";
 
-/* .app {
-    color: red;
-} */
-
-/* .app h1 {
-    color: red;
+.success {
+    border: 1px solid $success;
+    background-color: $background-success;
 }
 
-.app h2 {
-    color: green;
-} */
-
-.app{
-    h1 {
-        /* color: red; */
-        color: $primary-color;
-    }
-    
-    h2 {
-        color: green;
-    }
+.error {
+    border: 1px solid $error;
+    background-color: $background-error;
 }

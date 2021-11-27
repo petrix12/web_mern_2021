@@ -53,10 +53,11 @@ export default function RegisterForm() {
     }
 
     const register = /* async */ e => {
-        e.preventDefault()
-        console.log(inputs)
+        /* e.preventDefault() */
+        /* console.log(inputs) */
+        const {email, password, repeatPassword, privacyPolicy} = formValid
 
-        /*const emailVal = inputs.email;
+        const emailVal = inputs.email;
         const passwordVal = inputs.password;
         const repeatPasswordVal = inputs.repeatPassword;
         const privacyPolicyVal = inputs.privacyPolicy;
@@ -71,7 +72,8 @@ export default function RegisterForm() {
                     message: "Las contraseñas tienen que ser iguales."
                 });
             } else {
-                const result = await signUpApi(inputs);
+                // TO DO: Conectar con el API y registrar el usuario
+                /*const result = await signUpApi(inputs);
                 if (!result.ok) {
                     notification["error"]({
                         message: result.message
@@ -81,9 +83,9 @@ export default function RegisterForm() {
                         message: result.message
                     });
                     resetForm();
-                }
+                }*/
             }                       
-        } */
+        } 
     }
 /*
   const resetForm = () => {
@@ -111,7 +113,7 @@ export default function RegisterForm() {
   */
 
     return (
-        <Form className="register-form" onSubmit={register} onChange={changeForm} >
+        <Form className="register-form" onFinish={register} onChange={changeForm} >
             <Form.Item>
                 <Input
                     prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -155,7 +157,7 @@ export default function RegisterForm() {
                 </Checkbox>
             </Form.Item>
             <Form.Item>
-                <Button htmlType="submit" className="register-form__button">
+                <Button htmlType="submit" className="register-form__button" type="primary">
                     Crear cuenta
                 </Button>
             </Form.Item>
