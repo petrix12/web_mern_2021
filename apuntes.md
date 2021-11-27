@@ -3142,15 +3142,46 @@
     + $ git push -u origin main
 
 ### 076. 2/2 - Creación del ENDPOINT para hacer login
+1. Modificar la función **signIn** del controlador **server\controllers\user.js**:
+    ```js
+    function signIn(req, res){
+        const params = req.body
+        const email = params.email.toLowerCase()
+        const password = params.password
 
-1. Commit Video 076:
+        User.findOne({email}, (err, userStored) => {
+            if(err){
+            res.status(500).send({message: "Error del servidor."}) 
+            } else {
+                if(!userStored){
+                    res.status(404).send({message: "Usuario no encontrado."})
+                } else {
+                    bcrypt.compare(password, userStored.password, (err, check) => {
+                        if(err){
+                            res.status(500).send({message: "Error del servidor."})
+                        } else if(!check) {
+                            res.status(404).send({message: "La contraseña es incorrecta."})
+                        } else {
+                            if(!userStored.active){
+                                res.status(200).send({code: 200, message: "El usuario no está activo."})
+                            } else {
+                                res.status(200).send({
+                                    accessToken: jwt.createAccessToken(userStored),
+                                    refreshToken: jwt.createRefreshToken(userStored)
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+            
+        })
+    }
+    ```
+2. Commit Video 076:
     + $ git add .
     + $ git commit -m "2/2 - Creación del ENDPOINT para hacer login"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 077. Creando estructura del formulario de login
 
@@ -3158,6 +3189,10 @@
     + $ git add .
     + $ git commit -m "Creando estructura del formulario de login"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 078. Guardando datos del formulario en el estado del componente
 

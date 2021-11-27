@@ -56,6 +56,8 @@ function signIn(req, res){
                 bcrypt.compare(password, userStored.password, (err, check) => {
                     if(err){
                         res.status(500).send({message: "Error del servidor."})
+                    } else if(!check) {
+                        res.status(404).send({message: "La contraseña es incorrecta."})
                     } else {
                         if(!userStored.active){
                             res.status(200).send({code: 200, message: "El usuario no está activo."})
@@ -71,8 +73,6 @@ function signIn(req, res){
         }
         
     })
-
-    /* console.log(params) */
 }
 
 module.exports = {
