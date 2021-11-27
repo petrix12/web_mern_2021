@@ -1911,7 +1911,7 @@
     const mongoose = require("mongoose")
     const Schema = mongoose.Schema
 
-    const UserSchema = Schema({
+    const UserSchame = Schema({
         name: String,
         lastname: String,
         email: {
@@ -1923,7 +1923,7 @@
         active: Boolean
     })
 
-    module.exports = mongoose.model("User", UserSchema)
+    module.exports = mongoose.model("User", UserSchame)
     ```
 3. Crear controlador **server\controllers\user.js**:
     ```js
@@ -3026,48 +3026,232 @@
 ## Sección 08: Creación del login de usuario con JWT y el sistema de auth con TOKENS
 
 ### 074. Creando el servicio para la creación de los tokens
++ **Documentación**:
+    + https://momentjs.com/docs
+    + https://yarnpkg.com/package/jwt-simple
+1. Crear archivo **server\services\jwt.js**:
+    ```js
+    const jwt = require("jwt-simple")
+    const moment = require("moment")
 
-1. Commit Video 07:
+    const SECRET_KEY = "alsjsla85sd55s55WWf444f55svvvs555s22As"
+
+    
+    exports.createAccessToken = function(user) {
+        const payload = {
+            id: user._id,
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role,
+            createToken: moment().unix(),
+            exp: moment().add(3, "hours").unix()
+        }
+
+        return jwt.encode(payload, SECRET_KEY)
+    }
+
+    exports.createRefreshToken = function(user) {
+        const payload = {
+            id: user._id,
+            exp: moment().add(30, "days").unix()
+        }
+
+        return jwt.encode(payload, SECRET_KEY)
+    }
+
+    exports.decodedToken = function(token) {
+        return jwt.decode(token, SECRET_KEY, true)
+    }
+    ```
+2. Commit Video 074:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando el servicio para la creación de los tokens"
+    + $ git push -u origin main
+
+### 075. 1/2 - Creación del ENDPOINT para hacer login
+1. Modificar controlador **server\controllers\user.js**:
+    ```js
+    const bcrypt = require("bcrypt-node")
+    const jwt = require("../services/jwt")
+    const User = require("../models/user")
+
+    function signUp(req, res){
+        ≡
+    }
+
+    function signIn(req, res){
+        const params = req.body
+        const email = params.email.toLowerCase()
+        const password = params.password
+
+        User.findOne({email}, (err, userStored) => {
+            if(err){
+            res.status(500).send({message: "Error del servidor."}) 
+            } else {
+                if(!userStored){
+                    res.status(404).send({message: "Usuario no encontrado."})
+                } else {
+                    bcrypt.compare(password, userStored.password, (err, check) => {
+                        if(err){
+                            res.status(500).send({message: "Error del servidor."})
+                        } else {
+                            if(!userStored.active){
+                                res.status(200).send({code: 200, message: "El usuario no está activo."})
+                            } else {
+                                res.status(200).send({
+                                    accessToken: jwt.createAccessToken(userStored),
+                                    refreshToken: jwt.createRefreshToken(userStored)
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+            
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn
+    }
+    ```
+2. Modificar archivo de rutas **server\routers\user.js**:
+    ```js
+    ≡
+    api.post("/sign-up", UserController.signUp)
+    api.post("/sign-in", UserController.signIn)
+    ≡
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/sign-in
+        + Body:
+            ```json
+            {
+                "email": "bazo.pedro@gmail.com",
+                "password": "12345678"
+            }
+            ```
+    + Guardar endpoint como: **sign-in**
+4. Commit Video 075:
+    + $ git add .
+    + $ git commit -m "1/2 - Creación del ENDPOINT para hacer login"
+    + $ git push -u origin main
+
+### 076. 2/2 - Creación del ENDPOINT para hacer login
+
+1. Commit Video 076:
+    + $ git add .
+    + $ git commit -m "2/2 - Creación del ENDPOINT para hacer login"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
 
-### 075. 1/2 - Creación del ENDPOINT para hacer login
-17 min
-### 076. 2/2 - Creación del ENDPOINT para hacer login
-6 min
 ### 077. Creando estructura del formulario de login
-15 min
+
+1. Commit Video 077:
+    + $ git add .
+    + $ git commit -m "Creando estructura del formulario de login"
+    + $ git push -u origin main
+
 ### 078. Guardando datos del formulario en el estado del componente
-8 min
+
+1. Commit Video 078:
+    + $ git add .
+    + $ git commit -m "Guardando datos del formulario en el estado del componente"
+    + $ git push -u origin main
+
 ### 079. Creando función para logear usuario que conecte con el api
-9 min
-### 080. Guardando los Tokens en el localStorage y creando constantes pata ello
-11 min
+
+1. Commit Video 079:
+    + $ git add .
+    + $ git commit -m "Creando función para logear usuario que conecte con el api"
+    + $ git push -u origin main
+
+### 080. Guardando los Tokens en el localStorage y creando constantes para ello
+
+1. Commit Video 080:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 081. Creando las funciones para obtener AccessToken y RefreshToken
-17 min
+
+1. Commit Video 081:
+    + $ git add .
+    + $ git commit -m "Creando las funciones para obtener AccessToken y RefreshToken"
+    + $ git push -u origin main
+
 ### 082. Creando endpoint para refrescar el AccessToken
-19 min
+
+1. Commit Video 082:
+    + $ git add .
+    + $ git commit -m "Creando endpoint para refrescar el AccessToken"
+    + $ git push -u origin main
+
 ### 083. Creando función para refrescar el AccessToken desde el cliente
-7 min
+
+1. Commit Video 083:
+    + $ git add .
+    + $ git commit -m "Creando función para refrescar el AccessToken desde el cliente"
+    + $ git push -u origin main
+
 ### 084. Función para deslogear un usuario
-3 min
+
+1. Commit Video 084:
+    + $ git add .
+    + $ git commit -m "Función para deslogear un usuario"
+    + $ git push -u origin main
+
 ### 085. Hook para comprobar si el usuario esta logeado o refrescar el token
-17 min
-### 086. Escribiendo la logica del AuthProvider
-12 min
-### 087. Bloqueando la pagina de login para usuarios logeados
-7 min
+
+1. Commit Video 085:
+    + $ git add .
+    + $ git commit -m "Hook para comprobar si el usuario esta logeado o refrescar el token"
+    + $ git push -u origin main
+
+### 086. Escribiendo la lógica del AuthProvider
+
+1. Commit Video 086:
+    + $ git add .
+    + $ git commit -m "Escribiendo la lógica del AuthProvider"
+    + $ git push -u origin main
+
+### 087. Bloqueando la página de login para usuarios logeados
+
+1. Commit Video 087:
+    + $ git add .
+    + $ git commit -m "Bloqueando la página de login para usuarios logeados"
+    + $ git push -u origin main
+
 ### 088. Añadiendo funcionalidad al botón de logout
-4 min
+
+1. Commit Video 088:
+    + $ git add .
+    + $ git commit -m "Añadiendo funcionalidad al botón de logout"
+    + $ git push -u origin main
+
 ### 089. Activando Usuario desactivado
-2 min
+
+1. Commit Video 089:
+    + $ git add .
+    + $ git commit -m "Activando Usuario desactivado"
+    + $ git push -u origin main
+
+## Sección 09: Panel de Administración de usuarios
+
 ### 090. Creando el menu de usuarios
-6 min
+
+1. Commit Video 09:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 091. Solucionando cambio del menú al recargar la página
 5 min
 ### 092. Creando Endpoint para obtener todos los usuarios
@@ -3237,11 +3421,6 @@
 ### 210. Repositorio de la aplicación
 ### 211. Clase Extra
 
-## Reiniciar aplicación
-+ $ yarn cache clean
-+ $ yarn
-+ $ yarn run dev
-
 ## Equivalencias entre yarn y npm
 + https://shift.infinite.red/npm-vs-yarn-cheat-sheet-8755b092e5cc
 + npm install === yarn
@@ -3260,3 +3439,19 @@
 + npm login === yarn login (and logout)
 + npm test === yarn test
 + npm install --production === yarn --production
+
+## Reiniciar aplicación cliente
++ $ yarn cache clean
++ $ yarn
++ $ yarn run dev
+
+## Iniciar proyecto en local
++ Nota: cada uno de los servicios debe ejecutarse en una terminal distinta.
++ Iniciar servidor
+    + $ cd server
+    + $ yarn start
++ Iniciar base de datos
+    + $ mongod
++ Iniciar cliente
+    + $ cd client
+    + $ yarn dev
