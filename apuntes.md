@@ -3012,15 +3012,16 @@
     + $ git push -u origin main
 
 ### 073. Formateando Email de registro con toLowerCase
-
-7. Commit Video 073:
+1. Modificar el controlador **server\controllers\user.js** para colocar todos los caracteres del campo **email** en minúsculas:
+    ```js
+    ≡
+    user.email = email.toLowerCase()
+    ≡
+    ```
+2. Commit Video 073:
     + $ git add .
     + $ git commit -m "Formateando Email de registro con toLowerCase"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ## Sección 08: Creación del login de usuario con JWT y el sistema de auth con TOKENS
 
@@ -3030,6 +3031,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 075. 1/2 - Creación del ENDPOINT para hacer login
 17 min
