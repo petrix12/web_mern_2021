@@ -2959,15 +2959,57 @@
     + $ git push -u origin main
 
 ### 072. Reseteando el formulario cuando el registro es correcto
+1. Modificar componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+    ```js
+    const register = async e => {
+        ≡
+        if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
+            ≡
+        } else {
+            if (passwordVal !== repeatPasswordVal) {
+                ≡
+            } else {
+                ≡
+                if (!result.ok) {
+                    ≡
+                } else {
+                    notification["success"]({
+                        message: result.message
+                    });
+                    resetForm()
+                }
+            }                       
+        } 
+    }
 
-7. Commit Video 072:
+    const resetForm = () => {
+        const inputs = document.getElementsByTagName("input");
+
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].classList.remove("success")
+            inputs[i].classList.remove("error")
+        }
+
+        setInputs({
+            email: "",
+            password: "",
+            repeatPassword: "",
+            privacyPolicy: false
+        })
+
+        setFormValid({
+            email: false,
+            password: false,
+            repeatPassword: false,
+            privacyPolicy: false
+        })
+    }
+    ≡
+    ```
+2. Commit Video 072:
     + $ git add .
     + $ git commit -m "Reseteando el formulario cuando el registro es correcto"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 073. Formateando Email de registro con toLowerCase
 
@@ -2975,6 +3017,10 @@
     + $ git add .
     + $ git commit -m "Formateando Email de registro con toLowerCase"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 08: Creación del login de usuario con JWT y el sistema de auth con TOKENS
 
