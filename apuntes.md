@@ -2846,15 +2846,62 @@
     + $ git push -u origin main
 
 ### 070. 1/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
+1. Crear archivo **client\src\api\config.js**:
+    ```js
+    export const basePath = "http://localhost:3977/api"
+    export const apiVersion = "v1"
+    ```
+2. Crear archivo **client\src\api\user.js**:
+    ```js
+    import { basePath, apiVersion } from "./config";
 
-7. Commit Video 070:
+    export function signUpApi(data) {
+        const url = `${basePath}/${apiVersion}/sign-up`
+        const params = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        fetch(url, params).then(response => {
+            console.log(response)
+        })
+    }
+    ```
+3. Modificar componente **client\src\components\Admin\RegisterForm\RegisterForm.js**:
+    ```js
+    ≡
+    import { signUpApi } from "../../../api/user"
+    import "./RegisterForm.scss";
+
+    export default function RegisterForm() {
+        ≡
+        const register = e => {
+            ≡
+            if (!emailVal || !passwordVal || !repeatPasswordVal || !privacyPolicyVal) {
+                ≡
+            } else {
+                if (passwordVal !== repeatPasswordVal) {
+                    ≡
+                } else {
+                    const result = signUpApi(inputs);
+                }                       
+            } 
+        }
+
+        return (
+            ≡
+        )
+    }
+    ```
+4. Para evitar el error de **Failed to fetch** que se produce cuando se ejecuta la aplicación el local, instalar la extensión de **Google Chrome**:
+    + Moesif Origin & CORS Changer
+5. Commit Video 070:
     + $ git add .
     + $ git commit -m "1/2 - Conectando con el Enpoint de registro de usuario y creando el usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 071. 2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario
 
@@ -2862,6 +2909,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Conectando con el Enpoint de registro de usuario y creando el usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 072. Reseteando el formulario cuando el registro es correcto
 

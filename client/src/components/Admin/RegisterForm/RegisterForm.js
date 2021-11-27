@@ -3,9 +3,7 @@ import { Form, Input, Button, Checkbox, notification } from "antd"
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { emailValidation, minLengthValidation } from "../../../utils/formValidation"
-
-/* import { signUpApi } from "../../../api/user"; */
-
+import { signUpApi } from "../../../api/user"
 import "./RegisterForm.scss";
 
 export default function RegisterForm() {
@@ -72,9 +70,8 @@ export default function RegisterForm() {
                     message: "Las contraseñas tienen que ser iguales."
                 });
             } else {
-                // TO DO: Conectar con el API y registrar el usuario
-                /*const result = await signUpApi(inputs);
-                if (!result.ok) {
+                const result = /* await */ signUpApi(inputs);
+                /* if (!result.ok) {
                     notification["error"]({
                         message: result.message
                     });
@@ -83,7 +80,7 @@ export default function RegisterForm() {
                         message: result.message
                     });
                     resetForm();
-                }*/
+                } */
             }                       
         } 
     }
