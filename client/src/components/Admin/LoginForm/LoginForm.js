@@ -2,9 +2,8 @@ import { useState } from "react"
 import { Form, Input, Button, notification } from "antd"
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
-/*import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants"*/
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants"
 import { signInApi } from "../../../api/user"
-
 import "./LoginForm.scss"
 
 export default function LoginForm() {
@@ -20,27 +19,23 @@ export default function LoginForm() {
 		})
 	};
 
-	const login = /* async */ e => {
+	const login = async e => {
 		/* e.preventDefault() */
-		
-/*		const result = await */ signInApi(inputs)
-		/*if (result.message) {
-		notification["error"]({
-			message: result.message
-		});
+		const result = await signInApi(inputs)
+		if (result.message) {
+			notification["error"]({
+				message: result.message
+			});
 		} else {
-		const { accessToken, refreshToken } = result;
-		localStorage.setItem(ACCESS_TOKEN, accessToken);
-		localStorage.setItem(REFRESH_TOKEN, refreshToken);
+			const { accessToken, refreshToken } = result;
+			localStorage.setItem(ACCESS_TOKEN, accessToken);
+			localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
-		notification["success"]({
-			message: "Login correcto."
-		});
-
-		window.location.href = "/admin";
+			notification["success"]({
+				message: "Login correcto."
+			});
+			window.location.href = "/admin"
 		}
-
-		console.log(result);*/
 	}
 	
 	return (

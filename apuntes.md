@@ -3456,15 +3456,48 @@
     + $ git push -u origin main
 
 ### 080. Guardando los Tokens en el localStorage y creando constantes para ello
-
-1. Commit Video 080:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear **client\src\utils\constants.js**:
     ```js
+    export const ACCESS_TOKEN = "accessToken"
+    export const REFRESH_TOKEN = "refreshToken"
     ```
+2. Modificar componente **client\src\components\Admin\LoginForm\LoginForm.js**:
+    ```js
+    ≡
+    import 'antd/dist/antd.css'
+    import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants"
+    ≡
+
+    export default function LoginForm() {
+        ≡
+        const login = async e => {
+            /* e.preventDefault() */    
+            const result = await signInApi(inputs)
+            if (result.message) {
+                notification["error"]({
+                    message: result.message
+                });
+            } else {
+                const { accessToken, refreshToken } = result;
+                localStorage.setItem(ACCESS_TOKEN, accessToken);
+                localStorage.setItem(REFRESH_TOKEN, refreshToken);
+
+                notification["success"]({
+                    message: "Login correcto."
+                });
+                window.location.href = "/admin"
+            }
+        }
+        
+        return (
+            ≡
+        )
+    }
+    ```
+3. Commit Video 080:
+    + $ git add .
+    + $ git commit -m "Guardando los Tokens en el localStorage y creando constantes para ello"
+    + $ git push -u origin main
 
 ### 081. Creando las funciones para obtener AccessToken y RefreshToken
 
@@ -3472,6 +3505,10 @@
     + $ git add .
     + $ git commit -m "Creando las funciones para obtener AccessToken y RefreshToken"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 082. Creando endpoint para refrescar el AccessToken
 
