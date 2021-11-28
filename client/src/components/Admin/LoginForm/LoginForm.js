@@ -2,10 +2,9 @@ import { useState } from "react"
 import { Form, Input, Button, notification } from "antd"
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
+/*import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants"*/
+import { signInApi } from "../../../api/user"
 
-/*import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
-import { signInApi } from "../../../api/user";
-*/
 import "./LoginForm.scss"
 
 export default function LoginForm() {
@@ -23,10 +22,9 @@ export default function LoginForm() {
 
 	const login = /* async */ e => {
 		/* e.preventDefault() */
-		console.log(inputs)
-/*		const result = await signInApi(inputs);
-
-		if (result.message) {
+		
+/*		const result = await */ signInApi(inputs)
+		/*if (result.message) {
 		notification["error"]({
 			message: result.message
 		});

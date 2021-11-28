@@ -3367,15 +3367,93 @@
     + $ git push -u origin main
 
 ### 079. Creando función para logear usuario que conecte con el api
+1. Crear función **signInApi** en **client\src\api\user.js**:
+    ```js
+    export function signInApi(data) {
+        const url = `${basePath}/${apiVersion}/sign-in`;
+        console.log(data, 'url')
+        const params = {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                console.log(result)
+                return result
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\LoginForm\LoginForm.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Button, notification } from "antd"
+    import { UserOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { signInApi } from "../../../api/user"
 
-1. Commit Video 079:
+    import "./LoginForm.scss"
+
+    export default function LoginForm() {
+        const [inputs, setInputs] = useState({
+            email: "",
+            password: ""
+        })
+    
+        const changeForm = e => {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.value
+            })
+        };
+
+        const login = e => {
+            /* e.preventDefault() */
+            signInApi(inputs)
+        }
+        
+        return (
+            <Form className="login-form"  onChange={changeForm} onFinish={login} >
+                <Form.Item>
+                    <Input
+                        prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="email"
+                        name="email"
+                        placeholder="Correo electrónico"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit" className="login-form__button">
+                        Entrar
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+3. Commit Video 079:
     + $ git add .
     + $ git commit -m "Creando función para logear usuario que conecte con el api"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 080. Guardando los Tokens en el localStorage y creando constantes para ello
 
@@ -3383,6 +3461,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 081. Creando las funciones para obtener AccessToken y RefreshToken
 
