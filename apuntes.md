@@ -3240,7 +3240,7 @@
         &__input {
             .ant-input-prefix {
                 i {
-                    form-size: 0em + 22px / $defaultFontSize;
+                    font-size: 0em + 22px / $defaultFontSize;
                 }
             }
 
@@ -3306,15 +3306,65 @@
     + $ git push -u origin main
 
 ### 078. Guardando datos del formulario en el estado del componente
+1. Modificar componente **client\src\components\Admin\LoginForm\LoginForm.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Button, notification } from "antd"
+    import { UserOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./LoginForm.scss"
 
-1. Commit Video 078:
+    export default function LoginForm() {
+        const [inputs, setInputs] = useState({
+            email: "",
+            password: ""
+        })
+    
+        const changeForm = e => {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.value
+            })
+        };
+
+        const login = /* async */ e => {
+            /* e.preventDefault() */
+            console.log(inputs)
+        }
+        
+        return (
+            <Form className="login-form"  onChange={changeForm} onFinish={login} >
+                <Form.Item>
+                    <Input
+                        prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="email"
+                        name="email"
+                        placeholder="Correo electrónico"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit" className="login-form__button">
+                        Entrar
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+2. Commit Video 078:
     + $ git add .
     + $ git commit -m "Guardando datos del formulario en el estado del componente"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 079. Creando función para logear usuario que conecte con el api
 
@@ -3322,6 +3372,10 @@
     + $ git add .
     + $ git commit -m "Creando función para logear usuario que conecte con el api"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 080. Guardando los Tokens en el localStorage y creando constantes para ello
 

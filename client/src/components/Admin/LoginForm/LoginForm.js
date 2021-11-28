@@ -9,21 +9,22 @@ import { signInApi } from "../../../api/user";
 import "./LoginForm.scss"
 
 export default function LoginForm() {
-	/* const [inputs, setInputs] = useState({
+	const [inputs, setInputs] = useState({
 		email: "",
 		password: ""
-	});
-
+	})
+ 
 	const changeForm = e => {
 		setInputs({
-		...inputs,
-		[e.target.name]: e.target.value
-		});
+			...inputs,
+			[e.target.name]: e.target.value
+		})
 	};
 
-	const login = async e => {
-		e.preventDefault();
-		const result = await signInApi(inputs);
+	const login = /* async */ e => {
+		/* e.preventDefault() */
+		console.log(inputs)
+/*		const result = await signInApi(inputs);
 
 		if (result.message) {
 		notification["error"]({
@@ -41,12 +42,11 @@ export default function LoginForm() {
 		window.location.href = "/admin";
 		}
 
-		console.log(result);
-	}; */
+		console.log(result);*/
+	}
 	
 	return (
-		
-		<Form className="login-form" /* onChange={changeForm} onFinish={login} */>
+		<Form className="login-form"  onChange={changeForm} onFinish={login} >
 		 	<Form.Item>
 				<Input
 					prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
