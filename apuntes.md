@@ -3184,15 +3184,126 @@
     + $ git push -u origin main
 
 ### 077. Creando estructura del formulario de login
+1. Crear **client\src\components\Admin\LoginForm\index.js**:
+    ```js
+    export { default } from "./LoginForm"
+    ```
+2. Crear componente **client\src\components\Admin\LoginForm\LoginForm.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Button, notification } from "antd"
+    import { UserOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./LoginForm.scss"
 
-1. Commit Video 077:
+    export default function LoginForm() {
+        return (
+            <Form className="login-form" >
+                <Form.Item>
+                    <Input
+                        prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="email"
+                        name="email"
+                        placeholder="Correo electrónico"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+                        type="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        className="login-form__input"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit" className="login-form__button">
+                        Entrar
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+3. Crear componente **client\src\components\Admin\LoginForm\LoginForm.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .login-form {
+        text-align: left;
+
+        .ant-form-item:last-of-type {
+            margin: 0;
+        }
+
+        &__input {
+            .ant-input-prefix {
+                i {
+                    form-size: 0em + 22px / $defaultFontSize;
+                }
+            }
+
+            input {
+                font-size: size(22) /* 0em + 18px / $defaultFontSize */;
+                padding: 5px 5px 5px 100px !important;
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        &__button {
+            width: 100%;
+            font-size: 0em + 22px / $defaultFontSize;
+            background-color: $primary-color;
+            color: $font-light;
+            height: 42px;
+            margin-top: 20px;
+
+            &:hover {
+                background-color: $primary-color-hover;
+                color: $font-light;
+            }
+            &:focus,
+            &:active {
+                background-color: $primary-color;
+                color: $font-light;
+                border: 0;
+            }
+        }
+    }
+    ```
+4. Agregar componente **LoginForm** a la vista **client\src\pages\Admin\SignIn\SignIn.js**:
+    ```js
+    ≡
+    import LoginForm from "../../../components/Admin/LoginForm"
+    import "./SingIn.scss"
+
+    export default function SignIn() {
+        ≡
+        return (
+            <Layout className="sign-in">
+                <Content className="sign-in__content">
+                    ≡
+                    <div className="sign-in__content-tabs">
+                        <Tabs type="card">
+                            <TabPane tab={<span>Entrar</span>} key="1">
+                                <LoginForm />
+                            </TabPane>
+                            ≡
+                        </Tabs>
+                    </div> 
+                </Content>
+            </Layout>
+        )
+    }
+    ```
+5. Commit Video 077:
     + $ git add .
     + $ git commit -m "Creando estructura del formulario de login"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 078. Guardando datos del formulario en el estado del componente
 
@@ -3200,6 +3311,10 @@
     + $ git add .
     + $ git commit -m "Guardando datos del formulario en el estado del componente"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 079. Creando función para logear usuario que conecte con el api
 

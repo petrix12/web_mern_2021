@@ -3,8 +3,8 @@ import 'antd/dist/antd.css'
 import { Redirect } from "react-router-dom"
 import Logo from "../../../assets/img/png/logo.png"
 import RegisterForm from "../../../components/Admin/RegisterForm"
-/* import LoginForm from "../../../components/Admin/LoginForm"
-import { getAccessTokenApi } from "../../../api/auth" */
+import LoginForm from "../../../components/Admin/LoginForm"
+/* import { getAccessTokenApi } from "../../../api/auth" */
 
 import "./SingIn.scss"
 
@@ -25,8 +25,7 @@ export default function SignIn() {
                  <div className="sign-in__content-tabs">
                     <Tabs type="card">
                         <TabPane tab={<span>Entrar</span>} key="1">
-                            Componente LonginForm
-                            {/*<LoginForm />*/}
+                            <LoginForm />
                         </TabPane>
                         <TabPane tab={<span>Nuevo usuario</span>} key="2">
                             <RegisterForm />
