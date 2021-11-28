@@ -2764,9 +2764,6 @@
 
         const register = e => {
             /* e.preventDefault() */
-            /* console.log(inputs) */
-            const {email, password, repeatPassword, privacyPolicy} = formValid
-
             const emailVal = inputs.email;
             const passwordVal = inputs.password;
             const repeatPasswordVal = inputs.repeatPassword;
@@ -3500,15 +3497,48 @@
     + $ git push -u origin main
 
 ### 081. Creando las funciones para obtener AccessToken y RefreshToken
+1. Parar la ejecución de la aplicación cliente e instalar **jwt-decode** (decodificador para los tokens):
+    + $ yarn add jwt-decode
+    + Reiniciar la aplicación:
+        + $ yarn dev
+2. Crear **client\src\api\auth.js**:
+    ```js
+    import { basePath, apiVersion } from "./config"
+    import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants"
+    import jwtDecode from "jwt-decode"
 
-1. Commit Video 081:
+    export function getAccessToken() {
+        const accessToken = localStorage.getItem(ACCESS_TOKEN)
+
+        if (!accessToken || accessToken === "null") {
+            return null;
+        }
+        
+        return willExpireToken(accessToken) ? null : accessToken
+    }
+
+    export function getRefreshToken() {
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN)
+
+        if (!refreshToken || refreshToken === "null") {
+            return null;
+        }
+
+        return willExpireToken(refreshToken) ? null : refreshToken
+    }
+
+    function willExpireToken(token) {
+        const seconds = 60
+        const metaToken = jwtDecode(token)
+        const { exp } = metaToken
+        const now = (Date.now() + seconds) / 1000
+        return now > exp
+    }
+    ```
+3. Commit Video 081:
     + $ git add .
     + $ git commit -m "Creando las funciones para obtener AccessToken y RefreshToken"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 082. Creando endpoint para refrescar el AccessToken
 
@@ -3516,6 +3546,10 @@
     + $ git add .
     + $ git commit -m "Creando endpoint para refrescar el AccessToken"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 083. Creando función para refrescar el AccessToken desde el cliente
 

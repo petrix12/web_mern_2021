@@ -5,6 +5,7 @@ import 'antd/dist/antd.css'
 import MenuTop from '../components/Admin/MenuTop'
 import MenuSider from '../components/Admin/MenuSider/MenuSider'
 import AdminSignIn from '../pages/Admin/SignIn'
+/* import { getAccessToken, getRefreshToken } from "../api/auth" */
 import "./LayoutAdmin.scss"
 
 export default function LayoutAdmin(props) {
@@ -13,6 +14,12 @@ export default function LayoutAdmin(props) {
     const { Header, Content, Footer } = Layout
 
     const user = null
+
+    // const accessToken = getAccessToken()
+    // console.log('accessToken: ' + accessToken)
+    // const refreshToken = getRefreshToken()
+    // console.log('refreshToken: ' + refreshToken)
+
     if(!user){
         return (
             <>
