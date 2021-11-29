@@ -1,26 +1,25 @@
-/*
 import { useState, useEffect } from "react"
 import { getAccessTokenApi } from "../../../api/auth"
-import { getUsersActiveApi } from "../../../api/user"
-import ListUsers from "../../../components/Admin/Users/ListUsers"
-*/
+import { getUsersApi } from "../../../api/user"
+/*import ListUsers from "../../../components/Admin/Users/ListUsers"*/
 import "./Users.scss"
 
 export default function Users() {
-/*    const [usersActive, setUsersActive] = useState([])
-    const [usersInactive, setUsersInactive] = useState([])
-    const [reloadUsers, setReloadUsers] = useState(false)
+    const [users, setUsers] = useState([])
+    /* const [usersInactive, setUsersInactive] = useState([])
+    const [reloadUsers, setReloadUsers] = useState(false) */
     const token = getAccessTokenApi()
+    console.log(users)
 
     useEffect(() => {
-        getUsersActiveApi(token, true).then(response => {
-            setUsersActive(response.users)
+        getUsersApi(token).then(response => {
+            setUsers(response)
         })
-        getUsersActiveApi(token, false).then(response => {
+/*        getUsersActiveApi(token, false).then(response => {
             setUsersInactive(response.users)
         })
-        setReloadUsers(false)
-    }, [token, reloadUsers])*/
+        setReloadUsers(false)*/
+    }, [token])
 
     return (
         <div>

@@ -4232,15 +4232,62 @@
     + $ git push -u origin main
 
 ### 095. Función para ejecutar el Enpoint y obtener todos los usuarios registrados
+1. Modificar vista **client\src\pages\Admin\Users\Users.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { getAccessTokenApi } from "../../../api/auth"
+    import { getUsersApi } from "../../../api/user"
+    import "./Users.scss"
 
-1. Commit Video 095:
+    export default function Users() {
+        const [users, setUsers] = useState([])
+        const token = getAccessTokenApi()
+        console.log(users)
+
+        useEffect(() => {
+            getUsersApi(token).then(response => {
+                setUsers(response)
+            })
+        }, [token])
+
+        return (
+            <div>
+                <h1>Lista de usuarios</h1>
+            </div>
+        )
+    }
+    ```
+2. Modificar **client\src\api\user.js**:
+    ```js
+    ≡
+    export function getUsersApi(token) {
+        const url = `${basePath}/${apiVersion}/users`
+
+        const params = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            }
+        };
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json();
+            })
+            .then(result => {
+                return result;
+            })
+            .catch(err => {
+                return err.message;
+            });
+    }
+    ≡
+    ```
+3. Commit Video 095:
     + $ git add .
     + $ git commit -m "Función para ejecutar el Enpoint y obtener todos los usuarios registrados"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 096. Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente
 
@@ -4248,6 +4295,10 @@
     + $ git add .
     + $ git commit -m "Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 097. Creando un Componente para mostrar usuarios activo o inactivos
 
