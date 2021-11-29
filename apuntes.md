@@ -3687,15 +3687,34 @@
     + $ git push -u origin main
 
 ### 084. Función para deslogear un usuario
+1. Modificar **client\src\api\auth.js**:
+    ```js
+    ≡
+    export function refreshAccessTokenApi(refreshToken) {
+        ≡
+        fetch(url, params)
+            .then(response => {
+                ≡
+            })
+            .then(result => {
+                if (!result) {
+                    logout()
+                } else {
+                    ≡
+                }
+            })
+    }
 
-1. Commit Video 084:
+    export function logout() {
+        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(REFRESH_TOKEN)
+    }
+    ≡
+    ```
+2. Commit Video 084:
     + $ git add .
     + $ git commit -m "Función para deslogear un usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 085. Hook para comprobar si el usuario esta logeado o refrescar el token
 
@@ -3703,6 +3722,10 @@
     + $ git add .
     + $ git commit -m "Hook para comprobar si el usuario esta logeado o refrescar el token"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 086. Escribiendo la lógica del AuthProvider
 
