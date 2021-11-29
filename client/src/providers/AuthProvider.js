@@ -1,6 +1,6 @@
 import { ConsoleSqlOutlined } from "@ant-design/icons"
 import { useState, useEffect, createContext } from "react"
-// import jwtDecode from "jwt-decode"
+import jwtDecode from "jwt-decode"
 import { getAccessTokenApi, getRefreshTokenApi, refreshAccessTokenApi, logout } from "../api/auth"
 
 export const AuthContext = createContext()
@@ -12,13 +12,13 @@ export default function AuthProvider(props) {
         isLoading: true
     })
 
-/*    useEffect(() => {
+    useEffect(() => {
         checkUserLogin(setUser)
     }, [])
-*/
+
     return <AuthContext.Provider value={user}>{children}</AuthContext.Provider> 
 }
-/*
+
 function checkUserLogin(setUser) {
     const accessToken = getAccessTokenApi()
 
@@ -41,4 +41,3 @@ function checkUserLogin(setUser) {
         })
     }
 }
-*/

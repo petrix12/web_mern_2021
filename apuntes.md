@@ -3783,22 +3783,67 @@
     + $ git push -u origin main
 
 ### 086. Escribiendo la lógica del AuthProvider
+1. Modificar provider **client\src\providers\AuthProvider.js**:
+    ```js
+    import { ConsoleSqlOutlined } from "@ant-design/icons"
+    import { useState, useEffect, createContext } from "react"
+    import jwtDecode from "jwt-decode"
+    import { getAccessTokenApi, getRefreshTokenApi, refreshAccessTokenApi, logout } from "../api/auth"
 
-1. Commit Video 086:
+    export const AuthContext = createContext()
+
+    export default function AuthProvider(props) {
+        const { children } = props
+        const [user, setUser] = useState({
+            user: null,
+            isLoading: true
+        })
+
+        useEffect(() => {
+            checkUserLogin(setUser)
+        }, [])
+
+        return <AuthContext.Provider value={user}>{children}</AuthContext.Provider> 
+    }
+
+    function checkUserLogin(setUser) {
+        const accessToken = getAccessTokenApi()
+
+        if (!accessToken) {
+            const refreshToken = getRefreshTokenApi()
+
+            if (!refreshToken) {
+                logout()
+                setUser({
+                    user: null,
+                    isLoading: false
+                })
+            } else {
+                refreshAccessTokenApi(refreshToken)
+            }
+        } else {
+            setUser({
+                isLoading: false,
+                user: jwtDecode(accessToken)
+            })
+        }
+    }
+    ```
+2. Commit Video 086:
     + $ git add .
     + $ git commit -m "Escribiendo la lógica del AuthProvider"
     + $ git push -u origin main
-
-    ≡
-    ```js
     ```
-
+Revisar las métricas del formulario de pago
 ### 087. Bloqueando la página de login para usuarios logeados
 
 1. Commit Video 087:
     + $ git add .
     + $ git commit -m "Bloqueando la página de login para usuarios logeados"
     + $ git push -u origin main
+
+    ≡
+    ```js
 
 ### 088. Añadiendo funcionalidad al botón de logout
 
