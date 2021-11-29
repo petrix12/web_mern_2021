@@ -5,8 +5,7 @@ import 'antd/dist/antd.css'
 import "./MenuSider.scss"
 
 function MenuSider(props) {
-    /* console.log(props) */
-    const { menuCollapsed } = props
+    const { menuCollapsed, location } = props
     const { Sider } = Layout;
 
     return (
@@ -14,15 +13,15 @@ function MenuSider(props) {
             <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={["1"]}
+                defaultSelectedKeys={[location.pathname]}
             >
-                <Menu.Item key="1">
+                <Menu.Item key="/admin">
                     <Link to="/admin">
                         <HomeOutlined />
                         <span className="nav-text">Home</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="/admin/users">
                     <Link to="/admin/users">
                         <UserOutlined />
                         <span className="nav-text">Usuarios</span>

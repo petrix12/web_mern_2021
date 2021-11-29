@@ -4069,15 +4069,48 @@
     + $ git push -u origin main
 
 ### 091. Solucionando cambio del menú al recargar la página
+1. Modificar compoentne **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    import { Link, withRouter } from "react-router-dom"
+    import { Layout, Menu } from "antd"
+    import { HomeOutlined, UserOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./MenuSider.scss"
 
-1. Commit Video 091:
+    function MenuSider(props) {
+        const { menuCollapsed, location } = props
+        const { Sider } = Layout;
+
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={[location.pathname]}
+                >
+                    <Menu.Item key="/admin">
+                        <Link to="/admin">
+                            <HomeOutlined />
+                            <span className="nav-text">Home</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="/admin/users">
+                        <Link to="/admin/users">
+                            <UserOutlined />
+                            <span className="nav-text">Usuarios</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+
+    export default withRouter(MenuSider)
+    ```
+2. Commit Video 091:
     + $ git add .
     + $ git commit -m "Solucionando cambio del menú al recargar la página"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 092. Creando Endpoint para obtener todos los usuarios
 
@@ -4085,6 +4118,10 @@
     + $ git add .
     + $ git commit -m "Creando Endpoint para obtener todos los usuarios"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 093. Creando un Middlewares para bloquear url a usuarios no logeados
 
