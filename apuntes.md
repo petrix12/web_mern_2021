@@ -4113,15 +4113,41 @@
     + $ git push -u origin main
 
 ### 092. Creando Endpoint para obtener todos los usuarios
+1. Ir al proyecto **server** y modificar el controlador **server\controllers\user.js** para incorporar la función **getUsers**:
+    ```js
+    ≡
+    function getUsers(req, res) {
+        User.find().then(users => {
+            if(!users){
+                res.status(404).send({ message: "No se ha encontrado ningún usuario."})
+            } else {
+                res.status(200).send({ users })
+            }
+        })
+    }
 
-1. Commit Video 092:
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers
+    }
+    ```
+2. Incorporar la ruta ssss en **server\routers\user.js**:
+    ```js
+    ≡
+    api.post("/sign-in", UserController.signIn)
+    api.get("/users", UserController.getUsers)
+    ≡
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/users
+    + Guardar endpoint como: **get-users**
+4. Commit Video 092:
     + $ git add .
     + $ git commit -m "Creando Endpoint para obtener todos los usuarios"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 093. Creando un Middlewares para bloquear url a usuarios no logeados
 
@@ -4129,6 +4155,10 @@
     + $ git add .
     + $ git commit -m "Creando un Middlewares para bloquear url a usuarios no logeados"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 094. Añadiendo configuración de Headers a nuestro servidor
 
