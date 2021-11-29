@@ -1,11 +1,17 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import LogoSolucionespp from '../../../assets/img/png/logo.png'
+import { logout } from "../../../api/auth"
 import './MenuTop.scss'
 
 export default function MenuTop(props){
-    /* console.log(props) */
-    const { menuCollapsed, setMenuCollapsed } = props 
+    const { menuCollapsed, setMenuCollapsed } = props
+
+    const logoutUser = () => {
+        logout()
+        window.location.reload()
+    }
+
     return (
         <div className="menu-top">
             <div className="menu-top__left">
@@ -23,7 +29,7 @@ export default function MenuTop(props){
             </div>
 
             <div className="menu-top__right" >
-                <PoweroffOutlined className="menu-top__button" type="link" onClick={() => console.log('Desconexión')} />
+                <PoweroffOutlined className="menu-top__button" type="link" onClick={logoutUser} />
             </div>
         </div>
     )

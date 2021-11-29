@@ -3834,20 +3834,120 @@
     + $ git commit -m "Escribiendo la lógica del AuthProvider"
     + $ git push -u origin main
     ```
-Revisar las métricas del formulario de pago
-### 087. Bloqueando la página de login para usuarios logeados
 
-1. Commit Video 087:
+### 087. Bloqueando la página de login para usuarios logeados
+1. Modificar vista **client\src\pages\Admin\SignIn\SignIn.js**:
+    ```js
+    ≡
+    import LoginForm from "../../../components/Admin/LoginForm"
+    import { getAccessTokenApi } from "../../../api/auth"
+    import "./SingIn.scss"
+
+    export default function SignIn() {
+        ≡
+
+        if (getAccessTokenApi()) {
+            return <Redirect to="/admin" />
+        }
+        
+        return (
+            ≡
+        )
+    }
+    ```
+2. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    import { useState } from "react"
+    import { Route, Switch, Redirect } from 'react-router-dom'
+    import { Layout } from "antd"
+    import 'antd/dist/antd.css'
+    import useAuth from "../hooks/useAuth"
+    import MenuTop from '../components/Admin/MenuTop'
+    import MenuSider from '../components/Admin/MenuSider/MenuSider'
+    import AdminSignIn from '../pages/Admin/SignIn'
+    import "./LayoutAdmin.scss"
+
+    export default function LayoutAdmin(props) {
+        const { routes } = props
+        const [menuCollapsed, setMenuCollapsed] = useState(false)
+        const { Header, Content, Footer } = Layout
+        const { user, isLoading } = useAuth()
+
+        if(!user && !isLoading){
+            return (
+                <>
+                    <Route path="/admin/login" component={AdminSignIn} />
+                    <Redirect to="/admin/login" />
+                </>
+            )
+        }
+
+        if(user && !isLoading){
+            return (
+                <Layout>
+                    <MenuSider menuCollapsed={menuCollapsed} />
+                    <Layout className="layout-admin" style={{ marginLeft: menuCollapsed ? "80px" : "200px" }} >
+                        <Header className="layout-admin__header">
+                            <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed} />
+                        </Header>
+                        <Content className="layout-admin__content">
+                            <LoadRoutes routes={routes}/>
+                        </Content>
+                        <Footer className="layout-admin__footer">Soluciones++ 2021</Footer>
+                    </Layout>
+                </Layout>
+            )
+        }
+
+        return null
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+3. Commit Video 087:
     + $ git add .
     + $ git commit -m "Bloqueando la página de login para usuarios logeados"
     + $ git push -u origin main
 
-    ≡
-    ```js
-
 ### 088. Añadiendo funcionalidad al botón de logout
+1. Modificar el componente **client\src\components\Admin\MenuTop\MenuTop.js** para implementar la funcionalidad de logout:
+    ```js
+    ≡
+    import { logout } from "../../../api/auth"
+    import './MenuTop.scss'
 
-1. Commit Video 088:
+    export default function MenuTop(props){
+        const { menuCollapsed, setMenuCollapsed } = props
+
+        const logoutUser = () => {
+            logout()
+            window.location.reload()
+        }
+
+        return (
+            <div className="menu-top">
+                ≡
+                <div className="menu-top__right" >
+                    <PoweroffOutlined className="menu-top__button" type="link" onClick={logoutUser} />
+                </div>
+            </div>
+        )
+    }
+    ```
+2. Commit Video 088:
     + $ git add .
     + $ git commit -m "Añadiendo funcionalidad al botón de logout"
     + $ git push -u origin main
@@ -3858,6 +3958,10 @@ Revisar las métricas del formulario de pago
     + $ git add .
     + $ git commit -m "Activando Usuario desactivado"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 09: Panel de Administración de usuarios
 
