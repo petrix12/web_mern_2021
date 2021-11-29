@@ -3234,6 +3234,7 @@
             margin: 0;
         }
 
+        //font-size: size(22)
         &__input {
             .ant-input-prefix {
                 i {
@@ -3242,8 +3243,8 @@
             }
 
             input {
-                font-size: size(22) /* 0em + 18px / $defaultFontSize */;
-                padding: 5px 5px 5px 100px !important;
+                font-size: 0em + 18px / $defaultFontSize;
+                padding: 5px 5px 5px 10px !important;
                 &:focus {
                     border-color: $primary-color;
                     box-shadow: none;
@@ -3541,8 +3542,85 @@
     + $ git push -u origin main
 
 ### 082. Creando endpoint para refrescar el AccessToken
+1. Ir al proyecto **server** y crear controlador **server\controllers\auth.js**:
+    ```js
+    const jwt = require("../services/jwt")
+    const moment = require("moment")
+    const User = require("../models/user")
 
-1. Commit Video 082:
+    function willExpireToken(token) {
+        const { exp } = jwt.decodedToken(token)
+        const currentDate = moment().unix()
+
+        if (currentDate > exp) {
+            return true
+        }
+        return false
+    }
+
+    function refreshAccessToken(req, res) {
+        const { refreshToken } = req.body;
+        const isTokenExpired = willExpireToken(refreshToken);
+
+        if (isTokenExpired) {
+            res.status(404).send({ message: "El refreshToken ha expirado" })
+        } else {
+            const { id } = jwt.decodedToken(refreshToken)
+
+            User.findOne({ _id: id }, (err, userStored) => {
+                if (err) {
+                    res.status(500).send({ message: "Error del servidor." })
+                } else {
+                    if (!userStored) {
+                        res.status(404).send({ message: "Usuario no encontrado." })
+                    } else {
+                        res.status(200).send({
+                            accessToken: jwt.createAccessToken(userStored),
+                            refreshToken: refreshToken
+                        })
+                    }
+                }
+            })
+        }
+    }
+
+    module.exports = {
+        refreshAccessToken
+    }
+    ```
+2. Crear archivo de rutas **server\routers\auth.js**:
+    ```js
+    const express = require("express")
+    const AuthController = require("../controllers/auth")
+
+    const api = express.Router()
+
+    api.post("/refresh-access-token", AuthController.refreshAccessToken)
+
+    module.exports = api
+    ```
+3. Modificar **server\app.js**:
+    ```js
+    ≡
+    // Load routings
+    const authRoutes = require('./routers/auth')
+    ≡
+    // Basic Routers
+    app.use(`/api/${API_VERSION}`, authRoutes)
+    ≡
+    ```
+4. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/refresh-access-token
+        + Body:
+            ```json
+            {
+                "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImV4cCI6MTY0MDczMDkyOH0.IqF5cXVVDwOQtxjJ4SvHrMyJCA0N5T4c_7ZhvqTpVZU"
+            }
+            ```
+    + Guardar endpoint como: **refresh-access-token**
+5. Commit Video 082:
     + $ git add .
     + $ git commit -m "Creando endpoint para refrescar el AccessToken"
     + $ git push -u origin main

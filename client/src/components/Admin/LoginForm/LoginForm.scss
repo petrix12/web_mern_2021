@@ -7,6 +7,7 @@
         margin: 0;
     }
 
+    //font-size: size(22)
     &__input {
         .ant-input-prefix {
             i {
@@ -15,8 +16,8 @@
         }
 
         input {
-            font-size: size(22) /* 0em + 18px / $defaultFontSize */;
-            padding: 5px 5px 5px 100px !important;
+            font-size: 0em + 18px / $defaultFontSize;
+            padding: 5px 5px 5px 10px !important;
             &:focus {
                 border-color: $primary-color;
                 box-shadow: none;
