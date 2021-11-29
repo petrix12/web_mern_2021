@@ -4209,15 +4209,27 @@
     + $ git push -u origin main
 
 ### 094. Añadiendo configuración de Headers a nuestro servidor
-
-1. Commit Video 094:
+1. Modificar **server\app.js**:
+    ```js
+    ≡
+    // Configure Header HTTP
+    app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*")
+        res.header(
+            "Access-Control-Allow-Headers",
+            "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+        )
+        res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+        res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE")
+        next()
+    })
+    ≡
+    ```
+2. Reiniciar los servicios de Frontend y Backend.
+3. Commit Video 094:
     + $ git add .
     + $ git commit -m "Añadiendo configuración de Headers a nuestro servidor"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 095. Función para ejecutar el Enpoint y obtener todos los usuarios registrados
 
@@ -4225,6 +4237,10 @@
     + $ git add .
     + $ git commit -m "Función para ejecutar el Enpoint y obtener todos los usuarios registrados"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 096. Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente
 
