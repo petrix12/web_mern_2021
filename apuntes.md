@@ -4150,15 +4150,63 @@
     + $ git push -u origin main
 
 ### 093. Creando un Middlewares para bloquear url a usuarios no logeados
+1. Crear middleware **server\middlewares\authenticated.js**:
+    ```js
+    const jwt = require("jwt-simple")
+    const moment = require("moment")
 
-1. Commit Video 093:
+    /* Debe ser exactamente la misma de server\services\jwt.js */
+    const SECRET_KEY = "alsjsla85sd55s55WWf444f55svvvs555s22As"
+
+    exports.ensureAuth = (req, res, next) => {
+        if (!req.headers.authorization) {
+            return res
+                .status(403)
+                .send({ message: "La peticion no tiene la cabecera de Autenticacion." })
+        }
+
+        const token = req.headers.authorization.replace(/['"]+/g, "")
+
+        try {
+            var payload = jwt.decode(token, SECRET_KEY)
+
+            if (payload.exp <= moment().unix()) {
+                return res.status(404).send({ message: "El token ha expirado." })
+            }
+        } catch (ex) {
+            console.log(ex)
+            return res.status(404).send({ message: "Token invalido." })
+        }
+        req.user = payload
+        next()
+    }
+    ```
+2. Modificar archivo de rutas **server\routers\user.js**:
+    ```js
+    const express = require("express")
+    const UserController = require("../controllers/user")
+    const md_auth = require("../middlewares/authenticated")
+
+    const api = express.Router()
+
+    api.post("/sign-up", UserController.signUp)
+    api.post("/sign-in", UserController.signIn)
+    api.get("/users",[md_auth.ensureAuth] , UserController.getUsers)
+
+    module.exports = api
+    ```
+3. Realizar petición http (get-users):
+    + Método: get
+    + URL: http://localhost:3977/api/v1/users
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImVtYWlsIjoiYmF6by5wZWRyb0BnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVUb2tlbiI6MTYzODIxNzU3OCwiZXhwIjoxNjM4MjI4Mzc4fQ.JBN0wZ_q6TNd4Or-uLgZEpuJNFrquK0OVneEM1mYFR8
+            ```
+4. Commit Video 093:
     + $ git add .
     + $ git commit -m "Creando un Middlewares para bloquear url a usuarios no logeados"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 094. Añadiendo configuración de Headers a nuestro servidor
 
@@ -4166,6 +4214,10 @@
     + $ git add .
     + $ git commit -m "Añadiendo configuración de Headers a nuestro servidor"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 095. Función para ejecutar el Enpoint y obtener todos los usuarios registrados
 
