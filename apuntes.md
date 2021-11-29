@@ -3625,13 +3625,63 @@
     + $ git commit -m "Creando endpoint para refrescar el AccessToken"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 083. Creando función para refrescar el AccessToken desde el cliente
+1. Ir al proyecto **client** y modificar **client\src\api\auth.js**:
+    ```js
+    ≡
+    export function getAccessTokenApi() {
+        const accessToken = localStorage.getItem(ACCESS_TOKEN)
 
-1. Commit Video 083:
+        if (!accessToken || accessToken === "null") {
+            return null;
+        }
+        
+        return willExpireToken(accessToken) ? null : accessToken
+    }
+
+    export function getRefreshTokenApi() {
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN)
+
+        if (!refreshToken || refreshToken === "null") {
+            return null;
+        }
+
+        return willExpireToken(refreshToken) ? null : refreshToken
+    }
+
+    export function refreshAccessTokenApi(refreshToken) {
+        const url = `${basePath}/${apiVersion}/refresh-access-token`
+        const bodyObj = {
+            refreshToken: refreshToken
+        }
+        const params = {
+            method: "POST",
+            body: JSON.stringify(bodyObj),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        fetch(url, params)
+            .then(response => {
+                if (response.status !== 200) {
+                    return null;
+                }
+                return response.json()
+            })
+            .then(result => {
+                if (!result) {
+                    // TO DO: Desloguear usuario
+                } else {
+                    const { accessToken, refreshToken } = result
+                    localStorage.setItem(ACCESS_TOKEN, accessToken)
+                    localStorage.setItem(REFRESH_TOKEN, refreshToken)
+                }
+            })
+    }
+    ≡
+    ```
+2. Commit Video 083:
     + $ git add .
     + $ git commit -m "Creando función para refrescar el AccessToken desde el cliente"
     + $ git push -u origin main
@@ -3642,6 +3692,10 @@
     + $ git add .
     + $ git commit -m "Función para deslogear un usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 085. Hook para comprobar si el usuario esta logeado o refrescar el token
 
