@@ -3717,15 +3717,70 @@
     + $ git push -u origin main
 
 ### 085. Hook para comprobar si el usuario esta logeado o refrescar el token
+1. Crear hook **client\src\hooks\useAuth.js**:
+    ```js
+    import { useContext } from "react"
+    import { AuthContext } from "../providers/AuthProvider"
 
-1. Commit Video 085:
+    export default () => useContext(AuthContext)
+    ```
+2. Crear provider **client\src\providers\AuthProvider.js**:
+    ```js
+    import { ConsoleSqlOutlined } from "@ant-design/icons"
+    import { useState, useEffect, createContext } from "react"
+    import { getAccessTokenApi, getRefreshTokenApi, refreshAccessTokenApi, logout } from "../api/auth"
+
+    export const AuthContext = createContext()
+
+    export default function AuthProvider(props) {
+        const { children } = props
+        const [user, setUser] = useState({
+            user: null,
+            isLoading: true
+        })
+
+        return <AuthContext.Provider value={user}>{children}</AuthContext.Provider> 
+    }
+    ```
+3. Modificar **client\src\App.js**:
+    ```js
+    ≡
+    import AuthProvider from "./providers/AuthProvider"
+    import './App.scss';
+
+    function App() {
+        return (
+            <AuthProvider>
+                <Router>
+                    <Switch>
+                        {routes.map((route, index) => (
+                            <RouteWithSubRoutes key={index} {...route}/>
+                        ))}
+                    </Switch>
+                </Router>
+            </AuthProvider>
+        )
+    }
+    ≡
+    ```
+4. Modificar layout **client\src\layouts\LayoutAdmin.js**:
+    ```js
+    ≡
+    import 'antd/dist/antd.css'
+    import useAuth from "../hooks/useAuth"
+    ≡
+    export default function LayoutAdmin(props) {
+        ≡
+        const { Header, Content, Footer } = Layout
+        const { user, isLoading } = useAuth()
+        ≡
+    }
+    ≡
+    ```
+5. Commit Video 085:
     + $ git add .
     + $ git commit -m "Hook para comprobar si el usuario esta logeado o refrescar el token"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 086. Escribiendo la lógica del AuthProvider
 
@@ -3733,6 +3788,10 @@
     + $ git add .
     + $ git commit -m "Escribiendo la lógica del AuthProvider"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 087. Bloqueando la página de login para usuarios logeados
 
