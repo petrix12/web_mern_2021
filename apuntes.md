@@ -3953,15 +3953,11 @@
     + $ git push -u origin main
 
 ### 089. Activando Usuario desactivado
-
++ **Contenido**: por ahora para activar a los usuarios se realizará directamente desde la base de datos.
 1. Commit Video 089:
     + $ git add .
     + $ git commit -m "Activando Usuario desactivado"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ## Sección 09: Panel de Administración de usuarios
 
@@ -3971,6 +3967,10 @@
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 091. Solucionando cambio del menú al recargar la página
 5 min
