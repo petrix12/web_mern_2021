@@ -3961,85 +3961,357 @@
 
 ## Sección 09: Panel de Administración de usuarios
 
-### 090. Creando el menu de usuarios
+### 090. Creando el menú de usuarios
+1. Crear **client\src\pages\Admin\Users\index.js**:
+    ```js
+    export { default } from "./Users"
+    ```
+2. Crear vista **client\src\pages\Admin\Users\Users.js**:
+    ```js
+    import "./Users.scss"
 
-1. Commit Video 09:
+    export default function Users() {
+
+        return (
+            <div>
+                <h1>Lista de usuarios</h1>
+            </div>
+        )
+    }
+    ```
+3. Crear archivo de estilos **client\src\pages\Admin\Users\Users.scss**:
+    ```scss
+    .users {
+    }
+    ```
+4. Modificar **client\src\config\routes.js**:
+    ```js
+    // Layout
+    ≡
+
+    // Admin Pages
+    ≡
+    import AdminUsers from "../pages/Admin/Users"
+
+    // Pages
+    ≡
+
+    // Otros
+    ≡
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            component: LayoutAdmin,
+            exact: false,
+            routes: [
+                ≡
+                {
+                    path: "/admin/users",
+                    component: AdminUsers, 
+                    exact: true
+                },
+                {
+                    component: Error404
+                }
+            ]
+        },
+        {
+            ≡
+        }
+    ]
+
+    export default routes
+    ```
+5. Modificar componente **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    import { Link, withRouter } from "react-router-dom"
+    import { Layout, Menu } from "antd"
+    import { HomeOutlined, UserOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./MenuSider.scss"
+
+    function MenuSider(props) {
+        /* console.log(props) */
+        const { menuCollapsed } = props
+        const { Sider } = Layout;
+
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={["1"]}
+                >
+                    <Menu.Item key="1">
+                        <Link to="/admin">
+                            <HomeOutlined />
+                            <span className="nav-text">Home</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                        <Link to="/admin/users">
+                            <UserOutlined />
+                            <span className="nav-text">Usuarios</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+
+    export default withRouter(MenuSider)
+    ```
+6. Commit Video 090:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando el menú de usuarios"
+    + $ git push -u origin main
+
+### 091. Solucionando cambio del menú al recargar la página
+
+1. Commit Video 091:
+    + $ git add .
+    + $ git commit -m "Solucionando cambio del menú al recargar la página"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
 
-### 091. Solucionando cambio del menú al recargar la página
-5 min
 ### 092. Creando Endpoint para obtener todos los usuarios
-6 min
+
+1. Commit Video 092:
+    + $ git add .
+    + $ git commit -m "Creando Endpoint para obtener todos los usuarios"
+    + $ git push -u origin main
+
 ### 093. Creando un Middlewares para bloquear url a usuarios no logeados
-13 min
+
+1. Commit Video 093:
+    + $ git add .
+    + $ git commit -m "Creando un Middlewares para bloquear url a usuarios no logeados"
+    + $ git push -u origin main
+
 ### 094. Añadiendo configuración de Headers a nuestro servidor
-5 min
+
+1. Commit Video 094:
+    + $ git add .
+    + $ git commit -m "Añadiendo configuración de Headers a nuestro servidor"
+    + $ git push -u origin main
+
 ### 095. Función para ejecutar el Enpoint y obtener todos los usuarios registrados
-8 min
+
+1. Commit Video 095:
+    + $ git add .
+    + $ git commit -m "Función para ejecutar el Enpoint y obtener todos los usuarios registrados"
+    + $ git push -u origin main
+
 ### 096. Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente
-12 min
+
+1. Commit Video 096:
+    + $ git add .
+    + $ git commit -m "Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente"
+    + $ git push -u origin main
+
 ### 097. Creando un Componente para mostrar usuarios activo o inactivos
-13 min
+
+1. Commit Video 097:
+    + $ git add .
+    + $ git commit -m "Creando un Componente para mostrar usuarios activo o inactivos"
+    + $ git push -u origin main
+
 ### 098. Renderizando lista de usuarios Activos y Inactivos
-16 min
+
+1. Commit Video 098:
+    + $ git add .
+    + $ git commit -m "Renderizando lista de usuarios Activos y Inactivos"
+    + $ git push -u origin main
+
 ### 099. Añadiendo Avatar al modelo de datos de usuarios en el server
-1 min
+
+1. Commit Video 099:
+    + $ git add .
+    + $ git commit -m "Añadiendo Avatar al modelo de datos de usuarios en el server"
+    + $ git push -u origin main
+
 ### 100. Creando el componente Modal
-7 min
+
+1. Commit Video 100:
+    + $ git add .
+    + $ git commit -m "Creando el componente Modal"
+    + $ git push -u origin main
+
 ### 101. Abriendo el Modal al hacer click en Editar, mostrando el componente EditUserForm
-13 min
+
+1. Commit Video 101:
+    + $ git add .
+    + $ git commit -m "Abriendo el Modal al hacer click en Editar, mostrando el componente EditUserForm"
+    + $ git push -u origin main
+
 ### 102. Usando React Dropzone para subir el avatar del usuario
-16 min
+
+1. Commit Video 102:
+    + $ git add .
+    + $ git commit -m "Usando React Dropzone para subir el avatar del usuario"
+    + $ git push -u origin main
+
 ### 103. 1/2 - Creando Formulario para editar los datos del usuario
-12 min
+
+1. Commit Video 103:
+    + $ git add .
+    + $ git commit -m "1/2 - Creando Formulario para editar los datos del usuario"
+    + $ git push -u origin main
+
 ### 104. 2/2 - Creando Formulario para editar los datos del usuario
-13 min
+
+1. Commit Video 104:
+    + $ git add .
+    + $ git commit -m "2/2 - Creando Formulario para editar los datos del usuario"
+    + $ git push -u origin main
+
 ### 105. 1/2 - Endpoint para subir la imagen al servidor
-15 min
+
+1. Commit Video 105:
+    + $ git add .
+    + $ git commit -m "1/2 - Endpoint para subir la imagen al servidor"
+    + $ git push -u origin main
+
 ### 106. 2/2 - Endpoint para subir la imagen al servidor
-14 min
+
+1. Commit Video 106:
+    + $ git add .
+    + $ git commit -m "2/2 - Endpoint para subir la imagen al servidor"
+    + $ git push -u origin main
+
 ### 107. Endpoint para recuperar la URL del avatar
-9 min
+
+1. Commit Video 107:
+    + $ git add .
+    + $ git commit -m "Endpoint para actualizar el usuario"
+    + $ git push -u origin main
+
 ### 108. Endpoint para actualizar el usuario
-12 min
+
+1. Commit Video 108:
+    + $ git add .
+    + $ git commit -m "Endpoint para actualizar el usuario"
+    + $ git push -u origin main
+
 ### 109. Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente
-12 min
+
+1. Commit Video 109:
+    + $ git add .
+    + $ git commit -m "Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente"
+    + $ git push -u origin main
+
 ### 110. Mostrando el Avatar del usuario si existe en la base de datos
-18 min
+
+1. Commit Video 110:
+    + $ git add .
+    + $ git commit -m "Mostrando el Avatar del usuario si existe en la base de datos"
+    + $ git push -u origin main
+
 ### 111. 1/2 - Actualizando datos del usuario
-9 min
+
+1. Commit Video 111:
+    + $ git add .
+    + $ git commit -m "1/2 - Actualizando datos del usuario"
+    + $ git push -u origin main
+
 ### 112. 2/2 - Actualizando datos del usuario
-14 min
+
+1. Commit Video 112:
+    + $ git add .
+    + $ git commit -m "2/2 - Actualizando datos del usuario"
+    + $ git push -u origin main
+
 ### 113. Actualizar contraseña del usuario
-8 min
+
+1. Commit Video 113:
+    + $ git add .
+    + $ git commit -m "Actualizar contraseña del usuario"
+    + $ git push -u origin main
+
 ### 114. Creando Endpoint para activar y desactivar usuarios
-14 min
+
+1. Commit Video 114:
+    + $ git add .
+    + $ git commit -m "Creando Endpoint para activar y desactivar usuarios"
+    + $ git push -u origin main
+
 ### 115. Añadiendo la funcionalidad de activar y desactivar usuario en el panel de admin
-17 min
+
+1. Commit Video 115:
+    + $ git add .
+    + $ git commit -m "Añadiendo la funcionalidad de activar y desactivar usuario en el panel de admin"
+    + $ git push -u origin main
+
 ### 116. Creando Endpoint para eliminar usuarios
-10 min
+
+1. Commit Video 116:
+    + $ git add .
+    + $ git commit -m "Creando Endpoint para eliminar usuarios"
+    + $ git push -u origin main
+
 ### 117. 1/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin
-11 min
+
+1. Commit Video 117:
+    + $ git add .
+    + $ git commit -m "1/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin"
+    + $ git push -u origin main
+
 ### 118. 2/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin
-8 min
+
+1. Commit Video 118:
+    + $ git add .
+    + $ git commit -m "2/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin"
+    + $ git push -u origin main
+
 ### 119. Creando Endpoint para crear usuarios desde el panel de Administrador
-14 min
+
+1. Commit Video 119:
+    + $ git add .
+    + $ git commit -m "Creando Endpoint para crear usuarios desde el panel de Administrador"
+    + $ git push -u origin main
+
 ### 120. Añadiendo botón para crear nuevos usuarios
-8 min
+
+1. Commit Video 120:
+    + $ git add .
+    + $ git commit -m "Añadiendo botón para crear nuevos usuarios"
+    + $ git push -u origin main
+
 ### 121. 1/2 - Formulario para crear nuevos usuarios
-11 min
+
+1. Commit Video 121:
+    + $ git add .
+    + $ git commit -m "1/2 - Formulario para crear nuevos usuarios"
+    + $ git push -u origin main
+
 ### 122. 2/2 - Formulario para crear nuevos usuarios
-11 min
+
+1. Commit Video 122:
+    + $ git add .
+    + $ git commit -m "2/2 - Formulario para crear nuevos usuarios"
+    + $ git push -u origin main
+
 ### 123. Creando la función para crear nuevos usuarios
-7 min
+
+1. Commit Video 123:
+    + $ git add .
+    + $ git commit -m "Creando la función para crear nuevos usuarios"
+    + $ git push -u origin main
+
+## Sección 10: Menú Web
+
 ### 124. Creando sección Menú Web en el panel de Administrador
-5 min
+
+1. Commit Video 12:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
 ### 125. Creando estructura del menú en el server
 12 min
 ### 126. Endpoint para crear nuevos menús

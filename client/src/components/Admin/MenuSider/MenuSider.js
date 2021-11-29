@@ -1,9 +1,8 @@
 import { Link, withRouter } from "react-router-dom"
 import { Layout, Menu } from "antd"
-import { HomeOutlined, MenuFoldOutlined } from '@ant-design/icons'
-import 'antd/dist/antd.css';
-
-import "./MenuSider.scss";
+import { HomeOutlined, UserOutlined } from '@ant-design/icons'
+import 'antd/dist/antd.css'
+import "./MenuSider.scss"
 
 function MenuSider(props) {
     /* console.log(props) */
@@ -24,9 +23,9 @@ function MenuSider(props) {
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="2">
-                    <Link to="/admin/menu-web">
-                        <MenuFoldOutlined />
-                        <span className="nav-text">Menú Web</span>
+                    <Link to="/admin/users">
+                        <UserOutlined />
+                        <span className="nav-text">Usuarios</span>
                     </Link>
                 </Menu.Item>
             </Menu>
@@ -34,4 +33,4 @@ function MenuSider(props) {
     )
 }
 
-export default withRouter(MenuSider);
+export default withRouter(MenuSider)
