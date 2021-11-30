@@ -1,18 +1,11 @@
 .list-users {
-    /*
-    &__header {
+    &__switch {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         margin-bottom: 20px;
 
-        &-switch {
-            display: flex;
-            align-items: center;
-
-            > button {
-                margin-right: 20px;
-            }
+        > button {
+            margin-right: 20px;
         }
     }
 
@@ -25,5 +18,4 @@
             align-items: center;
         }
     }
-    */
 }

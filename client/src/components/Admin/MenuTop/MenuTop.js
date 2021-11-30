@@ -1,5 +1,5 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
+import { MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined } from '@ant-design/icons'
+import 'antd/dist/antd.css'
 import LogoSolucionespp from '../../../assets/img/png/logo.png'
 import { logout } from "../../../api/auth"
 import './MenuTop.scss'

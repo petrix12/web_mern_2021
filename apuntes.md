@@ -4371,10 +4371,10 @@
 
         useEffect(() => {
             getUsersActiveApi(token, true).then(response => {
-                setUsersActive(response)
+                setUsersActive(response.users)
             })
             getUsersActiveApi(token, false).then(response => {
-                setUsersInactive(response)
+                setUsersInactive(response.users)
             })
         }, [token])
 
@@ -4409,7 +4409,7 @@
         return (
             <div className="list-users">
                 <div className="list-users__header">
-                    <div className="list-users__header-switch">
+                    <div className="list-users__switch">
                         <Switch
                             defaultChecked
                             onChange={() => setViewUsersActives(!viewUsersActives)}
@@ -4453,10 +4453,10 @@
 
         useEffect(() => {
             getUsersActiveApi(token, true).then(response => {
-                setUsersActive(response)
+                setUsersActive(response.users)
             })
             getUsersActiveApi(token, false).then(response => {
-                setUsersInactive(response)
+                setUsersInactive(response.users)
             })
         }, [token])
 
@@ -4473,15 +4473,149 @@
     + $ git push -u origin main
 
 ### 098. Renderizando lista de usuarios Activos y Inactivos
+1. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Switch, List, Avatar, Button } from "antd"
+    import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import "./ListUsers.scss"
 
-1. Commit Video 098:
+    export default function ListUsers(props){
+        const { usersActive, usersInactive } = props;
+        const [viewUsersActives, setViewUsersActives] = useState(true)
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__switch">
+                        <Switch
+                            defaultChecked
+                            onChange={() => setViewUsersActives(!viewUsersActives)}
+                        />
+                        <span>
+                            {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
+                        </span>
+                    </div>
+                    {viewUsersActives ? <UsersActive usersActive={usersActive} /> : <UsersInactive usersInactive={usersInactive} />}
+                </div>
+            </div>
+        )
+    }
+
+    function UsersActive(props) {
+        const { usersActive } = props
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersActive}
+                renderItem={user => (
+                    <List.Item
+                        actions={[
+                            <Button
+                                type="primary"
+                                onClick={() => console.log('Editar usuario')}
+                            >
+                                <EditOutlined />
+                            </Button>,
+                            <Button
+                                type="danger"
+                                onClick={() => console.log('Desactivar usuario')}
+                            >
+                                <StopOutlined />
+                            </Button>,
+                            <Button
+                                type="danger"
+                                onClick={() => console.log('Eliminar usuario')}
+                            >
+                                <DeleteOutlined />
+                            </Button>
+                        ]}
+                    >
+                        <List.Item.Meta
+                            avatar={<Avatar src={user.avatar ? user.avatar : NoAvatar} />}
+                            title={`
+                                ${user.name ? user.name : '...'}
+                                ${user.lastname ? user.lastname : '...'}
+                            `}
+                            description={user.email}
+                        />
+                    </List.Item>
+                )}
+            />
+        )
+    }
+
+    function UsersInactive(props) {
+        const { usersInactive } = props
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersInactive}
+                renderItem={user => (
+                    <List.Item
+                        actions={[
+                            <Button
+                                type="primary"
+                                onClick={() => console.log('Activar usuario')}
+                            >
+                                <CheckOutlined />
+                            </Button>,
+                            <Button
+                                type="danger"
+                                onClick={() => console.log('Eliminar usuario')}
+                            >
+                                <DeleteOutlined />
+                            </Button>
+                        ]}
+                    >
+                        <List.Item.Meta 
+                            avatar={<Avatar src={user.avatar ? user.avatar : NoAvatar} />}
+                            title={`
+                                ${user.name ? user.name : '...'}
+                                ${user.lastname ? user.lastname : '...'}
+                            `}
+                            description={user.email}
+                        />
+                    </List.Item>
+                )}
+            />
+        )
+    }
+    ```
+2. Modificar archivo de estilo **client\src\components\Admin\Users\ListUsers\ListUsers.scss**:
+    ```js
+    .list-users {
+        &__switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+
+            > button {
+                margin-right: 20px;
+            }
+        }
+
+        .users-active {
+            background-color: #fff;
+            padding: 10px 20px;
+
+            .ant-list-item-meta {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    ```
+3. Commit Video 098:
     + $ git add .
     + $ git commit -m "Renderizando lista de usuarios Activos y Inactivos"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 099. Añadiendo Avatar al modelo de datos de usuarios en el server
 
@@ -4489,6 +4623,10 @@
     + $ git add .
     + $ git commit -m "Añadiendo Avatar al modelo de datos de usuarios en el server"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 100. Creando el componente Modal
 
