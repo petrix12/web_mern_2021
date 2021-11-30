@@ -71,9 +71,9 @@ export function getUsersApi(token) {
             return err.message;
         });
 }
-/*
+
 export function getUsersActiveApi(token, status) {
-    const url = `${basePath}/${apiVersion}/users`
+    const url = `${basePath}/${apiVersion}/users-active?active=${status}`
 
     const params = {
         method: "GET",
@@ -93,7 +93,8 @@ export function getUsersActiveApi(token, status) {
         .catch(err => {
             return err.message
         })
-}*/
+}
+
 /*
 export function uploadAvatarApi(token, avatar, userId) {
 const url = `${basePath}/${apiVersion}/upload-avatar/${userId}`;

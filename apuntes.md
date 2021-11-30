@@ -4290,15 +4290,105 @@
     + $ git push -u origin main
 
 ### 096. Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **getUsersActive**:
+    ```js
+    ≡
+    function getUsersActive(req, res) {
+        const query = req.query
 
-1. Commit Video 096:
+        User.find({ active: query.active }).then(users => {
+            if(!users){
+                res.status(404).send({ message: "No se ha encontrado ningún usuario."})
+            } else {
+                res.status(200).send({ users })
+            }
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive
+    }
+    ```
+2. Crear endpoint **users-active** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.get("/users",[md_auth.ensureAuth] , UserController.getUsers)
+    api.get("/users-active",[md_auth.ensureAuth] , UserController.getUsersActive)
+    ≡
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/users-active?active=true
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImV4cCI6MTY0MDgxMTIzN30.98h32bj3VPXJvKnjy-BK-wtPO8Vbhc4Z7ZM8diEtSc8
+            ```
+    + Guardar endpoint como: **get-users-active**.
+
+4. Crear función **getUsersActiveApi** en **client\src\api\user.js**:
+    ```js
+    export function getUsersActiveApi(token, status) {
+        const url = `${basePath}/${apiVersion}/users-active?active=${status}`
+
+        const params = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            }
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+    ```
+5. Modificar la vista **client\src\pages\Admin\Users\Users.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { getAccessTokenApi } from "../../../api/auth"
+    import { getUsersActiveApi } from "../../../api/user"
+    import "./Users.scss"
+
+    export default function Users() {
+        const [usersActive, setUsersActive] = useState([])
+        const [usersInactive, setUsersInactive] = useState([])
+        const token = getAccessTokenApi()
+        console.log('usersActive:' + usersActive)
+        console.log('usersInactive:' + usersInactive)
+
+        useEffect(() => {
+            getUsersActiveApi(token, true).then(response => {
+                setUsersActive(response)
+            })
+            getUsersActiveApi(token, false).then(response => {
+                setUsersInactive(response)
+            })
+        }, [token])
+
+        return (
+            <div>
+                <h1>Lista de usuarios</h1>
+            </div>
+        )
+    }
+    ```
+6. Commit Video 096:
     + $ git add .
     + $ git commit -m "Endpoint para obtener usuarios Activado o Inactivos y recuperarlos en el cliente"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 097. Creando un Componente para mostrar usuarios activo o inactivos
 
@@ -4306,6 +4396,10 @@
     + $ git add .
     + $ git commit -m "Creando un Componente para mostrar usuarios activo o inactivos"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 098. Renderizando lista de usuarios Activos y Inactivos
 
