@@ -4391,15 +4391,86 @@
     + $ git push -u origin main
 
 ### 097. Creando un Componente para mostrar usuarios activo o inactivos
+1. Crear **client\src\components\Admin\Users\ListUsers\index.js**:
+    ```js
+    export { default } from "./ListUsers"
+    ```
+2. Crear componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Switch, List, Avatar, Button } from "antd"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import "./ListUsers.scss"
 
-1. Commit Video 097:
+    export default function ListUsers(props){
+        const { usersActive, usersInactive } = props;
+        const [viewUsersActives, setViewUsersActives] = useState(true)
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__header-switch">
+                        <Switch
+                            defaultChecked
+                            onChange={() => setViewUsersActives(!viewUsersActives)}
+                        />
+                        <span>
+                            {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
+                        </span>
+                    </div>
+                    { viewUsersActives ? <UsersActive /> : <UsersInactive /> }
+                </div>
+            </div>
+        )
+    }
+
+    function UsersActive() {
+        return <h3>Lista de usuarios activos</h3>
+    }
+
+    function UsersInactive() {
+        return <h3>Lista de usuarios inactivos</h3>
+    }
+    ```
+3. Crear archivo de estilo **client\src\components\Admin\Users\ListUsers\ListUsers.scss**:
+    ```scss
+    .list-users {
+    }
+    ```
+4. Suministrar imagen para usuarios que no tengan avatar y ubicarla en **client\src\assets\img\png\no-avatar.png**.
+5. Modificar vista **client\src\pages\Admin\Users\Users.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { getAccessTokenApi } from "../../../api/auth"
+    import { getUsersActiveApi } from "../../../api/user"
+    import ListUsers from "../../../components/Admin/Users/ListUsers"
+    import "./Users.scss"
+
+    export default function Users() {
+        const [usersActive, setUsersActive] = useState([])
+        const [usersInactive, setUsersInactive] = useState([])
+        const token = getAccessTokenApi()
+
+        useEffect(() => {
+            getUsersActiveApi(token, true).then(response => {
+                setUsersActive(response)
+            })
+            getUsersActiveApi(token, false).then(response => {
+                setUsersInactive(response)
+            })
+        }, [token])
+
+        return (
+            <div className="users">
+                <ListUsers usersActive={usersActive} usersInactive={usersInactive} />
+            </div>
+        )
+    }
+    ```
+6. Commit Video 097:
     + $ git add .
     + $ git commit -m "Creando un Componente para mostrar usuarios activo o inactivos"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 098. Renderizando lista de usuarios Activos y Inactivos
 
@@ -4407,6 +4478,10 @@
     + $ git add .
     + $ git commit -m "Renderizando lista de usuarios Activos y Inactivos"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 099. Añadiendo Avatar al modelo de datos de usuarios en el server
 
