@@ -3,6 +3,7 @@ import { Switch, List, Avatar, Button } from "antd"
 import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+import Modal from "../../../Modal"
 import "./ListUsers.scss"
 
 export default function ListUsers(props){
@@ -22,6 +23,13 @@ export default function ListUsers(props){
                     </span>
                 </div>
                 {viewUsersActives ? <UsersActive usersActive={usersActive} /> : <UsersInactive usersInactive={usersInactive} />}
+                <Modal
+                    title="Mi modal"
+                    isVisible={true}
+                    setIsVisible={() => console.log('ssss')}
+                >
+                    Prueba ventana modal
+                </Modal>
                 {/* <Button type="primary" onClick={addUserModal}>
                     Nuevo usuario
                 </Button> */}
@@ -115,7 +123,7 @@ function UsersInactive(props) {
 }
 
 /*
-import Modal from "../../../Modal";
+
 import EditUserForm from "../EditUserForm";
 import AddUserForm from "../AddUserForm";
 import {

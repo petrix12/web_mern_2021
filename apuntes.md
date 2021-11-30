@@ -4634,15 +4634,64 @@
     + $ git push -u origin main
 
 ### 100. Creando el componente Modal
+1. Crear **client\src\components\Modal\index.js**:
+    ```js
+    export { default } from "./Modal"
+    ```
+2. Crear componente **client\src\components\Modal\Modal.js**:
+    ```js
+    import { Modal as ModalAntd } from "antd"
+    import 'antd/dist/antd.css'
 
-1. Commit Video 100:
+    export default function Modal(props) {
+        const { children, title, isVisible, setIsVisible } = props;
+
+        return (
+            <ModalAntd
+                title={title}
+                centered
+                visible={isVisible}
+                onCancel={() => setIsVisible(false)}
+                footer={false}
+            >
+                {children}
+            </ModalAntd>
+        );
+    }
+    ```
+3. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    ≡
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import Modal from "../../../Modal"
+    import "./ListUsers.scss"
+
+    export default function ListUsers(props){
+        ≡
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__switch">
+                        ≡
+                    </div>
+                    {viewUsersActives ? <UsersActive usersActive={usersActive} /> : <UsersInactive usersInactive={usersInactive} />}
+                    <Modal
+                        title="Mi modal"
+                        isVisible={true}
+                        setIsVisible={() => console.log('ssss')}
+                    >
+                        Prueba ventana modal
+                    </Modal>
+                </div>
+            </div>
+        )
+    }
+    ```
+4. Commit Video 100:
     + $ git add .
     + $ git commit -m "Creando el componente Modal"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 101. Abriendo el Modal al hacer click en Editar, mostrando el componente EditUserForm
 
@@ -4650,6 +4699,10 @@
     + $ git add .
     + $ git commit -m "Abriendo el Modal al hacer click en Editar, mostrando el componente EditUserForm"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 102. Usando React Dropzone para subir el avatar del usuario
 
