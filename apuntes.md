@@ -4618,15 +4618,20 @@
     + $ git push -u origin main
 
 ### 099. Añadiendo Avatar al modelo de datos de usuarios en el server
-
-1. Commit Video 099:
+1. Modifica modelo **server\models\user.js** para agregar el campo **avatar**:
+    ```js
+    ≡
+    const UserSchame = Schema({
+        ≡
+        active: Boolean,
+        avatar: String
+    })
+    ≡
+    ```
+2. Commit Video 099:
     + $ git add .
     + $ git commit -m "Añadiendo Avatar al modelo de datos de usuarios en el server"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 100. Creando el componente Modal
 
@@ -4634,6 +4639,10 @@
     + $ git add .
     + $ git commit -m "Creando el componente Modal"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 101. Abriendo el Modal al hacer click en Editar, mostrando el componente EditUserForm
 
