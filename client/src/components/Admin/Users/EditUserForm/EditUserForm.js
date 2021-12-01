@@ -1,6 +1,6 @@
-import { useState/* , useEffect */, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
-import { UserOutlined, MailOutlined } from '@ant-design/icons'
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { useDropzone } from "react-dropzone"
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
@@ -20,15 +20,18 @@ export default function EditUserForm(props) {
         avatar: user.avatar
     })
 
-    /* useEffect(() => {
-        setUserData({
+    useEffect(() => {
+        if(avatar){
+            setUserData({ ...userData, avatar })
+        }
+        /* setUserData({
             name: user.name,
             lastname: user.lastname,
             email: user.email,
             role: user.role,
             avatar: user.avatar
-        });
-    }, [user]) */
+        }) */
+    }, [avatar])
 
     /* useEffect(() => {
         if (user.avatar) {
@@ -191,44 +194,44 @@ function EditForm(props) {
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    {/* <Form.Item>
+                    <Form.Item>
                         <Select
-                        placeholder="Seleccióna una rol"
-                        onChange={e => setUserData({ ...userData, role: e })}
-                        value={userData.role}
+                            placeholder="Selecciona una rol"
+                            onChange={e => setUserData({ ...userData, role: e })}
+                            value={userData.role}
                         >
-                        <Option value="admin">Administrador</Option>
-                        <Option value="editor">Editor</Option>
-                        <Option value="reviewr">Revisor</Option>
+                            <Option value="admin">Administrador</Option>
+                            <Option value="editor">Editor</Option>
+                            <Option value="reviewr">Revisor</Option>
                         </Select>
-                    </Form.Item> */}
+                    </Form.Item>
                 </Col>
             </Row>
 
             <Row gutter={24}>
                 <Col span={12}>
-                    {/* <Form.Item>
+                    <Form.Item>
                         <Input
-                        prefix={<Icon type="lock" />}
-                        type="password"
-                        placeholder="Contraseña"
-                        onChange={e =>
-                            setUserData({ ...userData, password: e.target.value })
-                        }
+                            prefix={<LockOutlined />}
+                            type="password"
+                            placeholder="Contraseña"
+                            onChange={e =>
+                                setUserData({ ...userData, password: e.target.value })
+                            }
                         />
-                    </Form.Item> */}
+                    </Form.Item>
                 </Col>
                 <Col span={12}>
-                    {/* <Form.Item>
+                    <Form.Item>
                         <Input
-                        prefix={<Icon type="lock" />}
-                        type="password"
-                        placeholder="Repetir contraseña"
-                        onChange={e =>
-                            setUserData({ ...userData, repeatPassword: e.target.value })
-                        }
+                            prefix={<LockOutlined />}
+                            type="password"
+                            placeholder="Repetir contraseña"
+                            onChange={e =>
+                                setUserData({ ...userData, repeatPassword: e.target.value })
+                            }
                         />
-                    </Form.Item> */}
+                    </Form.Item>
                 </Col>
             </Row>
 
@@ -239,4 +242,4 @@ function EditForm(props) {
             </Form.Item>
         </Form>
     )
-} 
+}

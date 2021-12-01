@@ -5030,15 +5030,209 @@
     + $ git push -u origin main
 
 ### 104. 2/2 - Creando Formulario para editar los datos del usuario
+1. Modificar componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    import { useState, useEffect, useCallback } from "react"
+    import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { useDropzone } from "react-dropzone"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import "./EditUserForm.scss";
 
-1. Commit Video 104:
+    export default function EditUserForm(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+        const [userData, setUserData] = useState({
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role,
+            avatar: user.avatar
+        })
+
+        useEffect(() => {
+            if(avatar){
+                setUserData({ ...userData, avatar })
+            }
+        }, [avatar])
+
+        const updateUser = e => {
+            console.log(userData)
+        }
+
+        return (
+            <div className="edit-user-form">
+                <UploadAvatar avatar={avatar} setAvatar={setAvatar} /> 
+                <EditForm
+                    userData={userData}
+                    setUserData={setUserData}
+                    updateUser={updateUser}
+                />
+            </div>
+        );
+    }
+
+    function UploadAvatar(props) {
+        const { avatar, setAvatar } = props;
+
+        const onDrop = useCallback(
+            acceptedFiles => {
+                const file = acceptedFiles[0];
+                setAvatar({ file, preview: URL.createObjectURL(file) });
+            },
+            [setAvatar]
+        )
+        
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            accept: "image/jpeg, image/png",
+            noKeyboard: true,
+            onDrop
+        });
+
+        return (
+            <div className="upload-avatar" {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <Avatar size={150} src={NoAvatar} />
+                ) : (
+                    <Avatar size={150} src={avatar ? avatar.preview : NoAvatar} />
+                )}
+            </div>
+        )
+    }
+
+
+    function EditForm(props) {
+        const { userData, setUserData, updateUser } = props
+        const { Option } = Select
+
+        return (
+            <Form className="form-edit" onFinish ={updateUser}>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Nombre"
+                                value={userData.name}
+                                onChange={e => setUserData({ ...userData, name: e.target.value })}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Apellidos"
+                                value={userData.lastname}
+                                onChange={e =>
+                                    setUserData({ ...userData, lastname: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<MailOutlined />}
+                                placeholder="Correo electrónico"
+                                value={userData.email}
+                                onChange={e =>
+                                    setUserData({ ...userData, email: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Select
+                                placeholder="Selecciona una rol"
+                                onChange={e => setUserData({ ...userData, role: e })}
+                                value={userData.role}
+                            >
+                                <Option value="admin">Administrador</Option>
+                                <Option value="editor">Editor</Option>
+                                <Option value="reviewr">Revisor</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Contraseña"
+                                onChange={e =>
+                                    setUserData({ ...userData, password: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Repetir contraseña"
+                                onChange={e =>
+                                    setUserData({ ...userData, repeatPassword: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar Usuario
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+2. Modificar archivo de estilo **client\src\components\Admin\Users\EditUserForm\EditUserForm.scss**:
+    ```scss
+    .edit-user-form {
+        .upload-avatar {
+            display: table;
+            margin: 0 auto;
+            border: 2px solid #9a9a9a;
+            border-style: dashed;
+            border-radius: 100px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+    .form-edit {
+            text-align: center;
+
+            .ant-form-item {
+                margin-top: 5px;
+                margin-bottom: 5px;
+
+                i {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+    }
+    ```
+3. Commit Video 104:
     + $ git add .
     + $ git commit -m "2/2 - Creando Formulario para editar los datos del usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 105. 1/2 - Endpoint para subir la imagen al servidor
 
@@ -5046,6 +5240,10 @@
     + $ git add .
     + $ git commit -m "1/2 - Endpoint para subir la imagen al servidor"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 106. 2/2 - Endpoint para subir la imagen al servidor
 
