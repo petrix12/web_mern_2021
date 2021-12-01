@@ -5235,15 +5235,90 @@
     + $ git push -u origin main
 
 ### 105. 1/2 - Endpoint para subir la imagen al servidor
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **uploadAvatar**:
+    ```js
+    const fs = require("fs")
+    const path = require("path")
+    const bcrypt = require("bcrypt-node")
+    const jwt = require("../services/jwt")
+    const User = require("../models/user")
+    const { query } = require("express")
 
-1. Commit Video 105:
+    function signUp(req, res){
+        ≡
+    }
+
+    function signIn(req, res){
+        ≡
+    }
+
+    function getUsers(req, res) {
+        ≡
+    }
+
+    function getUsersActive(req, res) {
+        ≡
+    }
+
+    function uploadAvatar(req, res) {
+        const params = req.params
+        User.findById({ _id: params.id }, (err, userData) => {
+            if(err){
+                res.status(500).send({ message: "Error del servidor."})
+            } else {
+                if(!userData){
+                    res.status(404).send({ message: "No se ha encontrado ningún usuario."})
+                } else {
+                    let user = userData
+                    console.log(user)
+                    console.log(req.files)
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar
+    }
+    ```
+2. Crear ruta **upload-avatar** tipo **put** en **server\routers\user.js**:
+    ```js
+    const express = require("express")
+    const UserController = require("../controllers/user")
+    const multipart = require("connect-multiparty")
+
+    const md_auth = require("../middlewares/authenticated")
+    const md_upload_avatar = multipart({ uploadDir: "./uploads/avatar"})
+
+    const api = express.Router()
+
+    api.post("/sign-up", UserController.signUp)
+    api.post("/sign-in", UserController.signIn)
+    api.get("/users",[md_auth.ensureAuth] , UserController.getUsers)
+    api.get("/users-active",[md_auth.ensureAuth] , UserController.getUsersActive)
+    api.put("/upload-avatar/:id",[md_auth.ensureAuth, md_upload_avatar] , UserController.uploadAvatar)
+
+    module.exports = api
+    ```
+    + **Nota**: crear la ruta **server\uploads\avatar**.
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/upload-avatar/61a250adddce36f5e06d3e74
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImV4cCI6MTY0MDgxMTIzN30.98h32bj3VPXJvKnjy-BK-wtPO8Vbhc4Z7ZM8diEtSc8
+            ```
+    + Guardar endpoint como: **upload-avatar**
+4. Commit Video 105:
     + $ git add .
     + $ git commit -m "1/2 - Endpoint para subir la imagen al servidor"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 106. 2/2 - Endpoint para subir la imagen al servidor
 
@@ -5251,6 +5326,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Endpoint para subir la imagen al servidor"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 107. Endpoint para recuperar la URL del avatar
 

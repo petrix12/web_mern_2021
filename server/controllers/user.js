@@ -1,3 +1,5 @@
+const fs = require("fs")
+const path = require("path")
 const bcrypt = require("bcrypt-node")
 const jwt = require("../services/jwt")
 const User = require("../models/user")
@@ -98,9 +100,27 @@ function getUsersActive(req, res) {
     })
 }
 
+function uploadAvatar(req, res) {
+    const params = req.params
+    User.findById({ _id: params.id }, (err, userData) => {
+        if(err){
+            res.status(500).send({ message: "Error del servidor."})
+        } else {
+            if(!userData){
+                res.status(404).send({ message: "No se ha encontrado ningún usuario."})
+            } else {
+                let user = userData
+                console.log(user)
+                console.log(req.files)
+            }
+        }
+    })
+}
+
 module.exports = {
     signUp,
     signIn,
     getUsers,
-    getUsersActive
+    getUsersActive,
+    uploadAvatar
 }
