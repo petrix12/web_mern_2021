@@ -1,6 +1,6 @@
 import { useState/* , useEffect */, useCallback } from "react"
 import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
-/* import { UserOutlined, LockOutlined } from '@ant-design/icons' */
+import { UserOutlined, MailOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { useDropzone } from "react-dropzone"
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
@@ -12,7 +12,13 @@ import "./EditUserForm.scss";
 export default function EditUserForm(props) {
     const { user/* , setIsVisibleModal, setReloadUsers */ } = props
     const [avatar, setAvatar] = useState(null)
-    /* const [userData, setUserData] = useState({}) */
+    const [userData, setUserData] = useState({
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar
+    })
 
     /* useEffect(() => {
         setUserData({
@@ -41,9 +47,10 @@ export default function EditUserForm(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [avatar]) */
 
-    /* const updateUser = e => {
-        e.preventDefault()
-        const token = getAccessTokenApi()
+    const updateUser = e => {
+        /* e.preventDefault() */
+        console.log(userData)
+        /* const token = getAccessTokenApi()
         let userUpdate = userData
 
         if (userUpdate.password || userUpdate.repeatPassword) {
@@ -81,19 +88,17 @@ export default function EditUserForm(props) {
                 setIsVisibleModal(false);
                 setReloadUsers(true);
             });
-        }
-    } */
+        } */
+    }
 
     return (
         <div className="edit-user-form">
-            <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
-            <h2>{user.email}</h2>
-        {/* 
-        <EditForm
-            userData={userData}
-            setUserData={setUserData}
-            updateUser={updateUser}
-        /> */}
+            <UploadAvatar avatar={avatar} setAvatar={setAvatar} /> 
+            <EditForm
+                userData={userData}
+                setUserData={setUserData}
+                updateUser={updateUser}
+            />
         </div>
     );
 }
@@ -140,98 +145,98 @@ function UploadAvatar(props) {
     )
 }
 
-/*
+
 function EditForm(props) {
-const { userData, setUserData, updateUser } = props;
-const { Option } = Select;
+    const { userData, setUserData, updateUser } = props
+    const { Option } = Select
 
-return (
-    <Form className="form-edit" onSubmit={updateUser}>
-    <Row gutter={24}>
-        <Col span={12}>
-        <Form.Item>
-            <Input
-            prefix={<Icon type="user" />}
-            placeholder="Nombre"
-            value={userData.name}
-            onChange={e => setUserData({ ...userData, name: e.target.value })}
-            />
-        </Form.Item>
-        </Col>
-        <Col span={12}>
-        <Form.Item>
-            <Input
-            prefix={<Icon type="user" />}
-            placeholder="Apellidos"
-            value={userData.lastname}
-            onChange={e =>
-                setUserData({ ...userData, lastname: e.target.value })
-            }
-            />
-        </Form.Item>
-        </Col>
-    </Row>
+    return (
+        <Form className="form-edit" onFinish ={updateUser}>
+             <Row gutter={24}>
+                <Col span={12}>
+                    <Form.Item>
+                        <Input
+                            prefix={<UserOutlined />}
+                            placeholder="Nombre"
+                            value={userData.name}
+                            onChange={e => setUserData({ ...userData, name: e.target.value })}
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item>
+                        <Input
+                            prefix={<UserOutlined />}
+                            placeholder="Apellidos"
+                            value={userData.lastname}
+                            onChange={e =>
+                                setUserData({ ...userData, lastname: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
 
-    <Row gutter={24}>
-        <Col span={12}>
-        <Form.Item>
-            <Input
-            prefix={<Icon type="mail" />}
-            placeholder="Correo electronico"
-            value={userData.email}
-            onChange={e =>
-                setUserData({ ...userData, email: e.target.value })
-            }
-            />
-        </Form.Item>
-        </Col>
-        <Col span={12}>
-        <Form.Item>
-            <Select
-            placeholder="Seleccióna una rol"
-            onChange={e => setUserData({ ...userData, role: e })}
-            value={userData.role}
-            >
-            <Option value="admin">Administrador</Option>
-            <Option value="editor">Editor</Option>
-            <Option value="reviewr">Revisor</Option>
-            </Select>
-        </Form.Item>
-        </Col>
-    </Row>
+            <Row gutter={24}>
+                <Col span={12}>
+                    <Form.Item>
+                        <Input
+                            prefix={<MailOutlined />}
+                            placeholder="Correo electrónico"
+                            value={userData.email}
+                            onChange={e =>
+                                setUserData({ ...userData, email: e.target.value })
+                            }
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    {/* <Form.Item>
+                        <Select
+                        placeholder="Seleccióna una rol"
+                        onChange={e => setUserData({ ...userData, role: e })}
+                        value={userData.role}
+                        >
+                        <Option value="admin">Administrador</Option>
+                        <Option value="editor">Editor</Option>
+                        <Option value="reviewr">Revisor</Option>
+                        </Select>
+                    </Form.Item> */}
+                </Col>
+            </Row>
 
-    <Row gutter={24}>
-        <Col span={12}>
-        <Form.Item>
-            <Input
-            prefix={<Icon type="lock" />}
-            type="password"
-            placeholder="Contraseña"
-            onChange={e =>
-                setUserData({ ...userData, password: e.target.value })
-            }
-            />
-        </Form.Item>
-        </Col>
-        <Col span={12}>
-        <Form.Item>
-            <Input
-            prefix={<Icon type="lock" />}
-            type="password"
-            placeholder="Repetir contraseña"
-            onChange={e =>
-                setUserData({ ...userData, repeatPassword: e.target.value })
-            }
-            />
-        </Form.Item>
-        </Col>
-    </Row>
+            <Row gutter={24}>
+                <Col span={12}>
+                    {/* <Form.Item>
+                        <Input
+                        prefix={<Icon type="lock" />}
+                        type="password"
+                        placeholder="Contraseña"
+                        onChange={e =>
+                            setUserData({ ...userData, password: e.target.value })
+                        }
+                        />
+                    </Form.Item> */}
+                </Col>
+                <Col span={12}>
+                    {/* <Form.Item>
+                        <Input
+                        prefix={<Icon type="lock" />}
+                        type="password"
+                        placeholder="Repetir contraseña"
+                        onChange={e =>
+                            setUserData({ ...userData, repeatPassword: e.target.value })
+                        }
+                        />
+                    </Form.Item> */}
+                </Col>
+            </Row>
 
-    <Form.Item>
-        <Button type="primary" htmlType="submit" className="btn-submit">
-        Actualizar Usuario
-        </Button>
-    </Form.Item>
-    </Form>
-);
-} */
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className="btn-submit">
+                    Actualizar Usuario
+                </Button>
+            </Form.Item>
+        </Form>
+    )
+} 

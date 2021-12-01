@@ -4892,15 +4892,142 @@
     + $ git push -u origin main
 
 ### 103. 1/2 - Creando Formulario para editar los datos del usuario
+1. Modificar componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    import { useState, useCallback } from "react"
+    import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import { UserOutlined, MailOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { useDropzone } from "react-dropzone"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import "./EditUserForm.scss";
 
-1. Commit Video 103:
+    export default function EditUserForm(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+        const [userData, setUserData] = useState({
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role,
+            avatar: user.avatar
+        })
+
+        const updateUser = e => {
+            /* e.preventDefault() */
+            console.log(userData)
+        }
+
+        return (
+            <div className="edit-user-form">
+                <UploadAvatar avatar={avatar} setAvatar={setAvatar} /> 
+                <EditForm
+                    userData={userData}
+                    setUserData={setUserData}
+                    updateUser={updateUser}
+                />
+            </div>
+        );
+    }
+
+    function UploadAvatar(props) {
+        const { avatar, setAvatar } = props;
+
+        const onDrop = useCallback(
+            acceptedFiles => {
+                const file = acceptedFiles[0];
+                setAvatar({ file, preview: URL.createObjectURL(file) });
+            },
+            [setAvatar]
+        )
+        
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            accept: "image/jpeg, image/png",
+            noKeyboard: true,
+            onDrop
+        });
+
+        return (
+            <div className="upload-avatar" {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <Avatar size={150} src={NoAvatar} />
+                ) : (
+                    <Avatar size={150} src={avatar ? avatar.preview : NoAvatar} />
+                )}
+            </div>
+        )
+    }
+
+
+    function EditForm(props) {
+        const { userData, setUserData, updateUser } = props
+        const { Option } = Select
+
+        return (
+            <Form className="form-edit" onFinish ={updateUser}>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Nombre"
+                                value={userData.name}
+                                onChange={e => setUserData({ ...userData, name: e.target.value })}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Apellidos"
+                                value={userData.lastname}
+                                onChange={e =>
+                                    setUserData({ ...userData, lastname: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<MailOutlined />}
+                                placeholder="Correo electrónico"
+                                value={userData.email}
+                                onChange={e =>
+                                    setUserData({ ...userData, email: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                    </Col>
+                    <Col span={12}>
+                    </Col>
+                </Row>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar Usuario
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    } 
+    ```
+2. Commit Video 103:
     + $ git add .
     + $ git commit -m "1/2 - Creando Formulario para editar los datos del usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 104. 2/2 - Creando Formulario para editar los datos del usuario
 
@@ -4908,6 +5035,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Creando Formulario para editar los datos del usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 105. 1/2 - Endpoint para subir la imagen al servidor
 
