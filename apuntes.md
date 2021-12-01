@@ -4820,15 +4820,76 @@
     + $ git push -u origin main
 
 ### 102. Usando React Dropzone para subir el avatar del usuario
++ https://react-dropzone.js.org
+1. Instalar **react-dropzone** en el proyecto **client**:
+    + $ yarn add react-dropzone
+2. Modificar componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    import { useState, useCallback } from "react"
+    import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { useDropzone } from "react-dropzone"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import "./EditUserForm.scss";
 
-1. Commit Video 102:
+    export default function EditUserForm(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+
+        return (
+            <div className="edit-user-form">
+                <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
+                <h2>{user.email}</h2>
+            </div>
+        );
+    }
+
+    function UploadAvatar(props) {
+        const { avatar, setAvatar } = props;
+        const onDrop = useCallback(
+            acceptedFiles => {
+                const file = acceptedFiles[0];
+                setAvatar({ file, preview: URL.createObjectURL(file) });
+            },
+            [setAvatar]
+        )
+        
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            accept: "image/jpeg, image/png",
+            noKeyboard: true,
+            onDrop
+        });
+
+        return (
+            <div className="upload-avatar" {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <Avatar size={150} src={NoAvatar} />
+                ) : (
+                    <Avatar size={150} src={avatar ? avatar.preview : NoAvatar} />
+                )}
+            </div>
+        )
+    }
+    ```
+3. Modificar archivo de estilo **client\src\components\Admin\Users\EditUserForm\EditUserForm.scss**:
+    ```scss
+    .edit-user-form {
+        .upload-avatar {
+            display: table;
+            margin: 0 auto;
+            border: 2px solid #9a9a9a;
+            border-style: dashed;
+            border-radius: 100px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    }
+    ```
+4. Commit Video 102:
     + $ git add .
     + $ git commit -m "Usando React Dropzone para subir el avatar del usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 103. 1/2 - Creando Formulario para editar los datos del usuario
 
@@ -4836,6 +4897,10 @@
     + $ git add .
     + $ git commit -m "1/2 - Creando Formulario para editar los datos del usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 104. 2/2 - Creando Formulario para editar los datos del usuario
 

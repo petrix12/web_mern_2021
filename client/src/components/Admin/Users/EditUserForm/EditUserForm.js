@@ -1,16 +1,18 @@
-/* import { useState, useEffect, useCallback } from "react";
-import { Avatar, Form, Icon, Input, Select, Button, Row, Col, notification } from "antd";
-import { useDropzone } from "react-dropzone";
-import NoAvatar from "../../../../assets/img/png/no-avatar.png";
-import { updateUserApi, uploadAvatarApi, getAvatarApi } from "../../../../api/user";
+import { useState/* , useEffect */, useCallback } from "react"
+import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+/* import { UserOutlined, LockOutlined } from '@ant-design/icons' */
+import 'antd/dist/antd.css'
+import { useDropzone } from "react-dropzone"
+import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+/*import { updateUserApi, uploadAvatarApi, getAvatarApi } from "../../../../api/user";
 import { getAccessTokenApi } from "../../../../api/auth";
 */
 import "./EditUserForm.scss";
 
 export default function EditUserForm(props) {
     const { user/* , setIsVisibleModal, setReloadUsers */ } = props
-    /* const [avatar, setAvatar] = useState(null)
-    const [userData, setUserData] = useState({}) */
+    const [avatar, setAvatar] = useState(null)
+    /* const [userData, setUserData] = useState({}) */
 
     /* useEffect(() => {
         setUserData({
@@ -83,10 +85,10 @@ export default function EditUserForm(props) {
     } */
 
     return (
-        <div /* className="edit-user-form" */>
-            <h1>Formualario para la edición de usuario</h1>
+        <div className="edit-user-form">
+            <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
             <h2>{user.email}</h2>
-        {/* <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
+        {/* 
         <EditForm
             userData={userData}
             setUserData={setUserData}
@@ -95,49 +97,50 @@ export default function EditUserForm(props) {
         </div>
     );
 }
-/*
+
 function UploadAvatar(props) {
-const { avatar, setAvatar } = props;
-const [avatarUrl, setAvatarUrl] = useState(null);
+    const { avatar, setAvatar } = props;
+/* const [avatarUrl, setAvatarUrl] = useState(null);
 
-useEffect(() => {
-    if (avatar) {
-    if (avatar.preview) {
-        setAvatarUrl(avatar.preview);
-    } else {
-        setAvatarUrl(avatar);
-    }
-    } else {
-    setAvatarUrl(null);
-    }
-}, [avatar]);
+    useEffect(() => {
+        if (avatar) {
+        if (avatar.preview) {
+            setAvatarUrl(avatar.preview);
+        } else {
+            setAvatarUrl(avatar);
+        }
+        } else {
+        setAvatarUrl(null);
+        }
+    }, [avatar]);
+    */
+    const onDrop = useCallback(
+        acceptedFiles => {
+            const file = acceptedFiles[0];
+            setAvatar({ file, preview: URL.createObjectURL(file) });
+        },
+        [setAvatar]
+    )
+    
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: "image/jpeg, image/png",
+        noKeyboard: true,
+        onDrop
+    });
 
-const onDrop = useCallback(
-    acceptedFiles => {
-    const file = acceptedFiles[0];
-    setAvatar({ file, preview: URL.createObjectURL(file) });
-    },
-    [setAvatar]
-);
-
-const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: "image/jpeg, image/png",
-    noKeyboard: true,
-    onDrop
-});
-
-return (
-    <div className="upload-avatar" {...getRootProps()}>
-    <input {...getInputProps()} />
-    {isDragActive ? (
-        <Avatar size={150} src={NoAvatar} />
-    ) : (
-        <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
-    )}
-    </div>
-);
+    return (
+        <div className="upload-avatar" {...getRootProps()}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+                <Avatar size={150} src={NoAvatar} />
+            ) : (
+                <Avatar size={150} src={avatar ? avatar.preview : NoAvatar} />
+            )}
+        </div>
+    )
 }
 
+/*
 function EditForm(props) {
 const { userData, setUserData, updateUser } = props;
 const { Option } = Select;
