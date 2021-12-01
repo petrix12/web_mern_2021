@@ -4,11 +4,15 @@ import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-
 import 'antd/dist/antd.css'
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
 import Modal from "../../../Modal"
+import EditUserForm from "../EditUserForm"
 import "./ListUsers.scss"
 
 export default function ListUsers(props){
     const { usersActive, usersInactive } = props;
     const [viewUsersActives, setViewUsersActives] = useState(true)
+    const [isVisibleModal, setIsVisibleModal] = useState(true)
+    const [modalTitle, setModalTitle] = useState("")
+    const [modalContent, setModalContent] = useState(null)
 
     return (
         <div className="list-users">
@@ -22,13 +26,26 @@ export default function ListUsers(props){
                         {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
                     </span>
                 </div>
-                {viewUsersActives ? <UsersActive usersActive={usersActive} /> : <UsersInactive usersInactive={usersInactive} />}
+				{viewUsersActives ? (
+						<UsersActive
+							usersActive={usersActive}
+							setIsVisibleModal={setIsVisibleModal}
+							setModalTitle={setModalTitle}
+							setModalContent={setModalContent}
+							/* setReloadUsers={setReloadUsers} */
+						/>
+					) : (
+						<UsersInactive
+							usersInactive={usersInactive}
+							/* setReloadUsers={setReloadUsers} */
+						/>
+				)}
                 <Modal
-                    title="Mi modal"
-                    isVisible={true}
-                    setIsVisible={() => console.log('ssss')}
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
                 >
-                    Prueba ventana modal
+                    {modalContent}
                 </Modal>
                 {/* <Button type="primary" onClick={addUserModal}>
                     Nuevo usuario
@@ -39,7 +56,20 @@ export default function ListUsers(props){
 }
 
 function UsersActive(props) {
-    const { usersActive } = props
+    const { usersActive, setIsVisibleModal, setModalTitle, setModalContent } = props
+	
+	const editUser = user => {
+		setIsVisibleModal(true);
+		setModalTitle(`Editar ${user.name ? user.name : "..."} ${user.lastname ? user.lastname : "..."}`)
+		setModalContent('Formulario para editar usuario')
+		setModalContent(
+			<EditUserForm
+				user={user}
+				/* setIsVisibleModal={setIsVisibleModal} */
+				/* setReloadUsers={setReloadUsers} */
+			/>
+		)
+	}
 
     return (
         <List
@@ -51,7 +81,7 @@ function UsersActive(props) {
                     actions={[
                         <Button
                             type="primary"
-                            onClick={() => console.log('Editar usuario')}
+                            onClick={() => editUser(user)}
                         >
                             <EditOutlined />
                         </Button>,
@@ -123,8 +153,6 @@ function UsersInactive(props) {
 }
 
 /*
-
-import EditUserForm from "../EditUserForm";
 import AddUserForm from "../AddUserForm";
 import {
   getAvatarApi,
@@ -153,57 +181,10 @@ export default function ListUsers(props) {
 
   return (
 
-      {viewUsersActives ? (
-        <UsersActive
-          usersActive={usersActive}
-          setIsVisibleModal={setIsVisibleModal}
-          setModalTitle={setModalTitle}
-          setModalContent={setModalContent}
-          setReloadUsers={setReloadUsers}
-        />
-      ) : (
-        <UsersInactive
-          usersInactive={usersInactive}
-          setReloadUsers={setReloadUsers}
-        />
-      )}
-
-      <Modal
-        title={modalTitle}
-        isVisible={isVisibleModal}
-        setIsVisible={setIsVisibleModal}
-      >
-        {modalContent}
-      </Modal>
-    </div>
   );
 }
 
-function UsersActive(props) {
-  const {
-    usersActive,
-    setIsVisibleModal,
-    setModalTitle,
-    setModalContent,
-    setReloadUsers
-  } = props;
 
-  const editUser = user => {
-    setIsVisibleModal(true);
-    setModalTitle(
-      `Editar ${user.name ? user.name : "..."} ${
-        user.lastname ? user.lastname : "..."
-      }`
-    );
-    setModalContent(
-      <EditUserForm
-        user={user}
-        setIsVisibleModal={setIsVisibleModal}
-        setReloadUsers={setReloadUsers}
-      />
-    );
-  };
-}
 
 function UserActive(props) {
   const { user, editUser, setReloadUsers } = props;
