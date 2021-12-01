@@ -5312,7 +5312,7 @@
         + Headers:
             ```
             Content-Type: application/json
-            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImV4cCI6MTY0MDgxMTIzN30.98h32bj3VPXJvKnjy-BK-wtPO8Vbhc4Z7ZM8diEtSc8
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImVtYWlsIjoiYmF6by5wZWRyb0BnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVUb2tlbiI6MTYzODM1NzczNywiZXhwIjoxNjM4MzY4NTM3fQ.U1waRE19KG_a8jGfRQ_AgRNtdgVHKeGs32tsbKcWHLE
             ```
     + Guardar endpoint como: **upload-avatar**
 4. Commit Video 105:
@@ -5321,15 +5321,56 @@
     + $ git push -u origin main
 
 ### 106. 2/2 - Endpoint para subir la imagen al servidor
+1. Modificar controlador **server\controllers\user.js**:
+    ```js
+    ≡
+    function uploadAvatar(req, res) {
+        const params = req.params
 
-1. Commit Video 106:
+        User.findById({ _id: params.id }, (err, userData) => {
+            if (err) {
+                res.status(500).send({ message: "Error del servidor." })
+            } else {
+                if (!userData) {
+                res.status(404).send({ message: "Nose ha encontrado ningun usuario." })
+                } else {
+                    let user = userData
+
+                    if (req.files) {
+                        let filePath = req.files.avatar.path
+                        let fileSplit = filePath.split("\\")
+                        /* let fileSplit = filePath.split("/") */
+                        let fileName = fileSplit[2]
+                        let extSplit = fileName.split(".")
+                        let fileExt = extSplit[1]
+
+                        if (fileExt !== "png" && fileExt !== "jpg") {
+                            res.status(400).send({message:"La extension de la imagen no es valida. (Extensiones permitidas: .png y .jpg)"})
+                        } else {
+                            user.avatar = fileName
+                            User.findByIdAndUpdate({ _id: params.id }, user, (err, userResult) => {
+                                if (err) {
+                                    res.status(500).send({ message: "Error del servidor." })
+                                } else {
+                                    if (!userResult) {
+                                        res.status(404).send({ message: "No se ha encontrado ningun usuario." })
+                                    } else {
+                                        res.status(200).send({ avatarName: fileName })
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        })
+    }
+    ≡
+    ```
+2. Commit Video 106:
     + $ git add .
     + $ git commit -m "2/2 - Endpoint para subir la imagen al servidor"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 107. Endpoint para recuperar la URL del avatar
 
@@ -5337,6 +5378,10 @@
     + $ git add .
     + $ git commit -m "Endpoint para actualizar el usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 108. Endpoint para actualizar el usuario
 
