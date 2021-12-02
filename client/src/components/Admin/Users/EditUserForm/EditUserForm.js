@@ -4,25 +4,38 @@ import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { useDropzone } from "react-dropzone"
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
-/*import { updateUserApi, uploadAvatarApi, getAvatarApi } from "../../../../api/user";
-import { getAccessTokenApi } from "../../../../api/auth";
-*/
+import { /* updateUserApi, uploadAvatarApi, */ getAvatarApi } from "../../../../api/user"
+/*import { getAccessTokenApi } from "../../../../api/auth"*/
 import "./EditUserForm.scss";
 
 export default function EditUserForm(props) {
     const { user/* , setIsVisibleModal, setReloadUsers */ } = props
     const [avatar, setAvatar] = useState(null)
-    const [userData, setUserData] = useState({
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        role: user.role,
-        avatar: user.avatar
-    })
+    const [userData, setUserData] = useState({})
+    
+    useEffect(() => {
+        setUserData({
+            name: user.name,
+            lastname: user.lastname,
+            email: user.email,
+            role: user.role,
+            avatar: user.avatar
+        })
+    }, [user])
+
+    useEffect(() => {
+        if (user.avatar) {
+            getAvatarApi(user.avatar).then(response => {
+                setAvatar(response);
+            })
+        } else {
+            setAvatar(null);
+        }
+    }, [user])
 
     useEffect(() => {
         if(avatar){
-            setUserData({ ...userData, avatar })
+            setUserData({ ...userData, avatar: avatar.file })
         }
         /* setUserData({
             name: user.name,
@@ -32,16 +45,6 @@ export default function EditUserForm(props) {
             avatar: user.avatar
         }) */
     }, [avatar])
-
-    /* useEffect(() => {
-        if (user.avatar) {
-            getAvatarApi(user.avatar).then(response => {
-                setAvatar(response);
-            });
-        } else {
-            setAvatar(null);
-        }
-    }, [user]) */
 
     /* useEffect(() => {
         if (avatar) {
@@ -108,20 +111,20 @@ export default function EditUserForm(props) {
 
 function UploadAvatar(props) {
     const { avatar, setAvatar } = props;
-/* const [avatarUrl, setAvatarUrl] = useState(null);
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
     useEffect(() => {
         if (avatar) {
-        if (avatar.preview) {
-            setAvatarUrl(avatar.preview);
+            if (avatar.preview) {
+                setAvatarUrl(avatar.preview)
+            } else {
+                setAvatarUrl(avatar)
+            }
         } else {
-            setAvatarUrl(avatar);
+            setAvatarUrl(null)
         }
-        } else {
-        setAvatarUrl(null);
-        }
-    }, [avatar]);
-    */
+    }, [avatar])
+    
     const onDrop = useCallback(
         acceptedFiles => {
             const file = acceptedFiles[0];
@@ -142,7 +145,7 @@ function UploadAvatar(props) {
             {isDragActive ? (
                 <Avatar size={150} src={NoAvatar} />
             ) : (
-                <Avatar size={150} src={avatar ? avatar.preview : NoAvatar} />
+                <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
             )}
         </div>
     )

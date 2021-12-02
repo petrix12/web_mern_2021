@@ -5475,19 +5475,459 @@
     + $ git push -u origin main
 
 ### 109. Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente
+1. Ir al proyecto **client** y modificar **client\src\api\user.js** para incorporar las funciones **uploadAvatarApi**, **getAvatarApi** y **updateUserApi**:
+    ```js
+    ≡
+    export function uploadAvatarApi(token, avatar, userId) {
+        const url = `${basePath}/${apiVersion}/upload-avatar/${userId}`
 
-1. Commit Video 109:
+        const formData = new FormData();
+        formData.append("avatar", avatar, avatar.name)
+
+        const params = {
+            method: "PUT",
+            body: formData,
+            headers: {
+                Authorization: token
+            }
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+
+    export function getAvatarApi(avatarName) {
+        const url = `${basePath}/${apiVersion}/get-avatar/${avatarName}`
+
+        return fetch(url)
+            .then(response => {
+                return response.url
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+
+    export function updateUserApi(token, user, userId) {
+        const url = `${basePath}/${apiVersion}/update-user/${userId}`
+
+        const params = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(user)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+    ```
+2. Commit Video 109:
     + $ git add .
     + $ git commit -m "Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 110. Mostrando el Avatar del usuario si existe en la base de datos
+1. Modificar componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    import { useState, useEffect, useCallback } from "react"
+    import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { useDropzone } from "react-dropzone"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import { getAvatarApi } from "../../../../api/user"
+    import "./EditUserForm.scss";
 
-1. Commit Video 110:
+    export default function EditUserForm(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+        const [userData, setUserData] = useState({})
+        
+        useEffect(() => {
+            setUserData({
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+                role: user.role,
+                avatar: user.avatar
+            })
+        }, [user])
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response);
+                })
+            } else {
+                setAvatar(null);
+            }
+        }, [user])
+
+        useEffect(() => {
+            if(avatar){
+                setUserData({ ...userData, avatar: avatar.file })
+            }
+        }, [avatar])
+
+        const updateUser = e => {
+            /* e.preventDefault() */
+            console.log(userData)
+        }
+
+        return (
+            <div className="edit-user-form">
+                <UploadAvatar avatar={avatar} setAvatar={setAvatar} /> 
+                <EditForm
+                    userData={userData}
+                    setUserData={setUserData}
+                    updateUser={updateUser}
+                />
+            </div>
+        );
+    }
+
+    function UploadAvatar(props) {
+        const { avatar, setAvatar } = props;
+        const [avatarUrl, setAvatarUrl] = useState(null);
+
+        useEffect(() => {
+            if (avatar) {
+                if (avatar.preview) {
+                    setAvatarUrl(avatar.preview)
+                } else {
+                    setAvatarUrl(avatar)
+                }
+            } else {
+                setAvatarUrl(null)
+            }
+        }, [avatar])
+        
+        const onDrop = useCallback(
+            acceptedFiles => {
+                const file = acceptedFiles[0];
+                setAvatar({ file, preview: URL.createObjectURL(file) });
+            },
+            [setAvatar]
+        )
+        
+        const { getRootProps, getInputProps, isDragActive } = useDropzone({
+            accept: "image/jpeg, image/png",
+            noKeyboard: true,
+            onDrop
+        });
+
+        return (
+            <div className="upload-avatar" {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <Avatar size={150} src={NoAvatar} />
+                ) : (
+                    <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
+                )}
+            </div>
+        )
+    }
+
+
+    function EditForm(props) {
+        const { userData, setUserData, updateUser } = props
+        const { Option } = Select
+
+        return (
+            <Form className="form-edit" onFinish ={updateUser}>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Nombre"
+                                value={userData.name}
+                                onChange={e => setUserData({ ...userData, name: e.target.value })}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Apellidos"
+                                value={userData.lastname}
+                                onChange={e =>
+                                    setUserData({ ...userData, lastname: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<MailOutlined />}
+                                placeholder="Correo electrónico"
+                                value={userData.email}
+                                onChange={e =>
+                                    setUserData({ ...userData, email: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Select
+                                placeholder="Selecciona una rol"
+                                onChange={e => setUserData({ ...userData, role: e })}
+                                value={userData.role}
+                            >
+                                <Option value="admin">Administrador</Option>
+                                <Option value="editor">Editor</Option>
+                                <Option value="reviewr">Revisor</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Contraseña"
+                                onChange={e =>
+                                    setUserData({ ...userData, password: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Repetir contraseña"
+                                onChange={e =>
+                                    setUserData({ ...userData, repeatPassword: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar Usuario
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Switch, List, Avatar, Button } from "antd"
+    import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import Modal from "../../../Modal"
+    import EditUserForm from "../EditUserForm"
+    import { getAvatarApi } from "../../../../api/user"
+    import "./ListUsers.scss"
+
+    export default function ListUsers(props){
+        const { usersActive, usersInactive } = props;
+        const [viewUsersActives, setViewUsersActives] = useState(true)
+        const [isVisibleModal, setIsVisibleModal] = useState(true)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__switch">
+                        <Switch
+                            defaultChecked
+                            onChange={() => setViewUsersActives(!viewUsersActives)}
+                        />
+                        <span>
+                            {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
+                        </span>
+                    </div>
+                    {viewUsersActives ? (
+                            <UsersActive
+                                usersActive={usersActive}
+                                setIsVisibleModal={setIsVisibleModal}
+                                setModalTitle={setModalTitle}
+                                setModalContent={setModalContent}
+                            />
+                        ) : (
+                            <UsersInactive
+                                usersInactive={usersInactive}
+                            />
+                    )}
+                    <Modal
+                        title={modalTitle}
+                        isVisible={isVisibleModal}
+                        setIsVisible={setIsVisibleModal}
+                    >
+                        {modalContent}
+                    </Modal>
+                </div>
+            </div>
+        )
+    }
+
+    function UsersActive(props) {
+        const { usersActive, setIsVisibleModal, setModalTitle, setModalContent } = props
+        
+        const editUser = user => {
+            setIsVisibleModal(true);
+            setModalTitle(`Editar ${user.name ? user.name : "..."} ${user.lastname ? user.lastname : "..."}`)
+            setModalContent('Formulario para editar usuario')
+            setModalContent(
+                <EditUserForm
+                    user={user}
+                />
+            )
+        }
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersActive}
+                renderItem={user => <UserActive user={user} editUser={editUser} />}
+            />
+        )
+    }
+
+    function UserActive(props) {
+        const { user, editUser } = props
+        const [avatar, setAvatar] = useState(null)
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response)
+                })
+            } else {
+                setAvatar(null)
+            }
+        }, [user])
+
+        return (
+            <List.Item
+                actions={[
+                    <Button
+                        type="primary"
+                        onClick={() => editUser(user)}
+                    >
+                        <EditOutlined />
+                    </Button>,
+                    <Button
+                        type="danger"
+                        onClick={() => console.log('Desactivar usuario')}
+                    >
+                        <StopOutlined />
+                    </Button>,
+                    <Button
+                        type="danger"
+                        onClick={() => console.log('Eliminar usuario')}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+
+    function UsersInactive(props) {
+        const { usersInactive } = props
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersInactive}
+                renderItem={user => <UserInactive user={user} />}
+            />
+        )
+    }
+
+    function UserInactive(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response)
+                })
+            } else {
+                setAvatar(null)
+            }
+        }, [user])
+
+        return (
+            <List.Item
+                actions={[
+                    <Button
+                        type="primary"
+                        onClick={() => console.log('Activar usuario')}
+                    >
+                        <CheckOutlined />
+                    </Button>,
+                    <Button
+                        type="danger"
+                        onClick={() => console.log('Eliminar usuario')}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta 
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+    ```
+3. Commit Video 110:
     + $ git add .
     + $ git commit -m "Mostrando el Avatar del usuario si existe en la base de datos"
     + $ git push -u origin main
@@ -5498,6 +5938,10 @@
     + $ git add .
     + $ git commit -m "1/2 - Actualizando datos del usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 112. 2/2 - Actualizando datos del usuario
 
