@@ -5415,15 +5415,64 @@
     + $ git push -u origin main
 
 ### 108. Endpoint para actualizar el usuario
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **updateUser**:
+    ```js
+    ≡
+    function updateUser(req, res) {
+        const userData = req.body
+        const params = req.params
 
-1. Commit Video 108:
+        User.findByIdAndUpdate({ _id: params.id }, userData, (err, userUpdate) => {
+            if(err){
+                res.status(500).send({message: "Error del servidor."})
+            } else {
+                if(!userUpdate){
+                    res.status(404).send({message: "No se ha encontrado ningún usuario."})
+                } else {
+                    res.status(200).send({message: "Usuario actualizado correctamente."})
+                }
+            }
+            
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar,
+        getAvatar,
+        updateUser
+    }
+    ```
+2. Crear ruta **update-user** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.get("/get-avatar/:avatarName", UserController.getAvatar)
+    api.put("/update-user/:id",[md_auth.ensureAuth] , UserController.updateUser)
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/update-user/61a250adddce36f5e06d3e74
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsImVtYWlsIjoiYmF6by5wZWRyb0BnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJjcmVhdGVUb2tlbiI6MTYzODQ0NTg0OSwiZXhwIjoxNjM4NDU2NjQ5fQ.ROvS9zsl9OWL9BB7seMqYDKZhgqE3SOSKzLtd5_JHsc
+            ```
+        + Body:
+            ```json
+            {
+                "name": "Pedro Actualizado",
+                "lastname": "Bazó Actualizado"
+            }
+            ```
+    + Guardar endpoint como: **update-user**
+4. Commit Video 108:
     + $ git add .
     + $ git commit -m "Endpoint para actualizar el usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 109. Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente
 
@@ -5431,6 +5480,10 @@
     + $ git add .
     + $ git commit -m "Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 110. Mostrando el Avatar del usuario si existe en la base de datos
 
