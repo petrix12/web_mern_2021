@@ -5373,15 +5373,46 @@
     + $ git push -u origin main
 
 ### 107. Endpoint para recuperar la URL del avatar
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **getAvatar**:
+    ```js
+    ≡
+    function getAvatar(req, res) {
+        const avatarName = req.params.avatarName
+        const filePath = "./uploads/avatar/" + avatarName
+        fs.exists(filePath, exists => {
+            if(!exists){
+                res.status(404).send({message: "El avatar que buscas no existe."})
+            } else {
+                res.sendFile(path.resolve(filePath))
+            }
+        })
+    }
 
-1. Commit Video 107:
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar,
+        getAvatar
+    }
+    ```
+2. Crear ruta **get-avatar** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.put("/upload-avatar/:id",[md_auth.ensureAuth, md_upload_avatar], UserController.uploadAvatar)
+    api.get("/get-avatar/:avatarName", UserController.getAvatar)
+    ≡
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/get-avatar/6JNvMBP9OerEj6j7Q0i4mhQe.png
+    + Guardar endpoint como: **get-avatar**
+4. Commit Video 107:
     + $ git add .
     + $ git commit -m "Endpoint para actualizar el usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 108. Endpoint para actualizar el usuario
 
@@ -5389,6 +5420,10 @@
     + $ git add .
     + $ git commit -m "Endpoint para actualizar el usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 109. Creando funciones Subir Avatar, Obtener Avatar y Actualizar Usuario en cliente
 
