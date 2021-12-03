@@ -4708,7 +4708,7 @@
     export default function ListUsers(props){
         const { usersActive, usersInactive } = props;
         const [viewUsersActives, setViewUsersActives] = useState(true)
-        const [isVisibleModal, setIsVisibleModal] = useState(true)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
         const [modalTitle, setModalTitle] = useState("")
         const [modalContent, setModalContent] = useState(null)
 
@@ -5758,7 +5758,7 @@
     export default function ListUsers(props){
         const { usersActive, usersInactive } = props;
         const [viewUsersActives, setViewUsersActives] = useState(true)
-        const [isVisibleModal, setIsVisibleModal] = useState(true)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
         const [modalTitle, setModalTitle] = useState("")
         const [modalContent, setModalContent] = useState(null)
 
@@ -5933,15 +5933,106 @@
     + $ git push -u origin main
 
 ### 111. 1/2 - Actualizando datos del usuario
+1. Modificar componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    import { useState, useEffect, useCallback } from "react"
+    import { Avatar, Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { useDropzone } from "react-dropzone"
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import { updateUserApi, uploadAvatarApi, getAvatarApi } from "../../../../api/user"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./EditUserForm.scss";
 
-1. Commit Video 111:
+    export default function EditUserForm(props) {
+        const { user } = props
+        const [avatar, setAvatar] = useState(null)
+        const [userData, setUserData] = useState({})
+        
+        useEffect(() => {
+            setUserData({
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+                role: user.role,
+                avatar: user.avatar
+            })
+        }, [user])
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response);
+                })
+            } else {
+                setAvatar(null);
+            }
+        }, [user])
+
+        useEffect(() => {
+            if(avatar){
+                setUserData({ ...userData, avatar: avatar.file })
+            }
+        }, [avatar])
+
+        const updateUser = e => {
+            const token = getAccessTokenApi()
+            let userUpdate = userData
+
+            if (userUpdate.password || userUpdate.repeatPassword) {
+                if (userUpdate.password !== userUpdate.repeatPassword) {
+                    notification["error"]({
+                        message: "Las contraseñas tienen que ser iguales."
+                    })
+                    return
+                }
+            }
+    
+            if (!userUpdate.name || !userUpdate.lastname || !userUpdate.email) {
+                notification["error"]({ message: "El nombre, apellidos y email son obligatorios." })
+                return
+            }
+
+            if (typeof userUpdate.avatar === "object") {
+                uploadAvatarApi(token, userUpdate.avatar, user._id).then(response => {
+                    userUpdate.avatar = response.avatarName
+                    updateUserApi(token, userUpdate, user._id).then(result => {
+                        notification["success"]({message: result.message})/
+                    })
+                })
+            } else {
+                updateUserApi(token, userUpdate, user._id).then(result => {
+                    notification["success"]({message: result.message})
+                })
+            }
+        }
+
+        return (
+            <div className="edit-user-form">
+                <UploadAvatar avatar={avatar} setAvatar={setAvatar} /> 
+                <EditForm
+                    userData={userData}
+                    setUserData={setUserData}
+                    updateUser={updateUser}
+                />
+            </div>
+        )
+    }
+
+    function UploadAvatar(props) {
+        ≡
+    }
+
+
+    function EditForm(props) {
+        ≡
+    }
+    ```
+2. Commit Video 111:
     + $ git add .
     + $ git commit -m "1/2 - Actualizando datos del usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 112. 2/2 - Actualizando datos del usuario
 
@@ -5949,6 +6040,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Actualizando datos del usuario"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 113. Actualizar contraseña del usuario
 

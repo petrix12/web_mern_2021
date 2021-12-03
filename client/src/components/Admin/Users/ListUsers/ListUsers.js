@@ -11,7 +11,7 @@ import "./ListUsers.scss"
 export default function ListUsers(props){
     const { usersActive, usersInactive } = props;
     const [viewUsersActives, setViewUsersActives] = useState(true)
-    const [isVisibleModal, setIsVisibleModal] = useState(true)
+    const [isVisibleModal, setIsVisibleModal] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
     const [modalContent, setModalContent] = useState(null)
 

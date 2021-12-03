@@ -4,8 +4,8 @@ import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { useDropzone } from "react-dropzone"
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
-import { /* updateUserApi, uploadAvatarApi, */ getAvatarApi } from "../../../../api/user"
-/*import { getAccessTokenApi } from "../../../../api/auth"*/
+import { updateUserApi, uploadAvatarApi, getAvatarApi } from "../../../../api/user"
+import { getAccessTokenApi } from "../../../../api/auth"
 import "./EditUserForm.scss";
 
 export default function EditUserForm(props) {
@@ -26,10 +26,10 @@ export default function EditUserForm(props) {
     useEffect(() => {
         if (user.avatar) {
             getAvatarApi(user.avatar).then(response => {
-                setAvatar(response);
+                setAvatar(response)
             })
         } else {
-            setAvatar(null);
+            setAvatar(null)
         }
     }, [user])
 
@@ -55,21 +55,20 @@ export default function EditUserForm(props) {
 
     const updateUser = e => {
         /* e.preventDefault() */
-        console.log(userData)
-        /* const token = getAccessTokenApi()
+        const token = getAccessTokenApi()
         let userUpdate = userData
 
         if (userUpdate.password || userUpdate.repeatPassword) {
             if (userUpdate.password !== userUpdate.repeatPassword) {
                 notification["error"]({
                     message: "Las contraseñas tienen que ser iguales."
-                });
+                })
                 return
-            } else {
-                delete userUpdate.repeatPassword;
+            /* } else {
+                delete userUpdate.repeatPassword */
             }
         }
-
+ 
         if (!userUpdate.name || !userUpdate.lastname || !userUpdate.email) {
             notification["error"]({ message: "El nombre, apellidos y email son obligatorios." })
             return
@@ -77,24 +76,20 @@ export default function EditUserForm(props) {
 
         if (typeof userUpdate.avatar === "object") {
             uploadAvatarApi(token, userUpdate.avatar, user._id).then(response => {
-                userUpdate.avatar = response.avatarName;
+                userUpdate.avatar = response.avatarName
                 updateUserApi(token, userUpdate, user._id).then(result => {
-                notification["success"]({
-                    message: result.message
-                });
-                setIsVisibleModal(false);
-                setReloadUsers(true);
-                });
+                    notification["success"]({message: result.message})
+                    /* setIsVisibleModal(false)
+                    setReloadUsers(true) */
+                })
             });
         } else {
             updateUserApi(token, userUpdate, user._id).then(result => {
-                notification["success"]({
-                message: result.message
-                });
-                setIsVisibleModal(false);
-                setReloadUsers(true);
-            });
-        } */
+                notification["success"]({message: result.message})
+                /* setIsVisibleModal(false)
+                setReloadUsers(true) */
+            })
+        }
     }
 
     return (
