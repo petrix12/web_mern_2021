@@ -54,18 +54,15 @@ export default function EditUserForm(props) {
     }, [avatar]) */
 
     const updateUser = e => {
-        /* e.preventDefault() */
         const token = getAccessTokenApi()
         let userUpdate = userData
 
         if (userUpdate.password || userUpdate.repeatPassword) {
             if (userUpdate.password !== userUpdate.repeatPassword) {
-                notification["error"]({
-                    message: "Las contraseñas tienen que ser iguales."
-                })
+                notification["error"]({message: "Las contraseñas tienen que ser iguales."})
                 return
-            /* } else {
-                delete userUpdate.repeatPassword */
+            } else {
+                delete userUpdate.repeatPassword
             }
         }
  
@@ -82,7 +79,7 @@ export default function EditUserForm(props) {
                     setIsVisibleModal(false)
                     setReloadUsers(true)
                 })
-            });
+            })
         } else {
             updateUserApi(token, userUpdate, user._id).then(result => {
                 notification["success"]({message: result.message})
@@ -101,7 +98,7 @@ export default function EditUserForm(props) {
                 updateUser={updateUser}
             />
         </div>
-    );
+    )
 }
 
 function UploadAvatar(props) {

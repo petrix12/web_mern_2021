@@ -6498,15 +6498,53 @@
     + $ git push -u origin main
 
 ### 113. Actualizar contraseña del usuario
+1. Modificar el componente **client\src\components\Admin\Users\EditUserForm\EditUserForm.js**:
+    ```js
+    ≡
+    export default function EditUserForm(props) {
+        ≡
+        const updateUser = e => {
+            const token = getAccessTokenApi()
+            let userUpdate = userData
 
-1. Commit Video 113:
+            if (userUpdate.password || userUpdate.repeatPassword) {
+                if (userUpdate.password !== userUpdate.repeatPassword) {
+                    notification["error"]({message: "Las contraseñas tienen que ser iguales."})
+                    return
+                } else {
+                    delete userUpdate.repeatPassword
+                }
+            }
+            ≡
+        }
+        ≡
+    }
+    ```
+2. Modificar controlador **server\controllers\user.js**:
+    ```js
+    ≡
+    async function updateUser(req, res) {
+        let userData = req.body
+        userData.email = req.body.email.toLowerCase()
+        const params = req.params
+
+        if(userData.password){
+            await bcrypt.hash(userData.password, null, null, (err, hash) => {
+                if(err){
+                    res.status(500).send({message: "Error al encriptar la contraseña."})
+                } else {
+                    userData.password = hash
+                }
+            })
+        }
+        ≡
+    }
+    ≡
+    ```
+3. Commit Video 113:
     + $ git add .
     + $ git commit -m "Actualizar contraseña del usuario"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 114. Creando Endpoint para activar y desactivar usuarios
 
@@ -6514,6 +6552,10 @@
     + $ git add .
     + $ git commit -m "Creando Endpoint para activar y desactivar usuarios"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 115. Añadiendo la funcionalidad de activar y desactivar usuario en el panel de admin
 
