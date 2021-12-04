@@ -6547,15 +6547,68 @@
     + $ git push -u origin main
 
 ### 114. Creando Endpoint para activar y desactivar usuarios
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **activateUser**:
+    ```js
+    ≡
+    function activateUser(req, res) {
+        const { id } = req.params
+        const { active } = req.body
 
-1. Commit Video 114:
+        User.findByIdAndUpdate(id, { active }, (err, userStored) => {
+            if(err){
+                res.status(500).send({message: "Error al activar / desactivar usuario"})
+            } else {
+                if (!userStored){
+                    res.status(404).send({message: "No se ha encontrado el usuario."})
+                } else {
+                    if(active === true){
+                        res.status(200).send({message: "Usuario activado correctamente."})
+                    } else {
+                        res.status(200).send({message: "Usuario desactivado correctamente."})
+                    }
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar,
+        getAvatar,
+        updateUser,
+        activateUser
+    }
+    ```
+2. Crear ruta **activate-user** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.put("/activate-user/:id",[md_auth.ensureAuth] , UserController.activateUser)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/activate-user/61a250adddce36f5e06d3e74
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg1NjQ3MTksImV4cCI6MTYzODU3NTUxOX0.1ok8Hao-OcS5OUqrliejAkKsG_RpJCOkCruHnYQrw2w
+            ```
+        + Body:
+            ```json
+            {
+                "active": false
+            }
+            ```
+    + Guardar endpoint como: **activate-user**
+4. Commit Video 114:
     + $ git add .
     + $ git commit -m "Creando Endpoint para activar y desactivar usuarios"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 115. Añadiendo la funcionalidad de activar y desactivar usuario en el panel de admin
 
@@ -6563,6 +6616,10 @@
     + $ git add .
     + $ git commit -m "Añadiendo la funcionalidad de activar y desactivar usuario en el panel de admin"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 116. Creando Endpoint para eliminar usuarios
 
