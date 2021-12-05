@@ -204,6 +204,22 @@ function activateUser(req, res) {
     })
 }
 
+function deleteUser(req, res) {
+    const { id } = req.params
+
+    User.findByIdAndRemove(id, (err, userDelete) => {
+        if(err){
+            res.status(500).send({message: "Error al eliminar usuario"})
+        } else {
+            if (!userDelete){
+                res.status(404).send({message: "No se ha encontrado el usuario."})
+            } else {
+                res.status(200).send({message: "Usuario se eliminó correctamente."})
+            }
+        }
+    })
+}
+
 module.exports = {
     signUp,
     signIn,
@@ -212,5 +228,6 @@ module.exports = {
     uploadAvatar,
     getAvatar,
     updateUser,
-    activateUser
+    activateUser,
+    deleteUser
 }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-import { Switch, List, Avatar, Button, notification } from "antd"
+import { Switch, List, Avatar, Button, Modal as ModalAntd, notification } from "antd"
 import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
 import Modal from "../../../Modal"
 import EditUserForm from "../EditUserForm"
-import { getAvatarApi, activateUserApi/* , deleteUserApi */ } from "../../../../api/user"
+import { getAvatarApi, activateUserApi, deleteUserApi } from "../../../../api/user"
 import { getAccessTokenApi } from "../../../../api/auth"
 import "./ListUsers.scss"
 
@@ -105,14 +105,14 @@ function UserActive(props) {
 				notification["error"]({message: err})
 			})
 	}
-/*
+
 	const showDeleteConfirm = () => {
-		const accesToken = getAccessTokenApi();
+		const accesToken = getAccessTokenApi()
 
 		confirm({
 			title: "Eliminando usuario",
 			content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
-			okText: "Eliminar",
+/*			okText: "Eliminar",
 			okType: "danger",
 			cancelText: "Cancelar",
 			onOk() {
@@ -128,9 +128,9 @@ function UserActive(props) {
 						message: err
 					})
 				})
-			}
-		})
-	} */
+			}*/
+		}) 
+	}
 
 	return (
 		<List.Item

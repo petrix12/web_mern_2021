@@ -6850,19 +6850,130 @@
     + $ git push -u origin main
 
 ### 116. Creando Endpoint para eliminar usuarios
+1. Modificar controlador **server\controllers\user.js** para incorporar la función **deleteUser**:
+    ```js
+    function deleteUser(req, res) {
+        const { id } = req.params
 
-1. Commit Video 116:
+        User.findByIdAndRemove(id, (err, userDelete) => {
+            if(err){
+                res.status(500).send({message: "Error al eliminar usuario"})
+            } else {
+                if (!userDelete){
+                    res.status(404).send({message: "No se ha encontrado el usuario."})
+                } else {
+                    res.status(200).send({message: "Usuario se eliminó correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar,
+        getAvatar,
+        updateUser,
+        activateUser,
+        deleteUser
+    }
+    ```
+2. Crear la ruta **delete-user** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.delete("/delete-user/:id",[md_auth.ensureAuth] , UserController.deleteUser)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: delete
+        + URL: http://localhost:3977/api/v1/delete-user/61abf44e5d3c4e21f778a71a
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg2NDg5NzYsImV4cCI6MTYzODY1OTc3Nn0.a_48f6S1XDfvw2GTdZdaScx3gQPjwYB5QQhvuvgvwu4
+            ```
+    + Guardar endpoint como: **delete-user**
+5. Commit Video 116:
     + $ git add .
     + $ git commit -m "Creando Endpoint para eliminar usuarios"
     + $ git push -u origin main
 
-
-    ≡
-    ```js
-    ```
 ### 117. 1/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin
+1. Modificar **client\src\api\user.js** para incorporar la función **deleteUserApi**:
+    ```js
+    ≡
+    export function deleteUserApi(token, userId) {
+        const url = `${basePath}/${apiVersion}/delete-user/${userId}`
 
-1. Commit Video 117:
+        const params = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            }
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result.message
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Switch, List, Avatar, Button, Modal as ModalAntd, notification } from "antd"
+    import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import Modal from "../../../Modal"
+    ≡
+
+    export default function ListUsers(props){
+        ≡
+    }
+
+    function UsersActive(props) {
+        ≡
+    }
+
+    function UserActive(props) {
+        const { user, editUser, setReloadUsers } = props
+        const [avatar, setAvatar] = useState(null)
+
+        useEffect(() => {
+            ≡
+        }, [user])
+
+        const desactivateUser = () => {
+            ≡
+        }
+
+        const showDeleteConfirm = () => {
+            const accesToken = getAccessTokenApi()
+
+            confirm({
+                title: "Eliminando usuario",
+                content: `¿Estas seguro que quieres eliminar a ${user.email}?`
+            }) 
+        }
+
+        return (
+            ≡
+        )
+    }
+    ```
+3. Commit Video 117:
     + $ git add .
     + $ git commit -m "1/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin"
     + $ git push -u origin main
@@ -6873,6 +6984,10 @@
     + $ git add .
     + $ git commit -m "2/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 119. Creando Endpoint para crear usuarios desde el panel de Administrador
 

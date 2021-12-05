@@ -184,30 +184,31 @@ export function activateUserApi(token, userId, status) {
             return err.message
         })
 }
-/*
+
 export function deleteUserApi(token, userId) {
-const url = `${basePath}/${apiVersion}/delete-user/${userId}`;
+    const url = `${basePath}/${apiVersion}/delete-user/${userId}`
 
-const params = {
-    method: "DELETE",
-    headers: {
-    "Content-Type": "application/json",
-    Authorization: token
+    const params = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
     }
-};
 
-return fetch(url, params)
-    .then(response => {
-    return response.json();
-    })
-    .then(result => {
-    return result.message;
-    })
-    .catch(err => {
-    return err.message;
-    });
+    return fetch(url, params)
+        .then(response => {
+            return response.json()
+        })
+        .then(result => {
+            return result.message
+        })
+        .catch(err => {
+            return err.message
+        })
 }
 
+/*
 export function signUpAdminApi(token, data) {
 const url = `${basePath}/${apiVersion}/sign-up-admin`;
 
