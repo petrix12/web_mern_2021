@@ -6962,7 +6962,7 @@
         const showDeleteConfirm = () => {
             const accesToken = getAccessTokenApi()
 
-            confirm({
+            ModalAntd.confirmconfirm({
                 title: "Eliminando usuario",
                 content: `¿Estas seguro que quieres eliminar a ${user.email}?`
             }) 
@@ -6979,15 +6979,133 @@
     + $ git push -u origin main
 
 ### 118. 2/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin
+1. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    ≡
+    export default function ListUsers(props){
+        ≡
+    }
 
-1. Commit Video 118:
+    function UsersActive(props) {
+        ≡
+    }
+
+    function UserActive(props) {
+        ≡
+        const showDeleteConfirm = () => {
+            const accesToken = getAccessTokenApi()
+
+            ModalAntd.confirm({
+                title: "Eliminando usuario",
+                content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deleteUserApi(accesToken, user._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            })
+                            setReloadUsers(true)
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            })
+                        })
+                }
+            }) 
+        }
+
+        return (
+            <List.Item
+                actions={[
+                    <Button type="primary" onClick={() => editUser(user)} >
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={desactivateUser} >
+                        <StopOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={showDeleteConfirm} >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+
+    function UsersInactive(props) {
+        ≡
+    }
+
+    function UserInactive(props) {
+        ≡
+        const showDeleteConfirm = () => {
+            const accesToken = getAccessTokenApi()
+
+            ModalAntd.confirm({
+                title: "Eliminando usuario",
+                content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deleteUserApi(accesToken, user._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            })
+                            setReloadUsers(true)
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            })
+                        })
+                }
+            }) 
+        }
+
+        return (
+            <List.Item
+                actions={[
+                    <Button type="primary" onClick={activateUser} >
+                        <CheckOutlined />
+                    </Button>,
+                    <Button
+                        type="danger"
+                        onClick={showDeleteConfirm}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta 
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+    ```
+2. Commit Video 118:
     + $ git add .
     + $ git commit -m "2/2 - Añadiendo la funcionalidad para eliminar usuario en el panel de admin"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 119. Creando Endpoint para crear usuarios desde el panel de Administrador
 
@@ -6995,6 +7113,10 @@
     + $ git add .
     + $ git commit -m "Creando Endpoint para crear usuarios desde el panel de Administrador"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 120. Añadiendo botón para crear nuevos usuarios
 
