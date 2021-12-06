@@ -220,6 +220,48 @@ function deleteUser(req, res) {
     })
 }
 
+function signUpAdmin(req, res) {
+    const user = new User()
+    /* console.log(req.body) */
+    const { name, lastname, email, role, password } = req.body
+    user.name = name    
+    user.lastname = lastname
+    user.email = email.toLowerCase()
+    user.role = role
+    user.active = true
+
+    if(!password){
+        res.status(500).send({message: "La contraseña es obligatoria"})
+    } else {
+        bcrypt.hash(password, null, null, function(err, hash) {
+            if(err){
+                res.status(500).send({message: "Error al encriptar la contraseña"})
+            }else{
+                // res.status(200).send({message: hash})
+                user.password = hash
+                user.save((err, userStored) => {
+                    if(err){
+                        res.status(500).send({message: "Error del servidor al crear nuevo usuario. Error: " + err })
+                    }else{
+                        user.password = hash
+                        user.save((err, userStored) => {
+                            if(err){
+                                res.status(500).send({message: "El usuario ya existe."})
+                            }else{
+                                if(!userStored){
+                                    res.status(500).send({message: "Error al crear el nuevo usuario."})
+                                } else {
+                                    res.status(200).send({user: userStored})
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+}
+
 module.exports = {
     signUp,
     signIn,
@@ -229,5 +271,6 @@ module.exports = {
     getAvatar,
     updateUser,
     activateUser,
-    deleteUser
+    deleteUser,
+    signUpAdmin
 }

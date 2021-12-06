@@ -7108,15 +7108,94 @@
     + $ git push -u origin main
 
 ### 119. Creando Endpoint para crear usuarios desde el panel de Administrador
+1. Modificar el controlador **server\controllers\user.js** para incorporar la función **signUpAdmin**:
+    ```js
+    ≡
+    function signUpAdmin(req, res) {
+        const user = new User()
+        const { name, lastname, email, role, password } = req.body
+        user.name = name    
+        user.lastname = lastname
+        user.email = email.toLowerCase()
+        user.role = role
+        user.active = true
 
-1. Commit Video 119:
+        if(!password){
+            res.status(500).send({message: "La contraseña es obligatoria"})
+        } else {
+            bcrypt.hash(password, null, null, function(err, hash) {
+                if(err){
+                    res.status(500).send({message: "Error al encriptar la contraseña"})
+                }else{
+                    // res.status(200).send({message: hash})
+                    user.password = hash
+                    user.save((err, userStored) => {
+                        if(err){
+                            res.status(500).send({message: "Error del servidor al crear nuevo usuario. Error: " + err })
+                        }else{
+                            user.password = hash
+                            user.save((err, userStored) => {
+                                if(err){
+                                    res.status(500).send({message: "El usuario ya existe."})
+                                }else{
+                                    if(!userStored){
+                                        res.status(500).send({message: "Error al crear el nuevo usuario."})
+                                    } else {
+                                        res.status(200).send({user: userStored})
+                                    }
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    module.exports = {
+        signUp,
+        signIn,
+        getUsers,
+        getUsersActive,
+        uploadAvatar,
+        getAvatar,
+        updateUser,
+        activateUser,
+        deleteUser,
+        signUpAdmin
+    }
+    ```
+2. Crear ruta **sign-up-admin** en **server\routers\user.js**:
+    ```js
+    ≡
+    api.post("/sign-up-admin",[md_auth.ensureAuth] , UserController.signUpAdmin)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/sign-up-admin
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg3OTc1MDgsImV4cCI6MTYzODgwODMwOH0.TuwafOwa9sSZpDKNSsjkLhGSF6yDivqT1H-zxVHQrGw
+            ```
+        + Body:
+            ```json
+            {
+                "name": "Pepito",    
+                "lastname": "Pérez",
+                "email": "Pepito.perez@gmail.com",
+                "role": "admin",
+                "password": "12345678"
+            }
+            ```
+    + Guardar endpoint como: **sign-up-admin**
+4. Commit Video 119:
     + $ git add .
     + $ git commit -m "Creando Endpoint para crear usuarios desde el panel de Administrador"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 120. Añadiendo botón para crear nuevos usuarios
 
@@ -7124,6 +7203,10 @@
     + $ git add .
     + $ git commit -m "Añadiendo botón para crear nuevos usuarios"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 121. 1/2 - Formulario para crear nuevos usuarios
 
