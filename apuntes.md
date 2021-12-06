@@ -7198,15 +7198,101 @@
     + $ git push -u origin main
 
 ### 120. Añadiendo botón para crear nuevos usuarios
+1. Modificar componente **client\src\components\Admin\Users\ListUsers\ListUsers.js**:
+    ```js
+    ≡
+    export default function ListUsers(props){
+        const { usersActive, usersInactive, setReloadUsers } = props;
+        const [viewUsersActives, setViewUsersActives] = useState(true)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
 
-1. Commit Video 120:
+        const addUserModal = () => {
+            setIsVisibleModal(true)
+            setModalTitle("Creando nuevo usuario")
+            setModalContent(
+                <div>
+                    <h1>Formularo creación de usuario</h1>
+                    <h2>ADMIN</h2>
+                </div>
+            )
+        }
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__switch">
+                        <Switch
+                            defaultChecked
+                            onChange={() => setViewUsersActives(!viewUsersActives)}
+                        />
+                        <span>
+                            {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
+                        </span>
+                    </div>
+                    <Button type="primary" onClick={addUserModal}>
+                        Nuevo usuario
+                    </Button>
+                </div>
+                {viewUsersActives ? (
+                        <UsersActive
+                            usersActive={usersActive}
+                            setIsVisibleModal={setIsVisibleModal}
+                            setModalTitle={setModalTitle}
+                            setModalContent={setModalContent}
+                            setReloadUsers={setReloadUsers}
+                        />
+                    ) : (
+                        <UsersInactive usersInactive={usersInactive} setReloadUsers={setReloadUsers} />
+                )}
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+    ≡
+    ```
+2. Modificar archivo de estilo **client\src\components\Admin\Users\ListUsers\ListUsers.scss**:
+    ```scss
+    .list-users {
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        &__switch {
+            display: flex;
+            align-items: center;
+            /* margin-bottom: 20px; */
+
+            > button {
+                margin-right: 20px;
+            }
+        }
+
+        .users-active {
+            background-color: #fff;
+            padding: 10px 20px;
+
+            .ant-list-item-meta {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    ```
+3. Commit Video 120:
     + $ git add .
     + $ git commit -m "Añadiendo botón para crear nuevos usuarios"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 121. 1/2 - Formulario para crear nuevos usuarios
 
@@ -7214,6 +7300,10 @@
     + $ git add .
     + $ git commit -m "1/2 - Formulario para crear nuevos usuarios"
     + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ### 122. 2/2 - Formulario para crear nuevos usuarios
 
