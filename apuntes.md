@@ -7925,8 +7925,100 @@
 ## Sección 10: Menú Web
 
 ### 124. Creando sección Menú Web en el panel de Administrador
+1. Crear archivo **client\src\pages\Admin\MenuWeb\index.js**:
+    ```js
+    export { default } from "./MenuWeb"
+    ```
+2. Crear vista **client\src\pages\Admin\MenuWeb\MenuWeb.js**:
+    ```js
+    import { useState, useEffect } from "react"
 
-1. Commit Video 12:
+    export default function MenuWeb() {
+
+        return (
+            <div className="menu-web">
+                <h1>Menú web...</h1>
+            </div>
+        );
+    }
+    ```
+3. Agregar la ruta de menú en **client\src\config\routes.js**:
+    ```js
+    // Layout
+    ≡
+
+    // Admin Pages
+    ≡
+    import AdminMenuWeb from "../pages/Admin/MenuWeb"
+
+    // Pages
+    ≡
+
+    // Otros
+    ≡
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            component: LayoutAdmin,
+            exact: false,
+            routes: [
+                ≡
+                {
+                    path: "/admin/menu",
+                    component: AdminMenuWeb, 
+                    exact: true
+                },
+                {
+                    component: Error404
+                }
+            ]
+        },
+        {
+            ≡
+        }
+    ]
+
+    export default routes
+    ```
+4. Modificar componente **client\src\components\Admin\MenuSider\MenuSider.js** para agregar el menú:
+    ```js
+    import { Link, withRouter } from "react-router-dom"
+    import { Layout, Menu } from "antd"
+    import { HomeOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./MenuSider.scss"
+
+    function MenuSider(props) {
+        ≡
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={[location.pathname]}
+                >
+                    ≡
+                    <Menu.Item key="/admin/menu">
+                        <Link to="/admin/menu">
+                            <MenuOutlined />
+                            <span className="nav-text">Menú</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+    ≡
+    ```
+5. Commit Video 12:
+    + $ git add .
+    + $ git commit -m "Creando sección Menú Web en el panel de Administrador"
+    + $ git push -u origin main
+
+### 125. Creando estructura del menú en el server
+5. Commit Video 12:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -7935,8 +8027,6 @@
     ```js
     ```
 
-### 125. Creando estructura del menú en el server
-12 min
 ### 126. Endpoint para crear nuevos menús
 7 min
 ### 127. Endpoint para obtener todos los menús
