@@ -12,49 +12,36 @@ export default function EditUserForm(props) {
     const [userData, setUserData] = useState({})
 
     const addUser = event => {
-        event.preventDefault()
-        console.log('Creando usuario....')
-/*
-    if (
-        !userData.name ||
-        !userData.lastname ||
-        !userData.role ||
-        !userData.email ||
-        !userData.password ||
-        !userData.repeatPassword
-    ) {
-        notification["error"]({
-        message: "Todos los campos son obligatorios."
-        });
-    } else if (userData.password !== userData.repeatPassword) {
-        notification["error"]({
-        message: "Las contraseñas tienen que ser iguale."
-        });
-    } else {
-        const accesToken = getAccessTokenApi();
+		if (
+			!userData.name ||
+			!userData.lastname ||
+			!userData.role ||
+			!userData.email ||
+			!userData.password ||
+			!userData.repeatPassword
+		) {
+			notification["error"]({ message: "Todos los campos son obligatorios." })
+		} else if (userData.password !== userData.repeatPassword) {
+			notification["error"]({ message: "Las contraseñas tienen que ser iguale." })
+		} else {
+			const accesToken = getAccessTokenApi()
 
-        signUpAdminApi(accesToken, userData)
-        .then(response => {
-            notification["success"]({
-            message: response
-            });
-            setIsVisibleModal(false);
-            setReloadUsers(true);
-            setUserData({});
-        })
-        .catch(err => {
-            notification["error"]({
-            message: err
-            });
-        });
-    }*/
+			signUpAdminApi(accesToken, userData)
+				.then(response => {
+					notification["success"]({ message: response })
+					setIsVisibleModal(false)
+					setReloadUsers(true)
+					setUserData({})
+				})
+				.catch(err => { notification["error"]({ message: err }) })
+		}
     }
 
     return (
         <div className="add-user-form">
             <AddForm userData={userData} setUserData={setUserData} addUser={addUser} />
         </div>
-    );
+    )
 }
 
 function AddForm(props) {
