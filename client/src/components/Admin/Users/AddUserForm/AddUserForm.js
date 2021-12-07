@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Form, Input, Select, Button, Row, Col, notification } from "antd"
-import { /* UserOutlined, MailOutlined, LockOutlined */ } from '@ant-design/icons'
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { signUpAdminApi } from "../../../../api/user"
 import { getAccessTokenApi } from "../../../../api/auth"
@@ -64,92 +64,92 @@ function AddForm(props) {
   	return (
 		<Form className="form-add" onFinish={addUser}>
 			<Row gutter={24}>
-			{/* 	<Col span={12}>
-				<Form.Item>
-					<Input
-					prefix={<Icon type="user" />}
-					placeholder="Nombre"
-					value={userData.name}
-					onChange={e => setUserData({ ...userData, name: e.target.value })}
-					/>
-				</Form.Item>
+				<Col span={12}>
+					<Form.Item>
+						<Input
+							prefix={<UserOutlined />}
+							placeholder="Nombre"
+							value={userData.name}
+							onChange={e => setUserData({ ...userData, name: e.target.value })}
+						/>
+					</Form.Item>
 				</Col>
 				<Col span={12}>
-				<Form.Item>
-					<Input
-					prefix={<Icon type="user" />}
-					placeholder="Apellidos"
-					value={userData.lastname}
-					onChange={e =>
-						setUserData({ ...userData, lastname: e.target.value })
-					}
-					/>
-				</Form.Item>
-				</Col> */}
-			</Row>
-{/* 
-			<Row gutter={24}>
-				<Col span={12}>
-				<Form.Item>
-					<Input
-					prefix={<Icon type="mail" />}
-					placeholder="Correlo electronico"
-					value={userData.email}
-					onChange={e =>
-						setUserData({ ...userData, email: e.target.value })
-					}
-					/>
-				</Form.Item>
-				</Col>
-				<Col span={12}>
-				<Form.Item>
-					<Select
-					placeholder="Selecióna un rol"
-					onChange={e => setUserData({ ...userData, role: e })}
-					value={userData.role}
-					>
-					<Option value="admin">Administrador</Option>
-					<Option value="editor">Editor</Option>
-					<Option value="reviwer">Revisor</Option>
-					</Select>
-				</Form.Item>
+					<Form.Item>
+						<Input
+							prefix={<UserOutlined />}
+							placeholder="Apellidos"
+							value={userData.lastname}
+							onChange={e =>
+								setUserData({ ...userData, lastname: e.target.value })
+							}
+						/>
+					</Form.Item>
 				</Col>
 			</Row>
 
 			<Row gutter={24}>
 				<Col span={12}>
-				<Form.Item>
-					<Input
-					prefix={<Icon type="lock" />}
-					type="password"
-					placeholder="Contraseña"
-					value={userData.password}
-					onChange={e =>
-						setUserData({ ...userData, password: e.target.value })
-					}
-					/>
-				</Form.Item>
+					<Form.Item>
+						<Input
+							prefix={<MailOutlined />}
+							placeholder="Correlo electrónico"
+							value={userData.email}
+							onChange={e =>
+								setUserData({ ...userData, email: e.target.value })
+							}
+						/>
+					</Form.Item>
 				</Col>
 				<Col span={12}>
-				<Form.Item>
-					<Input
-					prefix={<Icon type="lock" />}
-					type="password"
-					placeholder="Repetir contraseña"
-					value={userData.repeatPassword}
-					onChange={e =>
-						setUserData({ ...userData, repeatPassword: e.target.value })
-					}
-					/>
-				</Form.Item>
+					<Form.Item>
+						<Select
+							placeholder="Selecióna un rol"
+							onChange={e => setUserData({ ...userData, role: e })}
+							value={userData.role}
+						>
+							<Option value="admin">Administrador</Option>
+							<Option value="editor">Editor</Option>
+							<Option value="reviwer">Revisor</Option>
+						</Select>
+					</Form.Item>
+				</Col>
+			</Row>
+
+			<Row gutter={24}>
+				<Col span={12}>
+					<Form.Item>
+						<Input
+							prefix={<LockOutlined />}
+							type="password"
+							placeholder="Contraseña"
+							value={userData.password}
+							onChange={e =>
+								setUserData({ ...userData, password: e.target.value })
+							}
+						/>
+					</Form.Item>
+				</Col>
+				<Col span={12}>
+					<Form.Item>
+						<Input
+							prefix={<LockOutlined />}
+							type="password"
+							placeholder="Repetir contraseña"
+							value={userData.repeatPassword}
+							onChange={e =>
+								setUserData({ ...userData, repeatPassword: e.target.value })
+							}
+						/>
+					</Form.Item>
 				</Col>
 			</Row>
 
 			<Form.Item>
 				<Button type="primary" htmlType="submit" className="btn-submit">
-				Crear Usuario
+					Crear Usuario
 				</Button>
-			</Form.Item> */}
+			</Form.Item>
     	</Form>
     )
 }

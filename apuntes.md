@@ -7634,26 +7634,155 @@
     + $ git push -u origin main
 
 ### 122. 2/2 - Formulario para crear nuevos usuarios
+1. Modificar componente **client\src\components\Admin\Users\AddUserForm\AddUserForm.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { signUpAdminApi } from "../../../../api/user"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./AddUserForm.scss"
 
-1. Commit Video 122:
+    export default function EditUserForm(props) {
+        ≡
+    }
+
+    function AddForm(props) {
+        const { userData, setUserData, addUser } = props
+        const { Option } = Select
+
+        return (
+            <Form className="form-add" onFinish={addUser}>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Nombre"
+                                value={userData.name}
+                                onChange={e => setUserData({ ...userData, name: e.target.value })}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<UserOutlined />}
+                                placeholder="Apellidos"
+                                value={userData.lastname}
+                                onChange={e =>
+                                    setUserData({ ...userData, lastname: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<MailOutlined />}
+                                placeholder="Correlo electrónico"
+                                value={userData.email}
+                                onChange={e =>
+                                    setUserData({ ...userData, email: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Select
+                                placeholder="Selecióna un rol"
+                                onChange={e => setUserData({ ...userData, role: e })}
+                                value={userData.role}
+                            >
+                                <Option value="admin">Administrador</Option>
+                                <Option value="editor">Editor</Option>
+                                <Option value="reviwer">Revisor</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Contraseña"
+                                value={userData.password}
+                                onChange={e =>
+                                    setUserData({ ...userData, password: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Input
+                                prefix={<LockOutlined />}
+                                type="password"
+                                placeholder="Repetir contraseña"
+                                value={userData.repeatPassword}
+                                onChange={e =>
+                                    setUserData({ ...userData, repeatPassword: e.target.value })
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Crear Usuario
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+2. Crear archivo de estilo **client\src\components\Admin\Users\AddUserForm\AddUserForm.scss**:
+    ```scss
+    .add-user-form {
+        .form-add {
+            text-align: center;
+
+            .ant-form-item {
+                margin-top: 5px;
+                margin-bottom: 5px;
+
+                i {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+    }
+    ```
+3. Commit Video 122:
     + $ git add .
     + $ git commit -m "2/2 - Formulario para crear nuevos usuarios"
+    + $ git push -u origin main
+
+### 123. Creando la función para crear nuevos usuarios
+
+
+
+1. Commit Video 123:
+    + $ git add .
+    + $ git commit -m "Creando la función para crear nuevos usuarios"
     + $ git push -u origin main
 
     ≡
     ```js
     ```
-
-### 123. Creando la función para crear nuevos usuarios
-
-
-4. Crear archivo de estilo **client\src\components\Admin\Users\AddUserForm\AddUserForm.scss**:
-    ```scss
-    ```
-1. Commit Video 123:
-    + $ git add .
-    + $ git commit -m "Creando la función para crear nuevos usuarios"
-    + $ git push -u origin main
 
 ## Sección 10: Menú Web
 
