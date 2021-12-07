@@ -8012,13 +8012,96 @@
     }
     ≡
     ```
-5. Commit Video 12:
+5. Commit Video 124:
     + $ git add .
     + $ git commit -m "Creando sección Menú Web en el panel de Administrador"
     + $ git push -u origin main
 
 ### 125. Creando estructura del menú en el server
-5. Commit Video 12:
+1. Crear modelo **server\models\menu.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const Schema = mongoose.Schema
+
+    const MenuSchema = Schema({
+        title: String,
+        url: String,
+        order: Number,
+        active: Boolean
+    })
+
+    module.exports = mongoose.model("Menu", MenuSchema)
+    ```
+2. Crear controlador **server\controllers\menu.js**:
+    ```js
+    const Menu = require("../models/menu")
+
+    function addMenu(req, res) {
+        console.log("Add Menu...")
+    }
+
+    module.exports = {
+        addMenu
+    }
+    ```
+3. Crear archivo de rutas **server\routers\menu.js**:
+    ```js
+    const express = require("express")
+    const MenuController = require("../controllers/menu")
+    const md_auth = require("../middlewares/authenticated")
+
+    const api = express.Router()
+
+    api.post("/add-menu", [md_auth.ensureAuth], MenuController.addMenu)
+
+    module.exports = api
+    ```
+4. Modificar **server\app.js**:
+    ```js
+    ≡
+
+    // Load routings
+    ≡
+    const menuRoutes = require('./routers/menu')
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+
+    // Configure Header HTTP
+    ≡
+
+    // Basic Routers
+    ≡
+    app.use(`/api/${API_VERSION}`, menuRoutes)
+
+    module.exports = app
+    ```
+5. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-menu
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg5MTQ2OTAsImV4cCI6MTYzODkyNTQ5MH0.TYoRMP5tizkZ4fG1W14jhdzwf8TPXuYWG6HgLEANoTk
+            ```
+        + Body:
+            ```json
+            {
+                "title": "Título del menú",
+                "url": "https://url_del_menu",
+                "order": 1,
+                "active": true
+            }
+            ```
+    + Guardar endpoint como: **add-menu**
+6. Commit Video 125:
+    + $ git add .
+    + $ git commit -m "Creando estructura del menú en el server"
+    + $ git push -u origin main
+
+### 126. Endpoint para crear nuevos menús
+5. Commit Video 126:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -8027,38 +8110,196 @@
     ```js
     ```
 
-### 126. Endpoint para crear nuevos menús
-7 min
 ### 127. Endpoint para obtener todos los menús
-8 min
+5. Commit Video 127:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 128. Obteniendo todos los menús en el client y listándolos
-15 min
+5. Commit Video 128:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 129. 1/2 - Listando Menús con acción de Drag and drop
-10 min
+5. Commit Video 129:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 130. 2/2 - Listando Menús con acción de Drag and drop
-11 min
+5. Commit Video 130:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 131. Endpoint para actualizar el orden de del menú
-9 min
+5. Commit Video 131:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 132. Actualizando el orden del menú en la BBDD cuando se cambie en el cliente
-10 min
+5. Commit Video 132:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 133. Endpoint para activar y desactivar cualquier menú
-9 min
+5. Commit Video 133:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 134. Añadiendo funcionalidad al Switch para activar o desactiva el menú
-9 min
+5. Commit Video 134:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 135. Añadiendo funcionalidad la botón de crear nuevo menú
-14 min
+5. Commit Video 135:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 136. Creando logica para crear nuevos menús
-16 min
+5. Commit Video 136:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 137. Creando formulario para editar cualquier menú
-14 min
+5. Commit Video 137:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 138. Logica para actualizar el menú que estamos editando
+5. Commit Video 138:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 139. Endpoint para poder eliminar menús
+5. Commit Video 139:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 140. Logica para hacer funcionar el botón de eliminar menú
+5. Commit Video 140:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 141. Creando la estructura del menu web
+5. Commit Video 141:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 142. Añadiendo el logo de la web al menú
+5. Commit Video 142:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 143. Obteniendo el menu de la base de datos
+5. Commit Video 143:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 144. Añadiendo Redes Sociales al menú
+5. Commit Video 144:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 145. Creando el banner principal de la home page
+5. Commit Video 14:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 146. 1/3 - Componente para mostrar los mejores cursos
 ### 147. 2/3 - Componente para mostrar los mejores cursos
 ### 148. 3/3 - Componente para mostrar los mejores cursos
