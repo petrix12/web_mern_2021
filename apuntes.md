@@ -7295,15 +7295,343 @@
     + $ git push -u origin main
 
 ### 121. 1/2 - Formulario para crear nuevos usuarios
+1. Crear función **signUpAdminApi** en **client\src\api\user.js** para conectar con el backent:
+    ```js
+    ≡
+    export function signUpAdminApi(token, data) {
+        const url = `${basePath}/${apiVersion}/sign-up-admin`
 
-1. Commit Video 121:
+        const params = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(data)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result.message
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
+    ```
+2. Crear archivo **client\src\components\Admin\Users\AddUserForm\index.js**:
+    ```js
+    export { default } from "./AddUserForm"
+    ```
+3. Crear componente **client\src\components\Admin\Users\AddUserForm\AddUserForm.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Select, Button, Row, Col, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { signUpAdminApi } from "../../../../api/user"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./AddUserForm.scss"
+
+    export default function EditUserForm(props) {
+        
+        const { setIsVisibleModal, setReloadUsers } = props
+        const [userData, setUserData] = useState({})
+
+        const addUser = event => {
+            event.preventDefault()
+            console.log('Creando usuario....')
+        }
+
+        return (
+            <div className="add-user-form">
+                <AddForm userData={userData} setUserData={setUserData} addUser={addUser} />
+            </div>
+        );
+    }
+
+    function AddForm(props) {
+        const { userData, setUserData, addUser } = props
+        const { Option } = Select
+
+        return (
+            <Form className="form-add" onFinish={addUser}>
+                <Row gutter={24}>
+                </Row>
+            </Form>
+        )
+    }
+    ```
+4. Modificar componente client\src\components\Admin\Users\ListUsers\ListUsers.js:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Switch, List, Avatar, Button, Modal as ModalAntd, Space, notification } from "antd"
+    import { EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import NoAvatar from "../../../../assets/img/png/no-avatar.png"
+    import Modal from "../../../Modal"
+    import EditUserForm from "../EditUserForm"
+    import AddUserForm from "../AddUserForm"
+    import { getAvatarApi, activateUserApi, deleteUserApi } from "../../../../api/user"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./ListUsers.scss"
+
+    const { confirm } = ModalAntd
+
+    export default function ListUsers(props){
+        const { usersActive, usersInactive, setReloadUsers } = props;
+        const [viewUsersActives, setViewUsersActives] = useState(true)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        const addUserModal = () => {
+            setIsVisibleModal(true)
+            setModalTitle("Creando nuevo usuario")
+            setModalContent(
+                <AddUserForm setIsVisibleModal={setIsVisibleModal} setReloadUsers={setReloadUsers} />
+            )
+        }
+
+        return (
+            <div className="list-users">
+                <div className="list-users__header">
+                    <div className="list-users__switch">
+                        <Switch
+                            defaultChecked
+                            onChange={() => setViewUsersActives(!viewUsersActives)}
+                        />
+                        <span>
+                            {viewUsersActives ? "Usuarios Activos" : "Usuarios Inactivos"}
+                        </span>
+                    </div>
+                    <Button type="primary" onClick={addUserModal}>
+                        Nuevo usuario
+                    </Button>
+                </div>
+                {viewUsersActives ? (
+                        <UsersActive
+                            usersActive={usersActive}
+                            setIsVisibleModal={setIsVisibleModal}
+                            setModalTitle={setModalTitle}
+                            setModalContent={setModalContent}
+                            setReloadUsers={setReloadUsers}
+                        />
+                    ) : (
+                        <UsersInactive usersInactive={usersInactive} setReloadUsers={setReloadUsers} />
+                )}
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    function UsersActive(props) {
+        const { usersActive, setIsVisibleModal, setModalTitle, setModalContent, setReloadUsers } = props
+        
+        const editUser = user => {
+            setIsVisibleModal(true);
+            setModalTitle(`Editar ${user.name ? user.name : "..."} ${user.lastname ? user.lastname : "..."}`)
+            setModalContent('Formulario para editar usuario')
+            setModalContent(
+                <EditUserForm
+                    user={user}
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadUsers={setReloadUsers}
+                />
+            )
+        }
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersActive}
+                renderItem={user => <UserActive user={user} editUser={editUser} setReloadUsers={setReloadUsers} />}
+            />
+        )
+    }
+
+    function UserActive(props) {
+        const { user, editUser, setReloadUsers } = props
+        const [avatar, setAvatar] = useState(null)
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response)
+                })
+            } else {
+                setAvatar(null)
+            }
+        }, [user])
+
+        const desactivateUser = () => {
+            const accesToken = getAccessTokenApi()
+            activateUserApi(accesToken, user._id, false)
+                .then(response => {
+                    notification["success"]({message: response})
+                    setReloadUsers(true)
+                })
+                .catch(err => {
+                    notification["error"]({message: err})
+                })
+        }
+
+        const showDeleteConfirm = () => {
+            const accesToken = getAccessTokenApi()
+
+            confirm({
+                title: "Eliminando usuario",
+                content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deleteUserApi(accesToken, user._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            })
+                            setReloadUsers(true)
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            })
+                        })
+                }
+            }) 
+        }
+
+        return (
+            <List.Item
+                actions={[
+                    <Button type="primary" onClick={() => editUser(user)} >
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={desactivateUser} >
+                        <StopOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={showDeleteConfirm} >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+
+    function UsersInactive(props) {
+        const { usersInactive, setReloadUsers } = props
+
+        return (
+            <List
+                className="users-active"
+                itemLayout="horizontal"
+                dataSource={usersInactive}
+                renderItem={user => <UserInactive user={user} setReloadUsers={setReloadUsers} />}
+            />
+        )
+    }
+
+    function UserInactive(props) {
+        const { user, setReloadUsers } = props
+        const [avatar, setAvatar] = useState(null)
+
+        useEffect(() => {
+            if (user.avatar) {
+                getAvatarApi(user.avatar).then(response => {
+                    setAvatar(response)
+                })
+            } else {
+                setAvatar(null)
+            }
+        }, [user])
+
+        const activateUser = () => {
+            const accesToken = getAccessTokenApi()
+            activateUserApi(accesToken, user._id, true)
+                .then(response => {
+                    notification["success"]({message: response})
+                    setReloadUsers(true)
+                })
+                .catch(err => {
+                    notification["error"]({message: err})
+                })
+        }
+
+        const showDeleteConfirm = () => {
+            const accesToken = getAccessTokenApi()
+
+            confirm({
+                title: "Eliminando usuario",
+                content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deleteUserApi(accesToken, user._id)
+                        .then(response => {
+                            notification["success"]({
+                                message: response
+                            })
+                            setReloadUsers(true)
+                        })
+                        .catch(err => {
+                            notification["error"]({
+                                message: err
+                            })
+                        })
+                }
+            }) 
+        }
+
+        return (
+            <List.Item
+                actions={[
+                    <Button type="primary" onClick={activateUser} >
+                        <CheckOutlined />
+                    </Button>,
+                    <Button
+                        type="danger"
+                        onClick={showDeleteConfirm}
+                    >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta 
+                    avatar={<Avatar src={avatar ? avatar : NoAvatar} />}
+                    title={`
+                        ${user.name ? user.name : '...'}
+                        ${user.lastname ? user.lastname : '...'}
+                    `}
+                    description={user.email}
+                />
+            </List.Item>
+        )
+    }
+    ```
+5. Commit Video 121:
     + $ git add .
     + $ git commit -m "1/2 - Formulario para crear nuevos usuarios"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 122. 2/2 - Formulario para crear nuevos usuarios
 
@@ -7312,8 +7640,16 @@
     + $ git commit -m "2/2 - Formulario para crear nuevos usuarios"
     + $ git push -u origin main
 
+    ≡
+    ```js
+    ```
+
 ### 123. Creando la función para crear nuevos usuarios
 
+
+4. Crear archivo de estilo **client\src\components\Admin\Users\AddUserForm\AddUserForm.scss**:
+    ```scss
+    ```
 1. Commit Video 123:
     + $ git add .
     + $ git commit -m "Creando la función para crear nuevos usuarios"

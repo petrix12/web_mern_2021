@@ -5,9 +5,12 @@ import 'antd/dist/antd.css'
 import NoAvatar from "../../../../assets/img/png/no-avatar.png"
 import Modal from "../../../Modal"
 import EditUserForm from "../EditUserForm"
+import AddUserForm from "../AddUserForm"
 import { getAvatarApi, activateUserApi, deleteUserApi } from "../../../../api/user"
 import { getAccessTokenApi } from "../../../../api/auth"
 import "./ListUsers.scss"
+
+const { confirm } = ModalAntd
 
 export default function ListUsers(props){
     const { usersActive, usersInactive, setReloadUsers } = props;
@@ -20,10 +23,7 @@ export default function ListUsers(props){
 		setIsVisibleModal(true)
 		setModalTitle("Creando nuevo usuario")
 		setModalContent(
-			<div>
-				<h1>Formularo creación de usuario</h1>
-				<h2>ADMIN</h2>
-			</div>
+			<AddUserForm setIsVisibleModal={setIsVisibleModal} setReloadUsers={setReloadUsers} />
 		)
 	}
 
@@ -120,7 +120,7 @@ function UserActive(props) {
 	const showDeleteConfirm = () => {
 		const accesToken = getAccessTokenApi()
 
-		ModalAntd.confirm({
+		confirm({
 			title: "Eliminando usuario",
 			content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
 			okText: "Eliminar",
@@ -211,7 +211,7 @@ function UserInactive(props) {
 	const showDeleteConfirm = () => {
 		const accesToken = getAccessTokenApi()
 
-		ModalAntd.confirm({
+		confirm({
 			title: "Eliminando usuario",
 			content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
 			okText: "Eliminar",
@@ -259,12 +259,3 @@ function UserInactive(props) {
 		</List.Item>
 	)
 }
-
-/*
-import AddUserForm from "../AddUserForm";
-
-const { confirm } = ModalAntd;
-
-
-
-*/

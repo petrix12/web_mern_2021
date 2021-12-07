@@ -208,28 +208,26 @@ export function deleteUserApi(token, userId) {
         })
 }
 
-/*
 export function signUpAdminApi(token, data) {
-const url = `${basePath}/${apiVersion}/sign-up-admin`;
+    const url = `${basePath}/${apiVersion}/sign-up-admin`
 
-const params = {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-    Authorization: token
-    },
-    body: JSON.stringify(data)
-};
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify(data)
+    }
 
-return fetch(url, params)
-    .then(response => {
-    return response.json();
-    })
-    .then(result => {
-    return result.message;
-    })
-    .catch(err => {
-    return err.message;
-    });
+    return fetch(url, params)
+        .then(response => {
+            return response.json()
+        })
+        .then(result => {
+            return result.message
+        })
+        .catch(err => {
+            return err.message
+        })
 }
-*/
