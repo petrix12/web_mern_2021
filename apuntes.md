@@ -8158,14 +8158,76 @@
     + $ git push -u origin main
 
 ### 128. Obteniendo todos los menús en el client y listándolos
-5. Commit Video 128:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear archivo **client\src\api\menu.js**:
     ```js
+    import { basePath, apiVersion } from "./config"
+
+    export function getMenuApi() {
+        const url = `${basePath}/${apiVersion}/get-menus`
+
+        return fetch(url)
+        .then(response => {
+            return response.json()
+        })
+        .then(result => {
+            return result;
+        })
+        .catch(err => {
+            return err.message
+        })
+    }
     ```
+2. Modificar vista **client\src\pages\Admin\MenuWeb\MenuWeb.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { getMenuApi } from "../../../api/menu"
+    import MenuWebList from "../../../components/Admin/MenuWeb/MenuWebList"
+
+    export default function MenuWeb() {
+        const [menu, setMenu] = useState([])
+        const [reloadMenuWeb, setReloadMenuWeb] = useState(false)
+
+        useEffect(() => {
+            getMenuApi().then(response => {
+                setMenu(response.menu)
+            })
+            setReloadMenuWeb(false)
+        }, [reloadMenuWeb])
+
+        return (
+            <div className="menu-web">
+                <MenuWebList menu={menu} setReloadMenuWeb={setReloadMenuWeb} />
+            </div>
+        )
+    }
+    ```
+3. Crear **client\src\components\Admin\MenuWeb\MenuWebList\index.js**:
+    ```js
+    export { default } from "./MenuWebList"
+    ```
+4. Crear componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
+    ```js
+    import { useState, useEffect} from 'react'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+
+        return (
+            <div>
+                <h1>Lista Menú web...</h1>
+            </div>
+        )
+    }
+    ```
+5. Crear archivo de estilo **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.scss**:
+    ```scss
+    .menu-web-list {
+    }
+    ```
+6. Commit Video 128:
+    + $ git add .
+    + $ git commit -m "Obteniendo todos los menús en el client y listándolos"
+    + $ git push -u origin main
 
 ### 129. 1/2 - Listando Menús con acción de Drag and drop
 5. Commit Video 129:

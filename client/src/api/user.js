@@ -1,4 +1,4 @@
-import { basePath, apiVersion } from "./config";
+import { basePath, apiVersion } from "./config"
 
 export function signUpApi(data) {
     const url = `${basePath}/${apiVersion}/sign-up`
@@ -68,8 +68,8 @@ export function getUsersApi(token) {
             return result;
         })
         .catch(err => {
-            return err.message;
-        });
+            return err.message
+        })
 }
 
 export function getUsersActiveApi(token, status) {
