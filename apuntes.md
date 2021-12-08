@@ -8247,8 +8247,8 @@
 
     export default function MenuWebList(props) {
         const { menu, setReloadMenuWeb } = props
-        const [isVisibleModal, setisVisibleModal] = useState(false)
-        const [modalTitle, setmodalTitle] = useState("")
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
 
         useEffect(() => {
             const listItemsArray = []
@@ -8283,14 +8283,110 @@
     + $ git push -u origin main
 
 ### 130. 2/2 - Listando Menús con acción de Drag and drop
-5. Commit Video 130:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
     ```js
+    import { useState, useEffect} from 'react'
+    import { Switch, List, Button, Modal as ModalAntd, notification } from 'antd'
+    import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import Modal from '../../../Modal'
+    import DragSortableList from 'react-drag-sortable'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+        const [listItems, setListItems] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listItemsArray = []
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (
+                        <MenuItem item={item}/>
+                    )
+                })
+            })
+            setListItems(listItemsArray)
+        }, [menu])
+
+        const onSort = (sortedList, dropEvent) => {
+            console.log(sortedList)
+        }
+
+        return (
+            <div className="menu-web-list">
+                <div className="menu-web-list__header">
+                    <Button type="primary">
+                        Nuevo menú
+                    </Button>
+                </div>
+                <div className="menu-web-list__items">
+                    <DragSortableList items={listItems} onSort={onSort} type="vertical" />
+                </div>
+            </div>
+        )
+    }
+
+    function MenuItem(props) {
+        const { item } = props
+        return (
+            <List.Item
+                actions={[
+                    <Switch defaultChecked={item.active} />,
+                    <Button type="primary">
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger">
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={item.title} description={item.url} />  
+            </List.Item>
+        )
+    }
     ```
+2. Modificar el archivo de estilo **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.scss**:
+    ```js
+    .menu-web-list {
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        &__items {
+            background-color: #fff;
+            padding: 10px 20px;
+            .List {
+                .draggable {
+                    width: 100%;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    &.dragged {
+                        border: 1px solid #e2e2e2;
+                        padding: 0 10px;
+                    }
+                }
+            }
+
+            .ant-list-item-meta {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    ```
+3. Commit Video 130:
+    + $ git add .
+    + $ git commit -m "2/2 - Listando Menús con acción de Drag and drop"
+    + $ git push -u origin main
 
 ### 131. Endpoint para actualizar el orden de del menú
 5. Commit Video 131:
