@@ -8,7 +8,7 @@ export function getMenuApi() {
         return response.json()
     })
     .then(result => {
-        return result;
+        return result
     })
     .catch(err => {
         return err.message

@@ -32,7 +32,7 @@ function getMenus(req, res) {
                 if(!menusStored) {
                     res.status(404).send({message: "No se ha encontrado ningún registro en la base de datos."})
                 } else {
-                    res.status(200).send({ message: menusStored})
+                    res.status(200).send({ menu: menusStored})
                 }
             }
         })

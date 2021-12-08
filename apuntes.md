@@ -8132,7 +8132,7 @@
                     if(!menusStored) {
                         res.status(404).send({message: "No se ha encontrado ningún registro en la base de datos."})
                     } else {
-                        res.status(200).send({ message: menusStored})
+                        res.status(200).send({ menu: menusStored})
                     }
                 }
             })
@@ -8230,14 +8230,57 @@
     + $ git push -u origin main
 
 ### 129. 1/2 - Listando Menús con acción de Drag and drop
-5. Commit Video 129:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
++ https://classic.yarnpkg.com/en/package/react-drag-sortable
+1. Instalar **react-drag-sortable**:
+    + $ yarn add react-drag-sortable
+    + **Nota**: para importar luego el componente:
+        ```js
+        import DragSortableList from 'react-drag-sortable'
+        ```
+2. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
     ```js
+    import { useState, useEffect} from 'react'
+    import { Switch, List, Button, Modal as ModalAntd, notification } from 'antd'
+    import Modal from '../../../Modal'
+    import DragSortableList from 'react-drag-sortable'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+        const [isVisibleModal, setisVisibleModal] = useState(false)
+        const [modalTitle, setmodalTitle] = useState("")
+
+        useEffect(() => {
+            const listItemsArray = []
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (<div><p>{item.title}</p></div>)
+                })
+            })
+        }, [menu])
+
+        const onSort = (sortedList, dropEvent) => {
+            console.log(sortedList)
+        }
+
+        return (
+            <div className="menu-web-list">
+                <div className="menu-web-list__header">
+                    <Button typ="primary">
+                        Nuevo menú
+                    </Button>
+                </div>
+                <div className="menu-web-list__items">
+                    <DragSortableList />
+                </div>
+            </div>
+        )
+    }
     ```
+3. Commit Video 129:
+    + $ git add .
+    + $ git commit -m "1/2 - Listando Menús con acción de Drag and drop"
+    + $ git push -u origin main
 
 ### 130. 2/2 - Listando Menús con acción de Drag and drop
 5. Commit Video 130:
