@@ -8085,15 +8085,6 @@
             Content-Type: application/json
             Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg5MTQ2OTAsImV4cCI6MTYzODkyNTQ5MH0.TYoRMP5tizkZ4fG1W14jhdzwf8TPXuYWG6HgLEANoTk
             ```
-        + Body:
-            ```json
-            {
-                "title": "Título del menú",
-                "url": "https://url_del_menu",
-                "order": 1,
-                "active": true
-            }
-            ```
     + Guardar endpoint como: **add-menu**
 6. Commit Video 125:
     + $ git add .
@@ -8101,14 +8092,31 @@
     + $ git push -u origin main
 
 ### 126. Endpoint para crear nuevos menús
-5. Commit Video 126:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Programar la función addMenu del controlador **server\controllers\menu.js**:
     ```js
     ```
+2. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-menu
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg5NjY5ODMsImV4cCI6MTYzODk3Nzc4M30.6JUsp-GpmkWCkbF0fCG6qmbkHpq1ST5vLjaCkQVUIBY
+            ```
+        + Body:
+            ```json
+            {
+                "title": "Blog",
+                "url": "https://solucionespp.com/blog",
+                "order": 0,
+                "active": true
+            }
+            ```
+3. Commit Video 126:
+    + $ git add .
+    + $ git commit -m "Endpoint para crear nuevos menús"
+    + $ git push -u origin main
 
 ### 127. Endpoint para obtener todos los menús
 5. Commit Video 127:
