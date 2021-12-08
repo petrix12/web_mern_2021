@@ -8119,14 +8119,43 @@
     + $ git push -u origin main
 
 ### 127. Endpoint para obtener todos los menús
-5. Commit Video 127:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar el controlador **server\controllers\menu.js** para incorporar la función **getMenus**:
     ```js
+    ≡
+    function getMenus(req, res) {
+        Menu.find()
+            .sort({ order: 'asc' })
+            .exec((err, menusStored) => {
+                if(err){
+                    res.status(500).send({message: "Error del servidor."})
+                } else {
+                    if(!menusStored) {
+                        res.status(404).send({message: "No se ha encontrado ningún registro en la base de datos."})
+                    } else {
+                        res.status(200).send({ message: menusStored})
+                    }
+                }
+            })
+    }
+
+    module.exports = {
+        addMenu,
+        getMenus
+    }
     ```
+2. Crear endpoint **get-menus** en el archivo de rutas **server\routers\menu.js**:
+    ```js
+    api.get("/get-menus", MenuController.getMenus)
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/get-menus
+    + Guardar endpoint como: **get-menus**
+4. Commit Video 127:
+    + $ git add .
+    + $ git commit -m "Endpoint para obtener todos los menús"
+    + $ git push -u origin main
 
 ### 128. Obteniendo todos los menús en el client y listándolos
 5. Commit Video 128:

@@ -22,6 +22,23 @@ function addMenu(req, res) {
     })
 }
 
+function getMenus(req, res) {
+    Menu.find()
+        .sort({ order: 'asc' })
+        .exec((err, menusStored) => {
+            if(err){
+                res.status(500).send({message: "Error del servidor."})
+            } else {
+                if(!menusStored) {
+                    res.status(404).send({message: "No se ha encontrado ningún registro en la base de datos."})
+                } else {
+                    res.status(200).send({ message: menusStored})
+                }
+            }
+        })
+}
+
 module.exports = {
-    addMenu
+    addMenu,
+    getMenus
 }
