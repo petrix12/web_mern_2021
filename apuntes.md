@@ -8503,14 +8503,65 @@
     + $ git push -u origin main
 
 ### 133. Endpoint para activar y desactivar cualquier menú
-5. Commit Video 133:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear función **activateMenu** en el controlador **server\controllers\menu.js**:
     ```js
+    ≡
+    function activateMenu(req, res) {
+        const { id } = req.params
+        const { active } = req.body
+
+        Menu.findByIdAndUpdate(id, { active }, (err, menuStored) => {
+            if(err) {
+                res.status(500).send({ message: "Error del servidor."})
+            } else {
+                if(!menuStored) {
+                    res.status(404).send({ message: "No se ha encontrado el menú"})
+                } else {
+                    if(active === true){
+                        res.status(200).send({ message: "Menú activado correctamente."})
+                    } else {
+                        
+                        res.status(200).send({ message: "Menú desactivado correctamente."})
+                    }
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addMenu,
+        getMenus,
+        updateMenu,
+        activateMenu
+    }
     ```
+2. Crear ruta **activate-menu** en **server\routers\menu.js**:
+    ```js
+    ≡
+    api.put("/activate-menu/:id", [md_auth.ensureAuth], MenuController.activateMenu)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/activate-menu/61b0a782baadd4e0ff27d39d
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2MzkwODY0NzcsImV4cCI6MTYzOTA5NzI3N30.C46eXCw77rLmLO91N2a_7_b6BqR7RS8WUICEkFT7934
+            ```
+        + Body:
+            ```json
+            {
+                "active": true
+            }
+            ```
+    + Guardar endpoint como: **activate-menu**
+4. Commit Video 133:
+    + $ git add .
+    + $ git commit -m "Endpoint para activar y desactivar cualquier menú"
+    + $ git push -u origin main
 
 ### 134. Añadiendo funcionalidad al Switch para activar o desactiva el menú
 5. Commit Video 134:
