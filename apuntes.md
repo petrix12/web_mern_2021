@@ -8389,14 +8389,58 @@
     + $ git push -u origin main
 
 ### 131. Endpoint para actualizar el orden de del menú
-5. Commit Video 131:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar el controlador **server\controllers\menu.js** para incorporar la función **updateMenu**:
     ```js
+    function updateMenu(req, res) {
+        let menuData = req.body
+        const params = req.params
+
+        Menu.findByIdAndUpdate(params.id, menuData, (err, menuUpdate) => {
+            if(err) {
+                res.status(500).send({ message: "Error del servidor."})
+            } else {
+                if(!menuUpdate) {
+                    res.status(404).send({ message: "No se ha encontrado ningún menú."})
+                } else {
+                    res.status(200).send({ message: "Menú actualizado correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addMenu,
+        getMenus,
+        updateMenu
+    }
     ```
+2. Agregar ruta **update-menu** en **server\routers\menu.js**:
+    ```js
+    ≡
+    api.put("/update-menu/:id", [md_auth.ensureAuth], MenuController.updateMenu)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/update-menu/61b0a782baadd4e0ff27d39d
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2MzkwNzM3MDEsImV4cCI6MTYzOTA4NDUwMX0.6GTyK0Ci_oQqymfjiW7TphNEgXFC_UFwSdwNGPYfuGg
+            ```
+        + Body:
+            ```json
+            {
+                "active": false
+            }
+            ```
+    + Guardar endpoint como: **update-menu**
+4. Commit Video 131:
+    + $ git add .
+    + $ git commit -m "Endpoint para actualizar el orden de del menú"
+    + $ git push -u origin main
 
 ### 132. Actualizando el orden del menú en la BBDD cuando se cambie en el cliente
 5. Commit Video 132:
