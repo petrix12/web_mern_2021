@@ -8350,7 +8350,7 @@
     }
     ```
 2. Modificar el archivo de estilo **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.scss**:
-    ```js
+    ```scss
     .menu-web-list {
         &__header {
             display: flex;
@@ -8363,6 +8363,7 @@
             background-color: #fff;
             padding: 10px 20px;
             .List {
+                position: relative;
                 .draggable {
                     width: 100%;
                     background-color: rgba(255, 255, 255, 0.5);
@@ -8443,14 +8444,63 @@
     + $ git push -u origin main
 
 ### 132. Actualizando el orden del menú en la BBDD cuando se cambie en el cliente
-5. Commit Video 132:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Agregar función **updateMenuApi** en **client\src\api\menu.js**:
     ```js
+    export function updateMenuApi(token, menuId, data) {
+        const url = `${basePath}/${apiVersion}/update-menu/${menuId}`
+
+        const params = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(data)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result.message
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
     ```
+2. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
+    ```js
+    ≡
+    import { updateMenuApi } from '../../../../api/menu'
+    import { getAccessTokenApi } from '../../../../api/auth'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        ≡
+        const onSort = (sortedList, dropEvent) => {
+            const accesToken = getAccessTokenApi()
+            sortedList.forEach(item => {
+                const { _id } = item.content.props.item
+                const order = item.rank
+                updateMenuApi(accesToken, _id, { order })
+            })
+        }
+
+        return (
+            ≡
+        )
+    }
+
+    function MenuItem(props) {
+        ≡
+    }
+    ```
+3. Commit Video 132:
+    + $ git add .
+    + $ git commit -m "Actualizando el orden del menú en la BBDD cuando se cambie en el cliente"
+    + $ git push -u origin main
 
 ### 133. Endpoint para activar y desactivar cualquier menú
 5. Commit Video 133:
