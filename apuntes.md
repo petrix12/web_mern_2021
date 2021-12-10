@@ -8863,15 +8863,233 @@
     + $ git commit -m "Añadiendo funcionalidad la botón de crear nuevo menú"
     + $ git push -u origin main
 
-### 136. Creando logica para crear nuevos menús
-5. Commit Video 136:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+### 136. Creando lógica para crear nuevos menús
+1. Crear función **addMenuApi** en **client\src\api\menu.js**:
     ```js
+    export function addMenuApi(token, menu) {
+        const url = `${basePath}/${apiVersion}/add-menu`
+
+        const params = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(menu)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result.message
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
     ```
+2. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
+    ```js
+    import { useState, useEffect} from 'react'
+    import { Switch, List, Button, Modal as ModalAntd, notification } from 'antd'
+    import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import Modal from '../../../Modal'
+    import DragSortableList from 'react-drag-sortable'
+    import { updateMenuApi, activateMenuApi } from '../../../../api/menu'
+    import { getAccessTokenApi } from '../../../../api/auth'
+    import AddMenuWebForm from '../AddMenuWebForm'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+        const [listItems, setListItems] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listItemsArray = []
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (
+                        <MenuItem item={item} activateMenu={activateMenu} />
+                    )
+                })
+            })
+            setListItems(listItemsArray)
+        }, [menu])
+
+        const activateMenu = (menu, status) => {
+            const accesToken = getAccessTokenApi()
+            activateMenuApi(accesToken, menu._id, status).then(response => {
+                notification["success"]({
+                    message: response
+                })
+            })
+        }
+
+        const onSort = (sortedList, dropEvent) => {
+            const accesToken = getAccessTokenApi()
+            sortedList.forEach(item => {
+                const { _id } = item.content.props.item
+                const order = item.rank
+                updateMenuApi(accesToken, _id, { order })
+            })
+        }
+
+        const addMenuWebModal = () => {
+            setIsVisibleModal(true)
+            setModalTitle('Creando nuevo menú')
+            setModalContent(
+                <AddMenuWebForm 
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadMenuWeb={setReloadMenuWeb}
+                />
+            )
+        }
+
+        return (
+            <div className="menu-web-list">
+                <div className="menu-web-list__header">
+                    <Button type="primary" onClick={addMenuWebModal}>
+                        Nuevo menú
+                    </Button>
+                </div>
+                <div className="menu-web-list__items">
+                    <DragSortableList items={listItems} onSort={onSort} type="vertical" />
+                </div>
+
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    function MenuItem(props) {
+        const { item, activateMenu } = props
+        return (
+            <List.Item
+                actions={[
+                    <Switch defaultChecked={item.active} onChange={e => activateMenu(item, e)} />,
+                    <Button type="primary">
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger">
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={item.title} description={item.url} />  
+            </List.Item>
+        )
+    }    
+    ```
+3. Modificar componente **client\src\components\Admin\MenuWeb\AddMenuWebForm\AddMenuWebForm.js**:
+    ```js
+    import { useState } from 'react'
+    import { Form, Input, Button, Select, notification } from 'antd'
+    import { FontSizeOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { addMenuApi } from "../../../../api/menu"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./AddMenuWebForm.scss"
+
+    export default function AddMenuWebForm(props) {
+        const { setIsVisibleModal, setReloadMenuWeb } = props
+        const [menuWebData, setMenuWebData] = useState({})
+
+        const addMenu = event => {
+            let finalData = {
+                title: menuWebData.title,
+                url: (menuWebData.http ? menuWebData.http : "http://") + menuWebData.url
+            }
+            if(!finalData.title || !finalData.url || !menuWebData.title || !menuWebData.url){
+                notification["error"]({ message: "Todos los campos son obligatorios." })
+            } else {
+                const accessToken = getAccessTokenApi()
+                finalData.active = false
+                finalData.order = 1000
+
+                addMenuApi(accessToken, finalData)
+                    .then(response => {
+                        notification["success"]({ message: response })
+                        setIsVisibleModal(false)
+                        setReloadMenuWeb(true)
+                        setMenuWebData({})
+                        finalData = {}
+                    })
+                    .catch(() => {
+                        notification["error"]({ message: "Error en el servidor."})
+                    })
+            }
+        }
+
+        return (
+            <div className="add-menu-web-form">
+                <AddForm 
+                    menuWebData={menuWebData}
+                    setMenuWebData={setMenuWebData}
+                    addMenu={addMenu}
+                />
+            </div>
+        )
+    }
+
+    function AddForm(props) {
+        const { menuWebData, setMenuWebData, addMenu } = props
+        const { Option } = Select
+
+        const selectBefore = (
+            <Select
+                defaultValue="http://"
+                style={{ width: 90 }}
+                onChange={e => setMenuWebData({ ...menuWebData, http: e })}
+            >
+                <Option value="http://">http://</Option>
+                <Option value="https://">https://</Option>
+            </Select>
+        );
+        
+
+        return (
+            <Form className="form-add" onFinish={addMenu}>
+                <Form.Item>
+                    <Input
+                        prefix={<FontSizeOutlined />}
+                        placeholder="Título"
+                        value={menuWebData.title}
+                        onChange={e => setMenuWebData({ ...menuWebData, title: e.target.value })}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        addonBefore={selectBefore}
+                        placeholder="URL"
+                        value={menuWebData.url}
+                        onChange={e => setMenuWebData({ ...menuWebData, url: e.target.value })}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Crear menú
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+4. Commit Video 136:
+    + $ git add .
+    + $ git commit -m "Creando lógica para crear nuevos menús"
+    + $ git push -u origin main
 
 ### 137. Creando formulario para editar cualquier menú
 5. Commit Video 137:
