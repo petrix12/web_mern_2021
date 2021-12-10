@@ -9092,14 +9092,196 @@
     + $ git push -u origin main
 
 ### 137. Creando formulario para editar cualquier menú
+1. Crear archivo **client\src\components\Admin\MenuWeb\EditMenuWebForm\index.js**:
+    ```js
+    export { default } from "./EditMenuWebForm"
+    ```
+2. Crear archivo de estilo **client\src\components\Admin\MenuWeb\EditMenuWebForm\EditMenuWebForm.scss**:
+    ```scss
+    .edit-menu-web-form {
+        .form-edit {
+            text-align: center;
+
+            .ant-form-item {
+                margin-top: 5px;
+                margin-bottom: 5px;
+
+                i {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Admin\MenuWeb\EditMenuWebForm\EditMenuWebForm.js**:
+    ```js
+    import { useState, useEffect} from 'react'
+    import { Form, Input, Button, notification } from 'antd'
+    import { FontSizeOutlined, LinkOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { updateMenuApi } from '../../../../api/menu'
+    import { getAccessTokenApi } from '../../../../api/auth'
+    import "./EditMenuWebForm.scss"
+
+    export default function EditMenuWebForm(props) {
+        const { setIsVisibleModal, setReloadMenuWeb, menu } = props
+
+        return (
+        <div className="edit-menu-web-form">
+            <EditForm />
+        </div> 
+        )
+    }
+
+    function EditForm(props) {
+
+        return (
+            <Form className="form-edit">
+                <Form.Item>
+                    <Input
+                        prefix={<FontSizeOutlined />}
+                        placeholder="Título"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<LinkOutlined />}
+                        placeholder="URL"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        Actualizar menú
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+4. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
+    ```js
+    import { useState, useEffect} from 'react'
+    import { Switch, List, Button, Modal as ModalAntd, notification } from 'antd'
+    import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import Modal from '../../../Modal'
+    import DragSortableList from 'react-drag-sortable'
+    import { updateMenuApi, activateMenuApi } from '../../../../api/menu'
+    import { getAccessTokenApi } from '../../../../api/auth'
+    import AddMenuWebForm from '../AddMenuWebForm'
+    import EditMenuWebForm from '../EditMenuWebForm'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+        const [listItems, setListItems] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listItemsArray = []
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (
+                        <MenuItem item={item} activateMenu={activateMenu} editMenuWebModal={editMenuWebModal} />
+                    )
+                })
+            })
+            setListItems(listItemsArray)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [menu])
+
+        const activateMenu = (menu, status) => {
+            const accesToken = getAccessTokenApi()
+            activateMenuApi(accesToken, menu._id, status).then(response => {
+                notification["success"]({
+                    message: response
+                })
+            })
+        }
+
+        const onSort = (sortedList, dropEvent) => {
+            const accesToken = getAccessTokenApi()
+            sortedList.forEach(item => {
+                const { _id } = item.content.props.item
+                const order = item.rank
+                updateMenuApi(accesToken, _id, { order })
+            })
+        }
+
+        const addMenuWebModal = () => {
+            setIsVisibleModal(true)
+            setModalTitle('Creando nuevo menú')
+            setModalContent(
+                <AddMenuWebForm 
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadMenuWeb={setReloadMenuWeb}
+                />
+            )
+        }
+
+        const editMenuWebModal = menu => {
+            setIsVisibleModal(true)
+            setModalTitle(`Editando menú: ${menu.title}`)
+            setModalContent(
+                <EditMenuWebForm
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadMenuWeb={setReloadMenuWeb}
+                    menu={menu}
+                />
+            )
+        }
+
+        return (
+            <div className="menu-web-list">
+                <div className="menu-web-list__header">
+                    <Button type="primary" onClick={addMenuWebModal}>
+                        Nuevo menú
+                    </Button>
+                </div>
+                <div className="menu-web-list__items">
+                    <DragSortableList items={listItems} onSort={onSort} type="vertical" />
+                </div>
+
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    function MenuItem(props) {
+        const { item, activateMenu, editMenuWebModal } = props
+        return (
+            <List.Item
+                actions={[
+                    <Switch defaultChecked={item.active} onChange={e => activateMenu(item, e)} />,
+                    <Button type="primary" onClick={e => editMenuWebModal(item)} >
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger">
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={item.title} description={item.url} />  
+            </List.Item>
+        )
+    }
+    ```
 5. Commit Video 137:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando formulario para editar cualquier menú"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 138. Logica para actualizar el menú que estamos editando
 5. Commit Video 138:
