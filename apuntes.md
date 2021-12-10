@@ -8564,14 +8564,118 @@
     + $ git push -u origin main
 
 ### 134. Añadiendo funcionalidad al Switch para activar o desactiva el menú
-5. Commit Video 134:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear función **activateMenuApi** en **client\src\api\menu.js**:
     ```js
+    export function activateMenuApi(token, menuId, status) {
+        const url = `${basePath}/${apiVersion}/activate-menu/${menuId}`
+
+        const params = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify({ active: status })
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result.message
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
     ```
+2. Modificar componente **client\src\components\Admin\MenuWeb\MenuWebList\MenuWebList.js**:
+    ```js
+    import { useState, useEffect} from 'react'
+    import { Switch, List, Button, Modal as ModalAntd, notification } from 'antd'
+    import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import Modal from '../../../Modal'
+    import DragSortableList from 'react-drag-sortable'
+    import { updateMenuApi, activateMenuApi } from '../../../../api/menu'
+    import { getAccessTokenApi } from '../../../../api/auth'
+    import './MenuWebList.scss'
+
+    export default function MenuWebList(props) {
+        const { menu, setReloadMenuWeb } = props
+        const [listItems, setListItems] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listItemsArray = []
+            menu.forEach(item => {
+                listItemsArray.push({
+                    content: (
+                        <MenuItem item={item} activateMenu={activateMenu} />
+                    )
+                })
+            })
+            setListItems(listItemsArray)
+        }, [menu])
+
+        const activateMenu = (menu, status) => {
+            const accesToken = getAccessTokenApi()
+            activateMenuApi(accesToken, menu._id, status).then(response => {
+                notification["success"]({
+                    message: response
+                })
+            })
+        }
+
+        const onSort = (sortedList, dropEvent) => {
+            const accesToken = getAccessTokenApi()
+            sortedList.forEach(item => {
+                const { _id } = item.content.props.item
+                const order = item.rank
+                updateMenuApi(accesToken, _id, { order })
+            })
+        }
+
+        return (
+            <div className="menu-web-list">
+                <div className="menu-web-list__header">
+                    <Button type="primary">
+                        Nuevo menú
+                    </Button>
+                </div>
+                <div className="menu-web-list__items">
+                    <DragSortableList items={listItems} onSort={onSort} type="vertical" />
+                </div>
+            </div>
+        )
+    }
+
+    function MenuItem(props) {
+        const { item, activateMenu } = props
+        return (
+            <List.Item
+                actions={[
+                    <Switch defaultChecked={item.active} onChange={e => activateMenu(item, e)} />,
+                    <Button type="primary">
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger">
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={item.title} description={item.url} />  
+            </List.Item>
+        )
+    }
+    ```
+3. Commit Video 134:
+    + $ git add .
+    + $ git commit -m "Añadiendo funcionalidad al Switch para activar o desactiva el menú"
+    + $ git push -u origin main
 
 ### 135. Añadiendo funcionalidad la botón de crear nuevo menú
 5. Commit Video 135:
