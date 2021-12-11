@@ -9366,14 +9366,54 @@
     + $ git push -u origin main
 
 ### 139. Endpoint para poder eliminar menús
-5. Commit Video 139:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Agregar la función **deleteMenu** en el controlador **server\controllers\menu.js**:
     ```js
+    ≡
+    function deleteMenu(req,res) {
+        const { id } = req.params
+
+        Menu.findByIdAndRemove(id, (err, menuDelete) => {
+            if(err){
+                res.status(500).send({message: "Error al eliminar menú."})
+            } else {
+                if (!menuDelete){
+                    res.status(404).send({message: "No se ha encontrado el menú."})
+                } else {
+                    res.status(200).send({message: "El menú se eliminó correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addMenu,
+        getMenus,
+        updateMenu,
+        activateMenu,
+        deleteMenu
+    }
     ```
+2. Crear ruta **delete-menu** en **server\routers\menu.js**:
+    ```js
+    ≡
+    api.delete("/delete-menu/:id",[md_auth.ensureAuth] , MenuController.deleteMenu)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: delete
+        + URL: http://localhost:3977/api/v1/delete-menu/61b4efeeb78d955ce2e7bf76
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2MzkyNDYzNDMsImV4cCI6MTYzOTI1NzE0M30.2IBLwK02WkvmHYf8A4v7fJVP4Gv_xwktYhzbEunU9Uc
+            ```
+    + Guardar endpoint como: **delete-menu**
+4. Commit Video 139:
+    + $ git add .
+    + $ git commit -m "Endpoint para poder eliminar menús"
+    + $ git push -u origin main
 
 ### 140. Logica para hacer funcionar el botón de eliminar menú
 5. Commit Video 140:
