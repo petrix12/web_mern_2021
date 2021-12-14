@@ -9699,7 +9699,7 @@
         )
     }
     ```
-6. Crear archivo de estilo client\src\components\Web\MenuTop\MenuTop.scss:
+6. Crear archivo de estilo **client\src\components\Web\MenuTop\MenuTop.scss**:
     ```scss
     @import "../../../scss/index.scss";
 
@@ -9750,16 +9750,16 @@
 
     export default function MenuTop() {
         return (
-            <Menu className="menu-top" mode="horizontal">
-                <Menu.Item className="menu-top__logo">
+            <Menu className="menu-top-web" mode="horizontal">
+                <Menu.Item className="menu-top-web__logo">
                     <Link to={"/"}>
                         <img src={logoSpp} alt="logo" />
                     </Link>
                 </Menu.Item>
-                <Menu.Item className="menu-top__item">
+                <Menu.Item className="menu-top-web__item">
                     <Link to={"/"}>Home</Link>
                 </Menu.Item>
-                <Menu.Item className="menu-top__item">
+                <Menu.Item className="menu-top-web__item">
                     <Link to={"/contact"}>Contacto</Link>
                 </Menu.Item>
                 <div>Social Media......</div>
@@ -9772,15 +9772,64 @@
     + $ git commit -m "Añadiendo el logo de la web al menú"
     + $ git push -u origin main
 
-### 143. Obteniendo el menu de la base de datos
-5. Commit Video 143:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+### 143. Obteniendo el menú de la base de datos
+1. Modificar componente **client\src\components\Web\MenuTop\MenuTop.js**:
     ```js
+    import { useState, useEffect } from 'react'
+    import { Menu } from 'antd'
+    import 'antd/dist/antd.css'
+    import { Link } from 'react-router-dom'
+    import { getMenuApi } from '../../../api/menu'
+    import logoSpp from '../../../assets/img/png/logo.png'
+    import './MenuTop.scss'
+
+    export default function MenuTop() {
+        const [menuData, setMenuData] = useState([])
+
+        useEffect(() => {
+            getMenuApi().then(response => {
+                const arrayMenu = []
+                response.menu.forEach(item => {
+                    item.active && arrayMenu.push(item)
+                });
+                setMenuData(arrayMenu)
+            })
+        }, [])
+        
+        return (
+            <Menu className="menu-top-web" mode="horizontal">
+                <Menu.Item className="menu-top-web__logo">
+                    <Link to={"/"}>
+                        <img src={logoSpp} alt="logo" />
+                    </Link>
+                </Menu.Item>
+                
+                {menuData.map(item => {
+                    const external = item.url.indexOf('http') > -1 ? true : false
+                    if(external) {
+                        return (
+                            <Menu.Item key={item._id} className="menu-top-web__item">
+                                <a href={item.url} target="_blank" rel="noreferrer" >{item.title}</a>
+                            </Menu.Item>
+                        )
+                    }
+
+                    return (
+                        <Menu.Item key={item._id} className="menu-top-web__item">
+                            <Link to={item.url}>{item.title}</Link>
+                        </Menu.Item>
+                    )
+                })}
+                
+                <div>Social Media......</div>
+            </Menu>
+        )
+    }
     ```
+2. Commit Video 143:
+    + $ git add .
+    + $ git commit -m "Obteniendo el menú de la base de datos"
+    + $ git push -u origin main
 
 ### 144. Añadiendo Redes Sociales al menú
 5. Commit Video 144:
