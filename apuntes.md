@@ -9739,14 +9739,38 @@
     + $ git push -u origin main
 
 ### 142. Añadiendo el logo de la web al menú
-5. Commit Video 142:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Web\MenuTop\MenuTop.js**:
     ```js
+    import { useState, useEffect } from 'react'
+    import { Menu } from 'antd'
+    import 'antd/dist/antd.css'
+    import { Link } from 'react-router-dom'
+    import logoSpp from '../../../assets/img/png/logo.png'
+    import './MenuTop.scss'
+
+    export default function MenuTop() {
+        return (
+            <Menu className="menu-top" mode="horizontal">
+                <Menu.Item className="menu-top__logo">
+                    <Link to={"/"}>
+                        <img src={logoSpp} alt="logo" />
+                    </Link>
+                </Menu.Item>
+                <Menu.Item className="menu-top__item">
+                    <Link to={"/"}>Home</Link>
+                </Menu.Item>
+                <Menu.Item className="menu-top__item">
+                    <Link to={"/contact"}>Contacto</Link>
+                </Menu.Item>
+                <div>Social Media......</div>
+            </Menu>
+        )
+    }
     ```
+2. Commit Video 142:
+    + $ git add .
+    + $ git commit -m "Añadiendo el logo de la web al menú"
+    + $ git push -u origin main
 
 ### 143. Obteniendo el menu de la base de datos
 5. Commit Video 143:

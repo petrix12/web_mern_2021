@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react'
 import { Menu } from 'antd'
 import 'antd/dist/antd.css'
 import { Link } from 'react-router-dom'
+import logoSpp from '../../../assets/img/png/logo.png'
 import './MenuTop.scss'
 
 export default function MenuTop() {
     return (
         <Menu className="menu-top" mode="horizontal">
             <Menu.Item className="menu-top__logo">
-                Logo...
+                <Link to={"/"}>
+                    <img src={logoSpp} alt="logo" />
+                </Link>
             </Menu.Item>
             <Menu.Item className="menu-top__item">
                 <Link to={"/"}>Home</Link>
