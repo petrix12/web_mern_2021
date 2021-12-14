@@ -9,7 +9,7 @@ export default function MainBanner() {
             <Row>
                 <Col lg={4} />
                 <Col lg={16} >
-                    <h2>Aprender nuevas <br/> tecnologías web y móvil</h2>
+                    <h2>Aprender nuevas <br/> tecnologías para el desarrollo web</h2>
                     <h3>
                         A través de cursos prácticos, concisos y actualizados, creados por <br/> 
                         profesionales con años de experiencia.
