@@ -9590,14 +9590,153 @@
     + $ git push -u origin main
 
 ### 141. Creando la estructura del menu web
-5. Commit Video 141:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar **client\src\index.js**:
     ```js
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import { BrowserRouter } from "react-router-dom";
+    import './index.scss';
+    import App from './App';
+    import reportWebVitals from './reportWebVitals';
+
+    ReactDOM.render(
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>,
+        document.getElementById('root')
+    );
+
+    // If you want to start measuring performance in your app, pass a function
+    // to log results (for example: reportWebVitals(console.log))
+    // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+    reportWebVitals();
     ```
+2. Renombrar **client\src\index.css** a **client\src\index.scss** y modificarlo:
+    ```scss
+    @import "./scss/index.scss";
+
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: $background-dark-web;
+    }
+
+    code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    }
+    ```
+3. Modificar **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Route, Switch } from "react-router-dom"
+    import { Layout, Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import MenuTop from '../components/Web/MenuTop'
+    import './LayoutBasic.scss'
+    import '../index.scss'
+
+    export default function LayoutBasic(props) {
+        const { routes } = props
+        const { Footer } = Layout
+
+        return (
+            <Row>
+                <Col lg={4} />
+                <Col lg={16} >
+                    <MenuTop />
+                    <LoadRoutes routes={routes}/>
+                    <Footer>Soluciones++</Footer>
+                </Col>
+                <Col lg={4} />
+            </Row>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+4. Crear **client\src\components\Web\MenuTop\index.js**:
+    ```js
+    export { default } from './MenuTop'
+    ```
+5. Crear componente **client\src\components\Web\MenuTop\MenuTop.js**:
+    ```js
+    import { useState, useEffect } from 'react'
+    import { Menu } from 'antd'
+    import 'antd/dist/antd.css'
+    import { Link } from 'react-router-dom'
+    import './MenuTop.scss'
+
+    export default function MenuTop() {
+        return (
+            <Menu className="menu-top" mode="horizontal">
+                <Menu.Item className="menu-top__logo">
+                    Logo...
+                </Menu.Item>
+                <Menu.Item className="menu-top__item">
+                    <Link to={"/"}>Home</Link>
+                </Menu.Item>
+                <Menu.Item className="menu-top__item">
+                    <Link to={"/contact"}>Contacto</Link>
+                </Menu.Item>
+                <div>Social Media......</div>
+            </Menu>
+        )
+    }
+    ```
+6. Crear archivo de estilo client\src\components\Web\MenuTop\MenuTop.scss:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .menu-top-web {
+        position: sticky;
+        top: 0;
+        background-color: $background-dark-web;
+        border: 0;
+        display: flex;
+        align-items: center;
+
+        li {
+            border: 0 !important;
+
+            a {
+                color: #fff !important;
+                font-weight: bold;
+
+                &:hover {
+                    color: $primary-color !important;
+                }
+            }
+        }
+
+        &__logo {
+            padding: 10px;
+
+            img {
+                width: 200px;
+            }
+        }
+    }
+    ```
+7. Commit Video 141:
+    + $ git add .
+    + $ git commit -m "Creando la estructura del menu web"
+    + $ git push -u origin main
 
 ### 142. Añadiendo el logo de la web al menú
 5. Commit Video 142:
