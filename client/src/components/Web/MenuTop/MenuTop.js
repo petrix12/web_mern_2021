@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Menu } from 'antd'
 import 'antd/dist/antd.css'
 import { Link } from 'react-router-dom'
+import SocialLinks from '../SocialLinks'
 import { getMenuApi } from '../../../api/menu'
 import logoSpp from '../../../assets/img/png/logo.png'
 import './MenuTop.scss'
@@ -26,7 +27,7 @@ export default function MenuTop() {
                     <img src={logoSpp} alt="logo" />
                 </Link>
             </Menu.Item>
-            
+
             {menuData.map(item => {
                 const external = item.url.indexOf('http') > -1 ? true : false
                 if(external) {
@@ -44,7 +45,7 @@ export default function MenuTop() {
                 )
             })}
             
-            <div>Social Media......</div>
+            <SocialLinks />
         </Menu>
     )
 }

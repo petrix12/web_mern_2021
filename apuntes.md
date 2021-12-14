@@ -9832,14 +9832,136 @@
     + $ git push -u origin main
 
 ### 144. Añadiendo Redes Sociales al menú
-5. Commit Video 144:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Web\MenuTop\MenuTop.js**:
     ```js
+    import { useState, useEffect } from 'react'
+    import { Menu } from 'antd'
+    import 'antd/dist/antd.css'
+    import { Link } from 'react-router-dom'
+    import SocialLinks from '../SocialLinks'
+    import { getMenuApi } from '../../../api/menu'
+    import logoSpp from '../../../assets/img/png/logo.png'
+    import './MenuTop.scss'
+
+    export default function MenuTop() {
+        const [menuData, setMenuData] = useState([])
+
+        useEffect(() => {
+            getMenuApi().then(response => {
+                const arrayMenu = []
+                response.menu.forEach(item => {
+                    item.active && arrayMenu.push(item)
+                });
+                setMenuData(arrayMenu)
+            })
+        }, [])
+        
+        return (
+            <Menu className="menu-top-web" mode="horizontal">
+                <Menu.Item className="menu-top-web__logo">
+                    <Link to={"/"}>
+                        <img src={logoSpp} alt="logo" />
+                    </Link>
+                </Menu.Item>
+
+                {menuData.map(item => {
+                    const external = item.url.indexOf('http') > -1 ? true : false
+                    if(external) {
+                        return (
+                            <Menu.Item key={item._id} className="menu-top-web__item">
+                                <a href={item.url} target="_blank" rel="noreferrer" >{item.title}</a>
+                            </Menu.Item>
+                        )
+                    }
+
+                    return (
+                        <Menu.Item key={item._id} className="menu-top-web__item">
+                            <Link to={item.url}>{item.title}</Link>
+                        </Menu.Item>
+                    )
+                })}
+                
+                <SocialLinks />
+            </Menu>
+        )
+    }
     ```
+2. Crear **client\src\components\Web\SocialLinks\index.js**:
+    ```js
+    export { default } from './SocialLinks'
+    ```
+3. Crear archivo de estilo **client\src\components\Web\SocialLinks\SocialLinks.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .social-links {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+
+        a {
+            display: flex;
+            margin-right: 10px;
+            padding: 5px 8px;
+            border-radius: 5px;
+
+            &.youtube {
+                background-color: $youtube;
+            }
+            &.twitter {
+                background-color: $twitter;
+            }
+            &.facebook {
+                background-color: $facebook;
+            }
+            &.linkedin {
+                background-color: $linkedin;
+            }
+
+            svg {
+                width: 15px;
+                height: 20px;
+            }
+        }
+    }
+    ```
+4. Crear componente **client\src\components\Web\SocialLinks\SocialLinks.js**:
+    ```js
+    import { ReactComponent as YouTubeIcon } from '../../../assets/img/svg/youtube.svg'
+    import { ReactComponent as FacebookIcon } from '../../../assets/img/svg/facebook.svg'
+    import { ReactComponent as LinkedinIcon } from '../../../assets/img/svg/linkedin.svg'
+    import { ReactComponent as TwitterIcon } from '../../../assets/img/svg/twitter.svg'
+    import './SocialLinks.scss'
+
+    export default function SocialLinks() {
+        return (
+            <div className="social-links">
+                <a href="https://www.youtube.com/channel/UCgI3CMta_Vc4GHZwbzG3e-Q" className="youtube" target="_blank" rel="noreferrer">
+                    <YouTubeIcon />
+                </a>
+                <a href="https://twitter.com/petrix12" className="twitter" target="_blank" rel="noreferrer">
+                    <TwitterIcon />
+                </a>
+                <a href="https://www.facebook.com/solplusplus/?view_public_for=107321274381310" className="facebook" target="_blank" rel="noreferrer">
+                    <FacebookIcon />
+                </a>
+                <a href="https://www.linkedin.com/in/pedro-bazo/" className="linkedin" target="_blank" rel="noreferrer">
+                    <LinkedinIcon />
+                </a>
+            </div>
+        )
+    }
+    ```
+5. Ubicar iconos en formato **svg** de redes sociales y guardarlos en:
+    + client\src\assets\img\svg\facebook.svg
+    + client\src\assets\img\svg\linkedin.svg
+    + client\src\assets\img\svg\twitter.svg
+    + client\src\assets\img\svg\youtube.svg
+6. Commit Video 144:
+    + $ git add .
+    + $ git commit -m "Añadiendo Redes Sociales al menú"
+    + $ git push -u origin main
 
 ### 145. Creando el banner principal de la home page
 5. Commit Video 14:
