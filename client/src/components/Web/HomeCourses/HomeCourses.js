@@ -74,6 +74,11 @@ export default function HomeCourses() {
                 </Row>
             </Col>
             <Col lg={4} />
+            <Col lg={24} className="home-courses__more">
+                <Link to='/courses'>
+                    <Button>Ver más cursos</Button>
+                </Link>
+            </Col>
         </Row>
     )
 }
