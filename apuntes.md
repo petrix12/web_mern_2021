@@ -9963,8 +9963,141 @@
     + $ git commit -m "Añadiendo Redes Sociales al menú"
     + $ git push -u origin main
 
+## Sección 11: Home Page
+
 ### 145. Creando el banner principal de la home page
-5. Commit Video 14:
+1. Modificar layout **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Route, Switch } from "react-router-dom"
+    import { Layout, Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import MenuTop from '../components/Web/MenuTop'
+    import './LayoutBasic.scss'
+    import '../index.scss'
+
+    export default function LayoutBasic(props) {
+        const { routes } = props
+        const { Footer } = Layout
+
+        return (
+            <>
+                <Row>
+                    <Col lg={4} />
+                    <Col lg={16} >
+                        <MenuTop />
+                    </Col>
+                    <Col lg={4} />
+                </Row>
+                <LoadRoutes routes={routes}/>
+                <Footer>Soluciones++</Footer>
+            </>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+2. Crear **client\src\components\Web\MainBanner\index.js**:
+    ```js
+    export { default } from "./MainBanner"
+    ```
+3. Crear archivo de estilo **client\src\components\Web\MainBanner\MainBanner.scss**:
+    ```js
+    @import "../../../scss/index.scss";
+
+    .main-banner {
+        position: relative;
+        height: 500px;
+        background-image: url("../../../assets/img/jpg/home-v1.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+
+        &__dark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.6;
+        }
+
+        .ant-row {
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+            h2 {
+                color: #fff;
+                font-size: 60px;
+                font-weight: bold;
+                line-height: 1;
+            }
+
+            h3 {
+                color: #fff;
+                font-size: 24px;
+            }
+        }
+    }
+    ```
+4. Crear componente **client\src\components\Web\MainBanner\MainBanner.js**:
+    ```js
+    import { Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import './MainBanner.scss'
+
+    export default function MainBanner() {
+        return (
+            <div className="main-banner">
+                <div className="main-banner__dark"/>
+                <Row>
+                    <Col lg={4} />
+                    <Col lg={16} >
+                        <h2>Aprender nuevas <br/> tecnologías web y móvil</h2>
+                        <h3>
+                            A través de cursos prácticos, concisos y actualizados, creados por <br/> 
+                            profesionales con años de experiencia.
+                        </h3>
+                    </Col>
+                    <Col lg={4} />
+                </Row>
+            </div>
+        )
+    }
+    ```
+5. Modificar vista **client\src\pages\Home.js**:
+    ```js
+    import MainBanner from "../components/Web/MainBanner"
+
+    export default function Home(){
+        return(
+            <>
+                <MainBanner />
+            </>
+        )
+    }
+    ```
+6. Commit Video 145:
+    + $ git add .
+    + $ git commit -m "Creando el banner principal de la home page"
+    + $ git push -u origin main
+
+### 146. 1/3 - Componente para mostrar los mejores cursos
+5. Commit Video 146:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -9973,14 +10106,78 @@
     ```js
     ```
 
-### 146. 1/3 - Componente para mostrar los mejores cursos
 ### 147. 2/3 - Componente para mostrar los mejores cursos
+5. Commit Video 147:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 148. 3/3 - Componente para mostrar los mejores cursos
+5. Commit Video 148:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 149. 1/2 - Componente para mostrar como funcionan los cursos
+5. Commit Video 149:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 150. 2/2 - Componente para mostrar como funcionan los cursos
+5. Commit Video 150:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 151. 1/2 - Añadiendo sección de reviews de usuarios
+5. Commit Video 151:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 152. 2/2 - Añadiendo sección de reviews de usuarios
+5. Commit Video 152:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
+## Sección 12: Footer y Newsletter
+
 ### 153. Estructura del footer
+5. Commit Video 15:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 154. Añadiendo Mi información al footer y SocialLinks
 ### 155. Creando una navegación en el footer
 ### 156. Configurando el Backend para añadir una Newsletter
@@ -9988,6 +10185,9 @@
 ### 158. Creando estructura y formulario de la Newsletter
 ### 159. Conectando formulario con el enpoint que registra emails
 ### 160. Configuración para crear endpoint de cursos
+
+## Sección 13: Página de cursos
+
 ### 161. Endpoint para crear cursos
 ### 162. Endpoint para obtener todos los cursos ordenados
 ### 163. Endpont para eliminar cursos
@@ -10009,6 +10209,9 @@
 ### 179. 1/2 - Pintando todos los curso por pantalla
 ### 180. 2/2 - Pintando todos los curso por pantalla
 ### 181. Borrar inputs al haber editado un curso previamente
+
+## Sección 14: Blog
+
 ### 182. Estructura del Blog en el servidor
 ### 183. Endpoint para crear nuevos posts
 ### 184. Endpoint para obtener todos los posts de la base de datos paginados
@@ -10031,12 +10234,21 @@
 ### 201. 1/2 - Mostrando el listado de todos los posts
 ### 202. 2/2 - Mostrando el listado de todos los posts
 ### 203. Mostrando la información del post seleccionado
+
+## Sección 15: SEO con React Helmet
+
 ### 204. Instalando React Helmet y Actualizando todos los títulos de la web
 ### 205. Actualizando las meta descripciones
+
+## Sección 16: Desplegando aplicación
+
 ### 206. Cambiando el favicon
 ### 207. Subiendo base de datos a MongoDB Atlas
 ### 208. Subiendo Servidor a Heroku
 ### 209. Subiendo Cliente a Netlify
+
+## Sección 17: Despedida
+
 ### 210. Repositorio de la aplicación
 ### 211. Clase Extra
 
