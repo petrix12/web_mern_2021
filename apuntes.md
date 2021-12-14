@@ -10097,14 +10097,78 @@
     + $ git push -u origin main
 
 ### 146. 1/3 - Componente para mostrar los mejores cursos
+1. Modificar vista **client\src\pages\Home.js**:
+    ```js
+    import MainBanner from "../components/Web/MainBanner"
+    import HomeCourses from "../components/Web/HomeCourses"
+
+    export default function Home(){
+        return(
+            <>
+                <MainBanner />
+                <HomeCourses />
+            </>
+        )
+    }
+    ```
+2. Crear **client\src\components\Web\HomeCourses\index.js**:
+    ```js
+    export { default } from "./HomeCourses"
+    ```
+3. Crear archivo de estilo **client\src\components\Web\HomeCourses\HomeCourses.scss**:
+    ```js
+    @import "../../../scss/index.scss";
+
+    .home-courses {
+        margin-top: 50px;
+        margin-bottom: 50px;
+
+        &__title {
+            text-align: center;
+
+            h2 {
+                /* color: $font-light; */
+                color: $primary-color;
+                font-weight: bold;
+                font-size: 32px;
+                text-transform: uppercase;
+            }
+        }
+    }
+    ```
+4. Crear componente **client\src\components\Web\HomeCourses\HomeCourses.js**:
+    ```js
+    import React from 'react'
+    import { Row, Col, Card, Button } from "antd"
+    import 'antd/dist/antd.css'
+    import { Link } from 'react-router-dom'
+    import { apiRestful} from '../../../assets/img/png/apirestful.png'
+    import { awsLaravel } from '../../../assets/img/png/aws_laravel.png'
+    import { cursosLaravel } from '../../../assets/img/png/cursos_laravel.png'
+    import { mongoDB } from '../../../assets/img/png/laravel_mongodb.png'
+    import { vueJs } from '../../../assets/img/png/vuejs2021.png'
+    import { cvOnline } from '../../../assets/img/png/cvonline.png'
+    import "./HomeCourses.scss"
+
+    export default function HomeCourses() {
+        return (
+            <Row className="home-courses">
+                <Col lg={24} className="home-courses__title">
+                    <h2>Aprende y mejora tus habilidades</h2>
+                </Col>
+                <Col lg={4} />
+                <Col lg={16} >
+
+                </Col>
+                <Col lg={4} />
+            </Row>
+        )
+    }
+    ```
 5. Commit Video 146:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "1/3 - Componente para mostrar los mejores cursos"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 147. 2/3 - Componente para mostrar los mejores cursos
 5. Commit Video 147:
