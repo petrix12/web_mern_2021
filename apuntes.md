@@ -10814,14 +10814,109 @@
     + $ git push -u origin main
 
 ### 151. 1/2 - Añadiendo sección de reviews de usuarios
-5. Commit Video 151:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear **client\src\components\Web\ReviewsCourses\index.js**:
     ```js
+    export { default } from "./ReviewsCourses"
     ```
+2. Crear archivo de estilo **client\src\components\Web\ReviewsCourses\ReviewsCourses.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .reviews-courses {
+        margin-top: 100px;
+        margin-bottom: 50px;
+
+        &__title {
+            text-align: center;
+            margin-bottom: 20px;
+
+            h2 {
+                color: $font-light;
+                font-size: 32px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\ReviewsCourses\ReviewsCourses.js**:
+    ```js
+    import { Row, Col, Card, Avatar } from "antd"
+    import AvatarPersona from "../../../assets/img/jpg/avatar-persona.jpg"
+    import "./ReviewsCourses.scss"
+
+    export default function ReviewsCourses() {
+        return (
+            <Row className="reviews-courses">
+                <Row>
+                    <Col lg={4} />
+                    <Col lg={16} className="reviews-courses__title">
+                        <h2>
+                            Forma parte de los +35 mil estudiantes que estan aprendiendo con mis
+                            cursos
+                        </h2>
+                    </Col>
+                    <Col lg={4} />
+                </Row>
+                <Row>
+                    <Col lg={4} />
+                    <Col lg={16}>
+                        <Row className="row-cards">
+                            <Col md={8}>
+                                <CardReview
+                                    name="Alonso Campos"
+                                    subtitle="Alumno de Udemy"
+                                    avatar={AvatarPersona}
+                                    review="Un curso excelente, el profesor explica detalladamente como funciona react native y también como hacer componente por componente, he buscado muchos cursos de react native pero ninguno me ha enseñado tanto como este, ahora estoy desarrollando mi propia aplicación sin ningún tipo de problema gracias al curso."
+                                />
+                            </Col>
+                        </Row>
+                    </Col> 
+                    <Col lg={4} />
+                </Row>
+            </Row>
+        )
+    }
+
+    function CardReview(props) {
+        const { name, subtitle, avatar, review } = props
+        const { Meta } = Card
+
+        return (
+            <Card className="reviews-courses__card">
+                <p>{review}</p>
+                <Meta
+                    avatar={<Avatar src={avatar} />}
+                    title={name}
+                    description={subtitle}
+                />
+            </Card>
+        )
+    }
+    ```
+4. Modificar página **client\src\pages\Home.js**:
+    ```js
+    import MainBanner from "../components/Web/MainBanner"
+    import HomeCourses from "../components/Web/HomeCourses"
+    import HowMyCoursesWork from "../components/Web/HowMyCoursesWork"
+    import ReviewsCourses from "../components/Web/ReviewsCourses"
+
+    export default function Home(){
+        return(
+            <>
+                <MainBanner />
+                <HomeCourses />
+                <HowMyCoursesWork />
+                <ReviewsCourses />
+            </>
+        )
+    }
+    ```
+5. Colocar una imagen de avatar en **client\src\assets\img\jpg\avatar-persona.jpg**.
+6. Commit Video 151:
+    + $ git add .
+    + $ git commit -m "1/2 - Añadiendo sección de reviews de usuarios"
+    + $ git push -u origin main
 
 ### 152. 2/2 - Añadiendo sección de reviews de usuarios
 5. Commit Video 152:
