@@ -15,7 +15,7 @@
             text-transform: uppercase;
         }
     }
-/*
+
     .row-cards {
         .ant-col {
             padding: 15px !important;
@@ -24,7 +24,8 @@
 
     &__card {
         border: 0;
-        background-color: transparent;
+        //background-color: transparent;
+        background-color: $primary-color-hover;
 
         p {
             text-align: justify;
@@ -55,5 +56,5 @@
                 }
             }
         }
-    }*/
+    }
 }
