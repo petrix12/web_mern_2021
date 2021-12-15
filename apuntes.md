@@ -11459,14 +11459,72 @@
     + $ git push -u origin main
 
 ### 156. Configurando el Backend para añadir una Newsletter
-5. Commit Video 156:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
 
-    ≡
+1. Crear controlador **server\controllers\newsletter.js**:
     ```js
+    const Newsletter = require("../models/newsletter")
+
+    function suscribeEmail(req, res) {
+        console.log('suscribeEmail ok')
+    }
+
+    module.exports = {
+        suscribeEmail
+    }
     ```
+2. Crear modelo **server\models\newsletter.js**:
+    ```js
+    const mongoose = require("mongoose")
+    const Schema = mongoose.Schema
+
+    const NewsletterSchema = Schema({
+        email: {
+            type: String,
+            unique: true
+        }
+    })
+
+    module.exports = mongoose.model("Newsletter", NewsletterSchema)
+    ```
+3. Crear archivo de rutas **server\routers\newsletter.js**:
+    ```js
+    const express = require("express")
+    const NewsletterController = require("../controllers/newsletter")
+
+    const api = express.Router()
+
+    api.post("/suscribe-newsletter/:email", NewsletterController.suscribeEmail)
+
+    module.exports = api
+    ```
+4. Modificar **server\app.js**:
+    ```js
+    ≡
+    // Load routings
+    ≡
+    const newsletterRoutes = require('./routers/newsletter')
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+
+    // Configure Header HTTP
+    ≡
+
+    // Basic Routers
+    ≡
+    app.use(`/api/${API_VERSION}`, newsletterRoutes)
+
+    module.exports = app
+    ```
+5. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/suscribe-newsletter/correo1@gmail.com
+    + Guardar endpoint como: **suscribe-newsletter**
+6. Commit Video 156:
+    + $ git add .
+    + $ git commit -m "Configurando el Backend para añadir una Newsletter"
+    + $ git push -u origin main
 
 ### 157. Creando endopoint para guardar los emails de la newsletter en la base de datos
 5. Commit Video 157:
