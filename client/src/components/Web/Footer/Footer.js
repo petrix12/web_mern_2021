@@ -1,8 +1,8 @@
 import { Layout, Row, Col } from "antd"
-/* import 'antd/dist/antd.css'
+//import 'antd/dist/antd.css'
 import MyInfo from "./MyInfo"
-import NavigationFooter from "./NavigationFooter"
-import Newsletter from "../Newsletter" */
+//import NavigationFooter from "./NavigationFooter"
+//import Newsletter from "../Newsletter"
 import "./Footer.scss"
 
 export default function Footer() {
@@ -15,8 +15,7 @@ export default function Footer() {
                 <Col md={16}>
                    <Row>
                         <Col md={8}>
-                            Mi información
-                            {/* <MyInfo /> */}
+                            <MyInfo />
                         </Col>
                         <Col md={8}>
                             Navegación

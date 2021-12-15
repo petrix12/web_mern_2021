@@ -11202,14 +11202,89 @@
     + $ git push -u origin main
 
 ### 154. Añadiendo Mi información al footer y SocialLinks
+1. Crear **client\src\components\Web\Footer\MyInfo\index.js**:
+    ```js
+    export { default } from "./MyInfo"
+    ```
+2. Crear archivo de estilo **client\src\components\Web\Footer\MyInfo\MyInfo.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .my-info {
+        img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            margin-bottom: 20px;
+            color: $primary-color-dark;
+        }
+
+        .social-links {
+            justify-content: flex-start;
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\Footer\MyInfo\MyInfo.js**:
+    ```js
+    import Logo from "../../../../assets/img/png/logo.png"
+    import SocialLink from "../../SocialLinks"
+    import "./MyInfo.scss"
+
+    export default function MyInfo() {
+        return (
+            <div className="my-info">
+                <img src={Logo} alt="Soluciones++" />
+                <h4>
+                    Entra en el mundo del desarrollo web, disfruta creando proyectos de todo
+                    tipo, deja que tú imaginación fluya y crea verdaderas maravillas!!
+                </h4>
+                <SocialLink />
+            </div>
+        )
+    }
+    ```
+4. Modificar componente **client\src\components\Web\Footer\Footer.js**:
+    ```js
+    import { Layout, Row, Col } from "antd"
+    import MyInfo from "./MyInfo"
+    import "./Footer.scss"
+
+    export default function Footer() {
+        const { Footer } = Layout
+
+        return (
+            <Footer className="footer">
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                    <Row>
+                            <Col md={8}>
+                                <MyInfo />
+                            </Col>
+                            <Col md={8}>
+                                Navegación
+                            </Col>
+                            <Col md={8}>
+                                Newsletter
+                            </Col>
+                        </Row>
+                        <Row className="footer__copyright">
+                            <Col md={12}>© 2021 ALL RIGHTS RESERVED​</Col>
+                            <Col md={12}>Soluciones++ | Desarrollo Web</Col>
+                        </Row>
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </Footer>
+        )
+    }
+    ```
 5. Commit Video 154:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Añadiendo Mi información al footer y SocialLinks"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 155. Creando una navegación en el footer
 5. Commit Video 155:
