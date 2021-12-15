@@ -1,8 +1,7 @@
 const Newsletter = require("../models/newsletter")
 
 function suscribeEmail(req, res) {
-    console.log('suscribeEmail ok')
-/*     const email = req.params.email
+    const email = req.params.email
     const newsletter = new Newsletter()
 
     if (!email) {
@@ -14,20 +13,13 @@ function suscribeEmail(req, res) {
                 res.status(500).send({ code: 500, message: "El email ya existe." })
             } else {
                 if (!newsletterStore) {
-                res
-                    .status(400)
-                    .send({
-                        code: 400,
-                        message: "Error al registrar en la newsletter."
-                    })
+                    res.status(400).send({ code: 400, message: "Error al registrar en la newsletter." })
                 } else {
-                res
-                    .status(200)
-                    .send({ code: 200, message: "Email registrado correctamente." })
+                    res.status(200).send({ code: 200, message: "Email registrado correctamente." })
                 }
             }
         })
-    }*/
+    }
 }
 
 module.exports = {
