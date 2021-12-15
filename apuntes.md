@@ -1492,12 +1492,15 @@
 ## Sección 06: Maquetación del LayoutAdmin
 
 ### 054. Creando variables de colores y tamaños SASS para reutilizarlas en componentes
-1. Modificar el archivo de estilos client\src\scss\_variables.scss:
+1. Modificar el archivo de estilos **client\src\scss\_variables.scss**:
     ```scss
     $defaultFontSize: 16px;
 
-    $primary-color: #0098d3;
-    $primary-color-hover: #0280b3;
+    /* $primary-color: #0098d3; */
+    /* $primary-color-hover: #0280b3; */
+    $primary-color: #184052;
+    $primary-color-hover: #0a3141;
+    $primary-color-light: #9cc0d1;
 
     $menu-color: #252527;
 
@@ -10555,14 +10558,98 @@
     + $ git push -u origin main
 
 ### 149. 1/2 - Componente para mostrar como funcionan los cursos
+1. Crear archivo client\src\components\Web\HowMyCoursesWork\index.js:
+    ```js
+    export { default } from "./HowMyCoursesWork"
+    ```
+2. Crear archivo de estilo **client\src\components\Web\HowMyCoursesWork\HowMyCoursesWork.scss**:
+    ```scss
+    @import "../../../index.scss";
+
+    .how-my-courses-work {
+        margin-top: 100px;
+        margin-bottom: 50px;
+
+        &__title {
+            text-align: center;
+            line-height: 0.7;
+            margin-bottom: 40px;
+
+            h2 {
+                color: $font-light;
+                font-size: 32px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            h3 {
+                color: $primary-color-light;
+            }
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\HowMyCoursesWork\HowMyCoursesWork.js**:
+    ```js
+    import { Row, Col, Card } from "antd"
+    import { ClockCircleOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./HowMyCoursesWork.scss"
+
+    export default function HowMyCoursesWork() {
+        return (
+        <Row className="how-my-courses-work">
+                <Col lg={24} className="how-my-courses-work__title">
+                    <h2>¿Cómo funcionan mis cursos?</h2>
+                    <h3>
+                        Cada curso cuenta con contenido actualizado, activa las 24
+                        horas al día los 365 días del año
+                    </h3>
+                </Col>
+
+                <Col lg={4} />
+                <Col lg={16}>
+                    <Row className="row-cards">
+                    <Col md={8}>
+                            <CardInfo
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col lg={4} />
+            </Row>
+        )
+    }
+
+    function CardInfo(props) {
+        const { icon, title, description } = props
+        const { Meta } = Card
+
+        return (
+            <Card className="how-my-courses-work__card">
+            </Card>
+        )
+    }
+    ```
+4. Modificar página **client\src\pages\Home.js**:
+    ```js
+    import MainBanner from "../components/Web/MainBanner"
+    import HomeCourses from "../components/Web/HomeCourses"
+    import HowMyCoursesWork from "../components/Web/HowMyCoursesWork"
+
+    export default function Home(){
+        return(
+            <>
+                <MainBanner />
+                <HomeCourses />
+                <HowMyCoursesWork />
+            </>
+        )
+    }
+    ```
 5. Commit Video 149:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "1/2 - Componente para mostrar como funcionan los cursos"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 150. 2/2 - Componente para mostrar como funcionan los cursos
 5. Commit Video 150:
