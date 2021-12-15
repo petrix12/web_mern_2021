@@ -11671,14 +11671,90 @@
     + $ git push -u origin main
 
 ### 159. Conectando formulario con el enpoint que registra emails
-5. Commit Video 159:
+1. Crear **client\src\api\newsletter.js**:
+    ```js
+    import { basePath, apiVersion } from "./config";
+
+    export function suscribeNewsletterApi(email) {
+        const url = `${basePath}/${apiVersion}/suscribe-newsletter/${email.toLowerCase()}`
+        const params = {
+            method: "POST"
+        };
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result;
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
+2. Modificar componente **client\src\components\Web\Newsletter\Newsletter.js**:
+    ```js
+    import { useState } from "react"
+    import { Form, Input, Button, notification } from "antd"
+    import { UserOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { suscribeNewsletterApi } from "../../../api/newsletter"
+    import "./Newsletter.scss"
+
+    export default function Newsletter() {
+        const [email, setEmail] = useState("")
+
+        const onSubmit = e => {
+            const emailValid = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+            const resultValidation = emailValid.test(email)
+
+            if (!resultValidation) {
+                notification["error"]({ message: "El correo electrónico no es valido." })
+            } else {
+                suscribeNewsletterApi(email).then(response => {
+                    if (response.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        notification["success"]({ message: response.message })
+                        setEmail("")
+                    }
+                })
+            } 
+        }
+
+        return (
+            <div className="newsletter">
+                <h3>Newsletter</h3>
+                <Form onFinish={onSubmit}>
+                    <Form.Item>
+                        <Input
+                            prefix={<UserOutlined style={{ color: "rgba(0,0,0,0.25)" }} />}
+                            placeholder="Correo electrónico"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="login-form-button"
+                        >
+                            ¡Me suscribo!
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        )
+    }
+    ```
+3. Commit Video 159:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Conectando formulario con el enpoint que registra emails"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
+## Sección 13: Página de cursos
 
 ### 160. Configuración para crear endpoint de cursos
 5. Commit Video 160:
@@ -11689,8 +11765,6 @@
     ≡
     ```js
     ```
-
-## Sección 13: Página de cursos
 
 ### 161. Endpoint para crear cursos
 5. Commit Video 16:
