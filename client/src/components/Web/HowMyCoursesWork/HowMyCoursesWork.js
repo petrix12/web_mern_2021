@@ -1,8 +1,14 @@
 import { Row, Col, Card } from "antd"
-import { ClockCircleOutlined } from '@ant-design/icons'
+import { 
+    ClockCircleOutlined, 
+    KeyOutlined, 
+    MessageOutlined, 
+    UserOutlined,
+    DollarOutlined,
+    CheckCircleOutlined
+} from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import "./HowMyCoursesWork.scss"
-
 
 export default function HowMyCoursesWork() {
     return (
@@ -20,22 +26,21 @@ export default function HowMyCoursesWork() {
                 <Row className="row-cards">
                    <Col md={8}>
                         <CardInfo
-                            /* icon="clock-circle" */
                             icon={<ClockCircleOutlined />}
                             title="Cursos y Clases"
                             description="Cursos de entre 10 y 30 horas y cada clase del curso con duración máxima de 15 minutos, faciles de llevar en tu día a día de aprendizaje."
                         />
                     </Col>
-            {/*         <Col md={8}>
+                    <Col md={8}>
                         <CardInfo
-                            icon="key"
+                            icon={<KeyOutlined />}
                             title="Acceso 24/7"
                             description="Accede a los cursos en cualquier momento, desde cualquier lugar sin importar día y hora."
                         />
                     </Col>
                     <Col md={8}>
                         <CardInfo
-                            icon="message"
+                            icon={<MessageOutlined />}
                             title="Aprendizaje colaboratico"
                             description="Aprende de los demás dejando tus dudas para que profesores y compañeros te ayuden."
                         />
@@ -44,25 +49,25 @@ export default function HowMyCoursesWork() {
                 <Row className="row-cards">
                     <Col md={8}>
                         <CardInfo
-                            icon="user"
+                            icon={<UserOutlined />}
                             title="Mejora tu perfil"
                             description="Aprende y mejora tu perfil para mantenerte informado de actualizaciones."
                         />
                     </Col>
                     <Col md={8}>
                         <CardInfo
-                            icon="dollar"
+                            icon={<DollarOutlined />}
                             title="Precios bajos"
                             description="Obtén el curso que necesitas por solo 9.99 y ten acceso a el por tiempo ilimitado y soporte ilimitado."
                         />
                     </Col>
                     <Col md={8}>
                         <CardInfo
-                            icon="check-circle"
-                            title="Certificador de finalización"
-                            description="Al completar tu un curso recibirás una certificación que te expedirá Udemy en PDF."
+                            icon={<CheckCircleOutlined />}
+                            title="Certificado de finalización"
+                            description="Al completar tu un curso recibirás una certificación que te expedirá Soluciones++ en PDF."
                         />
-                    </Col> */}
+                    </Col>
                 </Row>
             </Col>
             <Col lg={4} />
@@ -76,7 +81,6 @@ function CardInfo(props) {
 
     return (
         <Card className="how-my-courses-work__card">
-            {/* <Icon type={icon} /> */}
             {icon}
             <Meta title={title} description={description} />
         </Card>

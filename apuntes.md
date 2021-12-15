@@ -1501,6 +1501,7 @@
     $primary-color: #184052;
     $primary-color-hover: #0a3141;
     $primary-color-light: #9cc0d1;
+    $primary-color-dark: #637780;
 
     $menu-color: #252527;
 
@@ -10652,14 +10653,165 @@
     + $ git push -u origin main
 
 ### 150. 2/2 - Componente para mostrar como funcionan los cursos
-5. Commit Video 150:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Web\HowMyCoursesWork\HowMyCoursesWork.js**:
     ```js
+    import { Row, Col, Card } from "antd"
+    import { 
+        ClockCircleOutlined, 
+        KeyOutlined, 
+        MessageOutlined, 
+        UserOutlined,
+        DollarOutlined,
+        CheckCircleOutlined
+    } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./HowMyCoursesWork.scss"
+
+    export default function HowMyCoursesWork() {
+        return (
+        <Row className="how-my-courses-work">
+                <Col lg={24} className="how-my-courses-work__title">
+                    <h2>¿Cómo funcionan mis cursos?</h2>
+                    <h3>
+                        Cada curso cuenta con contenido actualizado, activa las 24
+                        horas al día los 365 días del año
+                    </h3>
+                </Col>
+
+                <Col lg={4} />
+                <Col lg={16}>
+                    <Row className="row-cards">
+                    <Col md={8}>
+                            <CardInfo
+                                icon={<ClockCircleOutlined />}
+                                title="Cursos y Clases"
+                                description="Cursos de entre 10 y 30 horas y cada clase del curso con duración máxima de 15 minutos, faciles de llevar en tu día a día de aprendizaje."
+                            />
+                        </Col>
+                        <Col md={8}>
+                            <CardInfo
+                                icon={<KeyOutlined />}
+                                title="Acceso 24/7"
+                                description="Accede a los cursos en cualquier momento, desde cualquier lugar sin importar día y hora."
+                            />
+                        </Col>
+                        <Col md={8}>
+                            <CardInfo
+                                icon={<MessageOutlined />}
+                                title="Aprendizaje colaboratico"
+                                description="Aprende de los demás dejando tus dudas para que profesores y compañeros te ayuden."
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="row-cards">
+                        <Col md={8}>
+                            <CardInfo
+                                icon={<UserOutlined />}
+                                title="Mejora tu perfil"
+                                description="Aprende y mejora tu perfil para mantenerte informado de actualizaciones."
+                            />
+                        </Col>
+                        <Col md={8}>
+                            <CardInfo
+                                icon={<DollarOutlined />}
+                                title="Precios bajos"
+                                description="Obtén el curso que necesitas por solo 9.99 y ten acceso a el por tiempo ilimitado y soporte ilimitado."
+                            />
+                        </Col>
+                        <Col md={8}>
+                            <CardInfo
+                                icon={<CheckCircleOutlined />}
+                                title="Certificado de finalización"
+                                description="Al completar tu un curso recibirás una certificación que te expedirá Soluciones++ en PDF."
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col lg={4} />
+            </Row>
+        )
+    }
+
+    function CardInfo(props) {
+        const { icon, title, description } = props
+        const { Meta } = Card
+
+        return (
+            <Card className="how-my-courses-work__card">
+                {icon}
+                <Meta title={title} description={description} />
+            </Card>
+        )
+    }
     ```
+2. Modificar archivo de estilo **client\src\components\Web\HowMyCoursesWork\HowMyCoursesWork.scss**:
+    ```js
+    @import "../../../index.scss";
+
+    .how-my-courses-work {
+        margin-top: 100px;
+        margin-bottom: 50px;
+
+        &__title {
+            text-align: center;
+            line-height: 0.7;
+            margin-bottom: 40px;
+
+            h2 {
+                color: $font-light;
+                font-size: 32px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            h3 {
+                color: $primary-color-light;
+            }
+        }
+
+        .row-cards {
+            .ant-col {
+                padding: 15px !important;
+            }
+        }
+
+        &__card {
+            border: 0;
+            background-color: $background-dark-light-web;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+            -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+
+            .ant-card-body {
+                min-height: 215px;
+            }
+
+            i {
+                font-size: 45px;
+                margin-bottom: 20px;
+                color: $primary-color-light;
+            }
+
+            .ant-card-meta-detail {
+                .ant-card-meta-title {
+                    color: $primary-color-light;
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+                .ant-card-meta-description {
+                    color: $primary-color-dark;
+                }
+            }
+        }
+    }
+    ```
+3. Commit Video 150:
+    + $ git add .
+    + $ git commit -m "2/2 - Componente para mostrar como funcionan los cursos"
+    + $ git push -u origin main
 
 ### 151. 1/2 - Añadiendo sección de reviews de usuarios
 5. Commit Video 151:
