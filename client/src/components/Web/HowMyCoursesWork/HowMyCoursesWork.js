@@ -81,7 +81,7 @@ function CardInfo(props) {
 
     return (
         <Card className="how-my-courses-work__card">
-            {icon}
+            <span className="icono">{icon}</span>
             <Meta title={title} description={description} />
         </Card>
     )

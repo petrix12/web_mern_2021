@@ -10738,14 +10738,14 @@
 
         return (
             <Card className="how-my-courses-work__card">
-                {icon}
+                <span className="icono">{icon}</span>
                 <Meta title={title} description={description} />
             </Card>
         )
     }
     ```
 2. Modificar archivo de estilo **client\src\components\Web\HowMyCoursesWork\HowMyCoursesWork.scss**:
-    ```js
+    ```scss
     @import "../../../index.scss";
 
     .how-my-courses-work {
@@ -10790,6 +10790,12 @@
             }
 
             i {
+                font-size: 45px;
+                margin-bottom: 20px;
+                color: $primary-color-light;
+            }
+
+            .icono {
                 font-size: 45px;
                 margin-bottom: 20px;
                 color: $primary-color-light;
@@ -11087,7 +11093,116 @@
 ## Sección 12: Footer y Newsletter
 
 ### 153. Estructura del footer
-5. Commit Video 15:
+1. Crear **client\src\components\Web\Footer\index.js**:
+    ```js
+    export { default } from "./Footer"
+    ```
+2. Crear archivo de estilo **client\src\components\Web\Footer\Footer.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .footer {
+        background-color: $background-dark-web;
+        border-top: 3px solid $primary-color;
+
+        &__copyright {
+            margin-top: 30px;
+
+            .ant-col {
+                color: $primary-color-dark;
+
+                &:last-of-type {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\Footer\Footer.js**:
+    ```js
+    import { Layout, Row, Col } from "antd"
+    import "./Footer.scss"
+
+    export default function Footer() {
+        const { Footer } = Layout
+
+        return (
+            <Footer className="footer">
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                    <Row>
+                            <Col md={8}>
+                                Mi información
+                            </Col>
+                            <Col md={8}>
+                                Navegación
+                            </Col>
+                            <Col md={8}>
+                                Newsletter
+                            </Col>
+                        </Row>
+                        <Row className="footer__copyright">
+                            <Col md={12}>© 2021 ALL RIGHTS RESERVED​</Col>
+                            <Col md={12}>Soluciones++ | Desarrollo Web</Col>
+                        </Row>
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </Footer>
+        )
+    }
+    ```
+4. Modificar layout **client\src\layouts\LayoutBasic.js**:
+    ```js
+    import { Route, Switch } from "react-router-dom"
+    import { Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import MenuTop from '../components/Web/MenuTop'
+    import Footer from '../components/Web/Footer'
+    import './LayoutBasic.scss'
+    import '../index.scss'
+
+    export default function LayoutBasic(props) {
+        const { routes } = props
+
+        return (
+            <>
+                <Row>
+                    <Col lg={4} />
+                    <Col lg={16} >
+                        <MenuTop />
+                    </Col>
+                    <Col lg={4} />
+                </Row>
+                <LoadRoutes routes={routes}/>
+                <Footer />
+            </>
+        )
+    }
+
+    function LoadRoutes({ routes }){
+        return (
+            <Switch>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.component}
+                    />
+                ))}
+            </Switch>
+        )
+    }
+    ```
+5. Commit Video 153:
+    + $ git add .
+    + $ git commit -m "Estructura del footer"
+    + $ git push -u origin main
+
+### 154. Añadiendo Mi información al footer y SocialLinks
+5. Commit Video 154:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -11096,17 +11211,78 @@
     ```js
     ```
 
-### 154. Añadiendo Mi información al footer y SocialLinks
 ### 155. Creando una navegación en el footer
+5. Commit Video 155:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 156. Configurando el Backend para añadir una Newsletter
+5. Commit Video 156:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 157. Creando endopoint para guardar los emails de la newsletter en la base de datos
+5. Commit Video 157:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 158. Creando estructura y formulario de la Newsletter
+5. Commit Video 158:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 159. Conectando formulario con el enpoint que registra emails
+5. Commit Video 159:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 160. Configuración para crear endpoint de cursos
+5. Commit Video 160:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
 
 ## Sección 13: Página de cursos
 
 ### 161. Endpoint para crear cursos
+5. Commit Video 16:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 162. Endpoint para obtener todos los cursos ordenados
 ### 163. Endpont para eliminar cursos
 ### 164. Enpoint para actualizar cursos
