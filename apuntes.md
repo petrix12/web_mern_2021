@@ -11259,7 +11259,7 @@
                 <Row>
                     <Col md={4} />
                     <Col md={16}>
-                    <Row>
+                        <Row>
                             <Col md={8}>
                                 <MyInfo />
                             </Col>
@@ -11287,14 +11287,176 @@
     + $ git push -u origin main
 
 ### 155. Creando una navegación en el footer
+1. Crear **client\src\components\Web\Footer\NavigationFooter\index.js**:
+    ```js
+    export { default } from "./NavigationFooter"
+    ```
+2. Crear archivo de estilo **client\src\components\Web\Footer\NavigationFooter\NavigationFooter.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .navigation-footer {
+        h3 {
+            color: $font-light;
+            font-weight: bold;
+        }
+
+        ul {
+            padding: 0;
+
+            li {
+                list-style: none;
+                padding: 5px 0;
+
+                a {
+                    color: $primary-color-dark;
+                    &:hover {
+                        color: $primary-color;
+                    }
+
+                    i {
+                        padding-right: 10px;
+                    }
+
+                    .icon {
+                        padding-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\Footer\NavigationFooter\NavigationFooter.js**:
+    ```js
+    import { Row, Col } from "antd";
+    import { 
+        BookOutlined,
+        CodeOutlined,
+        DatabaseOutlined,
+        RightOutlined,
+        HddOutlined,
+        AppstoreOutlined,
+        UserOutlined
+    } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom";
+    import "./NavigationFooter.scss";
+
+    export default function NavigationFooter() {
+        return (
+            <Row className="navigation-footer">
+                <Col md={24}>
+                    <h3>Navegación</h3>
+                </Col>
+                <Col md={12}>
+                    <RenderListLeft />
+                </Col>
+                <Col md={12}>
+                    <RenderListRight />
+                </Col>
+            </Row>
+        )
+    }
+
+    function RenderListLeft() {
+        return (
+            <ul>
+                <li>
+                    <a href="#">
+                        <BookOutlined /> Cursos Online
+                    </a>
+                </li>
+                <li>
+                    {/* <a href="#">
+                        <CodeOutlined /> Desarrollo Web
+                    </a> */}
+                    <Link to="/contact">
+                        <CodeOutlined /> Desarrollo Web
+                    </Link>
+                </li>
+                <li>
+                    <a href="#">
+                        <DatabaseOutlined /> Base de Datos
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <RightOutlined /> Politica de Privacidad
+                    </a>
+                </li>
+            </ul>
+        )
+    }
+
+    function RenderListRight() {
+        return (
+            <ul>
+                <li>
+                    <a href="#">
+                        <HddOutlined /> Sistemas / Servidores
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <AppstoreOutlined /> CMS
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <UserOutlined /> Portafolio
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <RightOutlined /> Política de Cookies
+                    </a>
+                </li>
+            </ul>
+        )
+    }
+    ```
+4. Modificar componente **client\src\components\Web\Footer\Footer.js**:
+    ```js
+    import { Layout, Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import MyInfo from "./MyInfo"
+    import NavigationFooter from "./NavigationFooter"
+    import "./Footer.scss"
+
+    export default function Footer() {
+        const { Footer } = Layout
+
+        return (
+            <Footer className="footer">
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                        <Row>
+                            <Col md={8}>
+                                <MyInfo />
+                            </Col>
+                            <Col md={8}>
+                                <NavigationFooter />
+                            </Col>
+                            <Col md={8}>
+                                Newsletter
+                            </Col>
+                        </Row>
+                        <Row className="footer__copyright">
+                            <Col md={12}>© 2021 ALL RIGHTS RESERVED​</Col>
+                            <Col md={12}>Soluciones++ | Desarrollo Web</Col>
+                        </Row>
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </Footer>
+        )
+    }
+    ```
 5. Commit Video 155:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando una navegación en el footer"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 156. Configurando el Backend para añadir una Newsletter
 5. Commit Video 156:
