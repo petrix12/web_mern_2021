@@ -2,7 +2,7 @@ import { Layout, Row, Col } from "antd"
 import 'antd/dist/antd.css'
 import MyInfo from "./MyInfo"
 import NavigationFooter from "./NavigationFooter"
-//import Newsletter from "../Newsletter"
+import Newsletter from "../Newsletter"
 import "./Footer.scss"
 
 export default function Footer() {
@@ -21,8 +21,7 @@ export default function Footer() {
                             <NavigationFooter />
                         </Col>
                         <Col md={8}>
-                            Newsletter
-                            {/* <Newsletter /> */}
+                            <Newsletter />
                         </Col>
                     </Row>
                     <Row className="footer__copyright">

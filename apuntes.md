@@ -11563,14 +11563,112 @@
     + $ git push -u origin main
 
 ### 158. Creando estructura y formulario de la Newsletter
+1. Crear client\src\components\Web\Newsletter\index.js:
+    ```js
+    export { default } from "./Newsletter"
+    ```
+2. Crear archivo de estilo **client\src\components\Web\Newsletter\Newsletter.scss**:
+    ```scss
+    @import "../../../scss/index.scss";
+
+    .newsletter {
+        position: relative;
+
+        h3 {
+            color: $font-light;
+            font-weight: bold;
+        }
+
+        input {
+            height: 35px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            height: 35px;
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\Newsletter\Newsletter.js**:
+    ```js
+    import { Form, Input, Button, notification } from "antd"
+    import { UserOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./Newsletter.scss"
+
+    export default function Newsletter() {
+        const onSubmit = e => {
+            console.log("Newsletter ..............")
+        }
+
+        return (
+            <div className="newsletter">
+                <h3>Newsletter</h3>
+                <Form onFinish={onSubmit}>
+                    <Form.Item>
+                        <Input
+                            prefix={<UserOutlined style={{ color: "rgba(0,0,0,0.25)" }} />}
+                            placeholder="Correo electrónico"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="login-form-button"
+                        >
+                            ¡Me suscribo!
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        )
+    }
+    ```
+4. Modificar componente **client\src\components\Web\Footer\Footer.js**:
+    ```js
+    import { Layout, Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import MyInfo from "./MyInfo"
+    import NavigationFooter from "./NavigationFooter"
+    import Newsletter from "../Newsletter"
+    import "./Footer.scss"
+
+    export default function Footer() {
+        const { Footer } = Layout
+
+        return (
+            <Footer className="footer">
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                        <Row>
+                            <Col md={8}>
+                                <MyInfo />
+                            </Col>
+                            <Col md={8}>
+                                <NavigationFooter />
+                            </Col>
+                            <Col md={8}>
+                                <Newsletter />
+                            </Col>
+                        </Row>
+                        <Row className="footer__copyright">
+                            <Col md={12}>© 2021 ALL RIGHTS RESERVED​</Col>
+                            <Col md={12}>Soluciones++ | Desarrollo Web</Col>
+                        </Row>
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </Footer>
+        )
+    }
+    ```
 5. Commit Video 158:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Creando estructura y formulario de la Newsletter"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 159. Conectando formulario con el enpoint que registra emails
 5. Commit Video 159:
