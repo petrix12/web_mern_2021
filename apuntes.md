@@ -11882,14 +11882,44 @@
     + $ git push -u origin main
 
 ### 162. Endpoint para obtener todos los cursos ordenados
-5. Commit Video 162:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar el controlador **server\controllers\course.js** para incorporar la función **getCourses**:
     ```js
+    ≡
+    function getCourses(req, res) {
+        Course.find().sort({ order: "asc" }).exec((err, coursesStored) => {
+            if(err) {
+                res.status(500).send({ code: 500, message: "Error del servidor."})
+            } else {
+                if(!coursesStored){
+                    res.status(400).send({ code: 400, message: "No se ha encontrado ningún curso."})
+                } else {
+                    res.status(200).send({ code: 200, courses: coursesStored })
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addCourse,
+        getCourse   
+    } 
     ```
+2. Crear ruta **get-course** en **server\routers\course.js**:
+    ```js
+    ≡
+    api.get("/get-course", CourseController.getCourses)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/get-course
+    + Guardar endpoint como: **get-course**
+4. Commit Video 162:
+    + $ git add .
+    + $ git commit -m "Endpoint para obtener todos los cursos ordenados"
+    + $ git push -u origin main
 
 ### 163. Endpont para eliminar cursos
 5. Commit Video 163:
