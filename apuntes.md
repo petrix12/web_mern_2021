@@ -12233,14 +12233,75 @@
     + $ git push -u origin main
 
 ### 168. 1/2 - Pintando un listado con todos los cursos en el back office
-5. Commit Video 168:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar **client\src\components\Admin\Courses\CoursesList\CoursesList.js**:
     ```js
+    import { useState, useEffect } from "react"
+    import { List, Button, Modal as ModalAntd, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import DragSortableList from "react-drag-sortable"
+    import Modal from "../../../Modal"
+    import { getCourseDataUdemyApi } from "../../../../api/course"
+    import "./CoursesList.scss"
+
+    const { confirm } = ModalAntd
+
+    export default function CoursesList(props) {
+        const { courses, setReloadCourses } = props
+        const [listCourses, setListCourses] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listCourseArray = []
+            courses.forEach(course => {
+                listCourseArray.push({
+                    content: (
+                    <Course
+                        course={course}
+                    />
+                    )
+                })
+            })
+            setListCourses(listCourseArray)
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [courses])
+
+        const onSort = (sortedList, dropEvent) => {
+            console.log(sortedList)
+        }
+
+        return (
+            <div className="courses-list">
+                <div className="courses-list__header">
+                    <Button type="primary" onClick={() => console.log('Creando curso...')}>
+                        Nuevo curso
+                    </Button>
+                </div>
+
+                <div className="courses-list__items">
+                    {listCourses.length === 0 && (
+                        <h2 style={{ textAlign: "center", margin: 0 }}>
+                            No tienes cursos creados
+                        </h2>
+                    )}
+                    <DragSortableList items={listCourses} onSort={onSort} type="vertical" />
+                </div>
+            </div>
+        )
+    }
+
+    function Course(props) {
+        const { course } = props
+        console.log(course)
+
+        return (<h1>Soluciones++ cursos ...</h1>)
+    }
     ```
+2. Commit Video 168:
+    + $ git add .
+    + $ git commit -m "1/2 - Pintando un listado con todos los cursos en el back office"
+    + $ git push -u origin main
 
 ### 169. 2/2 - Pintando un listado con todos los cursos en el back office
 5. Commit Video 169:
