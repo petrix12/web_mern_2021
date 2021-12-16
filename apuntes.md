@@ -11757,17 +11757,91 @@
 ## Sección 13: Página de cursos
 
 ### 160. Configuración para crear endpoint de cursos
-5. Commit Video 160:
+1. Crear modelo **server\models\course.js**:
+    ```js
+    const mongoose = require('mongoose')
+    const Schema = mongoose.Schema
+
+    const CourseSchema = Schema({ 
+        idCourse: {
+            type: Number,
+            unique: true
+        },
+        link: String,
+        coupon: String,
+        price: Number,
+        order: Number
+    })
+
+    module.exports = mongoose.model("Course", CourseSchema)
+    ```
+2. Crear controlador **server\controllers\course.js**:
+    ```js
+    const Course = require("../models/course")
+
+    function addCourse(req, res) {
+        console.log("addCourse .... ")
+    }
+
+    module.exports = {
+        addCourse
+    }
+    ```
+3. Crear archivo de rutas **server\routers\course.js**:
+    ```js
+    const express = require("express")
+    const CourseController = require("../controllers/course")
+
+    const md_auth = require("../middlewares/authenticated")
+
+    const api = express.Router()
+
+    api.post("/add-course", [md_auth.ensureAuth], CourseController.addCourse)
+
+    module.exports = api
+    ```
+4. Modificar **server\app.js**:
+    ```js
+    ≡
+    // Load routings
+    ≡
+    const courseRoutes = require('./routers/course')
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+
+    // Configure Header HTTP
+    ≡
+    // Basic Routers
+    ≡
+    app.use(`/api/${API_VERSION}`, courseRoutes)
+
+    module.exports = app
+    ```
+5. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-course
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg5NjY5ODMsImV4cCI6MTYzODk3Nzc4M30.6JUsp-GpmkWCkbF0fCG6qmbkHpq1ST5vLjaCkQVUIBY
+            ```
+        + Body:
+            ```json
+            {
+                "idCourse": "4340350",
+                "link": "https://www.udemy.com/course/curso-completo-de-docker-de-cero-a-experto"
+            }
+            ```
+        + Guardar endpoint como: **add-course**
+6. Commit Video 160:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Configuración para crear endpoint de cursos"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 161. Endpoint para crear cursos
-5. Commit Video 16:
+5. Commit Video 161:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -11777,29 +11851,218 @@
     ```
 
 ### 162. Endpoint para obtener todos los cursos ordenados
+5. Commit Video 162:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 163. Endpont para eliminar cursos
+5. Commit Video 163:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 164. Enpoint para actualizar cursos
+5. Commit Video 164:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 165. Añadiendo sección del curso en el back office
+5. Commit Video 165:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 166. Obteniendo todos los cursos de la base de datos
+5. Commit Video 166:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 167. Obteniendo los datos de los cursos de la API Udemy
+5. Commit Video 167:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 168. 1/2 - Pintando un listado con todos los cursos en el back office
+5. Commit Video 168:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 169. 2/2 - Pintando un listado con todos los cursos en el back office
+5. Commit Video 169:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 170. Añadiendo funcionalidad de eliminar curso
+5. Commit Video 170:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 171. Creando formulario para crear y editar curso
+5. Commit Video 171:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 172. Añadiendo funcionalidad para crear cursos
+5. Commit Video 172:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 173. Añadiendo funcionalidad para actualizar cursos
+5. Commit Video 173:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 174. Cambiando orden de los cursos
+5. Commit Video 174:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 175. Creando estructura de la página de cursos
+5. Commit Video 175:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 176. Creando PresentationCourses
+5. Commit Video 176:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 177. Obteniendo todos los cursos de la base de datos
+5. Commit Video 177:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 178. Obteniendo la información publica de cada curso de la API de Udemy
+5. Commit Video 178:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 179. 1/2 - Pintando todos los curso por pantalla
+5. Commit Video 179:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 180. 2/2 - Pintando todos los curso por pantalla
+5. Commit Video 180:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 181. Borrar inputs al haber editado un curso previamente
+5. Commit Video 181:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 
 ## Sección 14: Blog
 
 ### 182. Estructura del Blog en el servidor
+5. Commit Video 18:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 183. Endpoint para crear nuevos posts
 ### 184. Endpoint para obtener todos los posts de la base de datos paginados
 ### 185. Endpoint para actualizar posts
