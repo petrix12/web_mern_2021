@@ -5,19 +5,22 @@ import 'antd/dist/antd.css'
 import DragSortableList from "react-drag-sortable"
 import Modal from "../../../Modal"
 import AddEditCourseForm from "../AddEditCourseForm"
-import { getAccessTokenApi } from "../../../../api/auth"
-import {
-	getCourseDataUdemyApi,
-	deleteCourseApi,
-	updateCourseApi
-} from "../../../../api/course" */
-
+import { getAccessTokenApi } from "../../../../api/auth"*/
+import { getCourseDataUdemyApi /*,  deleteCourseApi, updateCourseApi */} from "../../../../api/course"
 import "./CoursesList.scss"
 
 //const { confirm } = ModalAntd
 
 export default function CoursesList(props) {
 	const { courses, setReloadCourses } = props
+	if(courses.length > 0){
+		courses.forEach(course => {
+			//console.log(course)
+			getCourseDataUdemyApi(course.idCourse).then(response => {
+				console.log(response)
+			})
+		})
+	}
 	/* const [listCourses, setListCourses] = useState([])
 	const [isVisibleModal, setIsVisibleModal] = useState(false)
 	const [modalTitle, setModalTitle] = useState("")

@@ -12186,14 +12186,51 @@
     + $ git push -u origin main
 
 ### 167. Obteniendo los datos de los cursos de la API Udemy
-5. Commit Video 167:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Agregar función **getCourseDataUdemyApi** para obtener cursos de Udemy en **client\src\api\course.js**:
     ```js
+    ≡
+    export function getCourseDataUdemyApi(id) {
+        // Documentación: https://www.udemy.com/developers/affiliate
+        const baseUrl = `https://www.udemy.com/api-2.0/courses/${id}`
+        const coursesParams = `?fields[course]=title,headline,url,price,image_480x270`
+        const url = baseUrl + coursesParams
+
+        return fetch(url)
+            .then(async response => {
+                return { code: response.status, data: await response.json() };
+            })
+            .then(result => {
+                return result;
+            })
+            .catch(err => {
+                return err;
+            })
+    }
     ```
+2. Modificar componente **client\src\components\Admin\Courses\CoursesList\CoursesList.js**:
+    ```js
+    import { getCourseDataUdemyApi } from "../../../../api/course"
+    import "./CoursesList.scss"
+
+    export default function CoursesList(props) {
+        const { courses, setReloadCourses } = props
+        if(courses.length > 0){
+            courses.forEach(course => {
+                //console.log(course)
+                getCourseDataUdemyApi(course.idCourse).then(response => {
+                    console.log(response)
+                })
+            })
+        }
+        return <h1>Lista de cursos ....</h1>
+    }
+    ```
+3. Para evitar error de conexión en local con la API de Udemy, instalara extensión Chrome:
+    + Allow CORS: Access-Control-Allow-Origin
+4. Commit Video 167:
+    + $ git add .
+    + $ git commit -m "Obteniendo los datos de los cursos de la API Udemy"
+    + $ git push -u origin main
 
 ### 168. 1/2 - Pintando un listado con todos los cursos en el back office
 5. Commit Video 168:
