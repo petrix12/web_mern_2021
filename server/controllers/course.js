@@ -32,7 +32,24 @@ function getCourses(req, res) {
     })
 }
 
+function deleteCourse(req, res) {
+    const { id } = req.params
+
+    Course.findByIdAndRemove(id, (err, courseDelete) => {
+        if(err){
+            res.status(500).send({ code: 500, message: "Error al eliminar curso"})
+        } else {
+            if (!courseDelete){
+                res.status(404).send({ code: 404, message: "No se ha encontrado el curso."})
+            } else {
+                res.status(200).send({ code: 200, message: "Curso eliminado correctamente."})
+            }
+        }
+    })
+}
+
 module.exports = {
     addCourse,
-    getCourses
+    getCourses,
+    deleteCourse
 }

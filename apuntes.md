@@ -11922,14 +11922,52 @@
     + $ git push -u origin main
 
 ### 163. Endpont para eliminar cursos
-5. Commit Video 163:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar el controlador **server\controllers\course.js** para incorporar la función **deleteCourse**:
     ```js
+    ≡
+    function deleteCourse(req, res) {
+        const { id } = req.params
+
+        Course.findByIdAndRemove(id, (err, courseDelete) => {
+            if(err){
+                res.status(500).send({ code: 500, message: "Error al eliminar curso"})
+            } else {
+                if (!courseDelete){
+                    res.status(404).send({ code: 404, message: "No se ha encontrado el curso."})
+                } else {
+                    res.status(200).send({ code: 200, message: "Curso eliminado correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addCourse,
+        getCourses,
+        deleteCourse
+    }
     ```
+2. Agregar el endpoint **delete-course** en **server\routers\course.js**:
+    ```js
+    ≡
+    api.delete("/delete-course/:id", [md_auth.ensureAuth], CourseController.deleteCourse)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: delete
+        + URL: http://localhost:3977/api/v1/delete-course/61bb4323dc6d913fb55343c8
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk2NTY1ODIsImV4cCI6MTYzOTY2NzM4Mn0.luSfWNCuthDXiV4gTVQo9uYQwj9zYleJY9DO4C2fWHU
+            ```
+    + Guardar endpoint como: **delete-course**
+4. Commit Video 163:
+    + $ git add .
+    + $ git commit -m "Endpont para eliminar cursos"
+    + $ git push -u origin main
 
 ### 164. Enpoint para actualizar cursos
 5. Commit Video 164:
