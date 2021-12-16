@@ -12027,14 +12027,93 @@
     + $ git push -u origin main
 
 ### 165. Añadiendo sección del curso en el back office
-5. Commit Video 165:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear página **client\src\pages\Admin\Courses.js**:
     ```js
+    export default function Courses() {
+        return (
+            <div className="courses">
+                <h1>Administrar cursos ....</h1>
+            </div>
+        )
+    }
     ```
+2. Modificar **client\src\config\routes.js**:
+    ```js
+    // Layout
+    ≡
+
+    // Admin Pages
+    ≡
+    import AdminCourses from "../pages/Admin/Courses"
+
+    // Pages
+    ≡
+
+    // Otros
+    ≡
+
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            component: LayoutAdmin,
+            exact: false,
+            routes: [
+                ≡
+            ]
+        },
+        {
+            path: "/",
+            component: LayoutBasic,
+            exact: false,
+            routes: [
+                ≡
+                {
+                    path: "/courses",
+                    component: Courses, 
+                    exact: true
+                },
+                {
+                    component: Error404
+                }
+            ]
+        }
+    ]
+
+    export default routes
+    ```
+3. Modificar componente **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    ≡
+    import { HomeOutlined, UserOutlined, MenuOutlined, BookOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import "./MenuSider.scss"
+
+    function MenuSider(props) {
+        ≡
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                <Menu
+                    ≡
+                >
+                    ≡
+                    <Menu.Item key="/admin/courses">
+                        <Link to="/admin/courses">
+                            <BookOutlined />
+                            <span className="nav-text">Cursos</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+
+    export default withRouter(MenuSider)
+    ```
+4. Commit Video 165:
+    + $ git add .
+    + $ git commit -m "Añadiendo sección del curso en el back office"
+    + $ git push -u origin main
 
 ### 166. Obteniendo todos los cursos de la base de datos
 5. Commit Video 166:
