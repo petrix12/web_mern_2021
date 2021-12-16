@@ -11825,14 +11825,7 @@
         + Headers:
             ```
             Content-Type: application/json
-            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzg5NjY5ODMsImV4cCI6MTYzODk3Nzc4M30.6JUsp-GpmkWCkbF0fCG6qmbkHpq1ST5vLjaCkQVUIBY
-            ```
-        + Body:
-            ```json
-            {
-                "idCourse": "4340350",
-                "link": "https://www.udemy.com/course/curso-completo-de-docker-de-cero-a-experto"
-            }
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk2NTY1ODIsImV4cCI6MTYzOTY2NzM4Mn0.luSfWNCuthDXiV4gTVQo9uYQwj9zYleJY9DO4C2fWHU
             ```
         + Guardar endpoint como: **add-course**
 6. Commit Video 160:
@@ -11841,14 +11834,52 @@
     + $ git push -u origin main
 
 ### 161. Endpoint para crear cursos
-5. Commit Video 161:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar controlador **server\controllers\course.js**:
     ```js
+    const Course = require("../models/course")
+
+    function addCourse(req, res) {
+        const body = req.body
+        const course = new Course(body)
+        course.order = 1000
+
+        course.save((err, courseStored) => {
+            if(err) {
+                res.status(400).send({ code: 400, message: "El curso que estas creando ya existe."})
+            } else {
+                if(!courseStored){
+                    res.status(400).send({ code: 400, message: "No se ha podido crear el curso."})
+                } else {
+                    res.status(200).send({ code: 200, message: "El curso se creo correctamente." })
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addCourse
+    }
     ```
+2. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-course
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk2NTY1ODIsImV4cCI6MTYzOTY2NzM4Mn0.luSfWNCuthDXiV4gTVQo9uYQwj9zYleJY9DO4C2fWHU
+            ```
+        + Body:
+            ```json
+            {
+                "idCourse": 4340350,
+                "link": "https://www.udemy.com/course/curso-completo-de-docker-de-cero-a-experto"
+            }
+            ```
+3. Commit Video 161:
+    + $ git add .
+    + $ git commit -m "Endpoint para crear cursos"
+    + $ git push -u origin main
 
 ### 162. Endpoint para obtener todos los cursos ordenados
 5. Commit Video 162:
