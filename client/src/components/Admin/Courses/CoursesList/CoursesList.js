@@ -4,9 +4,9 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import DragSortableList from "react-drag-sortable"
 import Modal from "../../../Modal"
-/*import AddEditCourseForm from "../AddEditCourseForm"
-import { getAccessTokenApi } from "../../../../api/auth"*/
-import { getCourseDataUdemyApi /*,  deleteCourseApi, updateCourseApi */} from "../../../../api/course"
+/*import AddEditCourseForm from "../AddEditCourseForm"*/
+import { getAccessTokenApi } from "../../../../api/auth"
+import { getCourseDataUdemyApi, deleteCourseApi/*, updateCourseApi */} from "../../../../api/course"
 import "./CoursesList.scss"
 
 const { confirm } = ModalAntd
@@ -34,8 +34,8 @@ export default function CoursesList(props) {
 				content: (
 				<Course
 					course={course}
-					/* deleteCourse={deleteCourse}
-					editCourseModal={editCourseModal} */
+					deleteCourse={deleteCourse}
+					/* editCourseModal={editCourseModal} */
 				/>
 				)
 			})
@@ -78,7 +78,7 @@ export default function CoursesList(props) {
 		)
 	} */
 
-	/* const deleteCourse = course => {
+	const deleteCourse = course => {
 		const accesToken = getAccessTokenApi()
 
 		confirm({
@@ -90,21 +90,16 @@ export default function CoursesList(props) {
 			onOk() {
 				deleteCourseApi(accesToken, course._id)
 				.then(response => {
-					const typeNotification =
-					response.code === 200 ? "success" : "warning"
-					notification[typeNotification]({
-						message: response.message
-					})
+					const typeNotification = response.code === 200 ? "success" : "warning"
+					notification[typeNotification]({ message: response.message })
 					setReloadCourses(true)
 				})
 				.catch(() => {
-					notification["error"]({
-					message: "Error del servidor, intentelo más tarde."
-					})
+					notification["error"]({ message: "Error del servidor, intentelo más tarde." })
 				})
 			}
 		})
-	} */
+	}
 
 	return (
 		<div className="courses-list">
@@ -135,7 +130,7 @@ export default function CoursesList(props) {
 }
 
 function Course(props) {
-	const { course/* , deleteCourse, editCourseModal */ } = props
+	const { course, deleteCourse/* , editCourseModal */ } = props
 	console.log(course)
 	const [courseData, setCourseData] = useState(null)
 
@@ -158,7 +153,7 @@ function Course(props) {
 				<Button type="primary" onClick={() => /* editCourseModal(course) */ console.log('Editar curso')}>
 					<EditOutlined />
 				</Button>,
-				<Button type="danger" onClick={() => /* deleteCourse(course) */ console.log('Eliminar curso')}>
+				<Button type="danger" onClick={() => deleteCourse(course)}>
 					<DeleteOutlined />
 				</Button>
 			]}
