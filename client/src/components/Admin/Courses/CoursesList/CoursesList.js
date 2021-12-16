@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { List, Button, Modal as ModalAntd, notification } from "antd"
-//import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import DragSortableList from "react-drag-sortable"
 import Modal from "../../../Modal"
@@ -137,31 +137,29 @@ export default function CoursesList(props) {
 function Course(props) {
 	const { course/* , deleteCourse, editCourseModal */ } = props
 	console.log(course)
-	/* const [courseData, setCourseData] = useState(null)
+	const [courseData, setCourseData] = useState(null)
 
 	useEffect(() => {
 		getCourseDataUdemyApi(course.idCourse).then(response => {
-		if (response.code !== 200) {
-			notification["warning"]({
-			message: `El curso con el id ${course.idCourse} no se ha encontrado.`
-			})
-		}
-		setCourseData(response.data);
+			if (response.code !== 200) {
+				notification["warning"]({ message: `El curso con el id ${course.idCourse} no se ha encontrado.` })
+			}
+			setCourseData(response.data)
 		})
-	}, [course]);
+	}, [course])
 
 	if (!courseData) {
 		return null
-	} */
+	}
 
-	/* return (
+	return (
 		<List.Item
 			actions={[
-				<Button type="primary" onClick={() => editCourseModal(course)}>
-				<Icon type="edit" />
+				<Button type="primary" onClick={() => /* editCourseModal(course) */ console.log('Editar curso')}>
+					<EditOutlined />
 				</Button>,
-				<Button type="danger" onClick={() => deleteCourse(course)}>
-				<Icon type="delete" />
+				<Button type="danger" onClick={() => /* deleteCourse(course) */ console.log('Eliminar curso')}>
+					<DeleteOutlined />
 				</Button>
 			]}
 		>
@@ -175,6 +173,5 @@ function Course(props) {
 				description={courseData.headline}
 			/>
 		</List.Item>
-	) */
-	return (<h1>Soluciones++ cursos ...</h1>)
+	)
 }
