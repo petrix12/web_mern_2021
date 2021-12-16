@@ -11970,14 +11970,61 @@
     + $ git push -u origin main
 
 ### 164. Enpoint para actualizar cursos
-5. Commit Video 164:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar el controlador **server\controllers\course.js** para incorporar la función **updateCourse**:
     ```js
+    ≡
+    function updateCourse(req, res) {
+        let courseData = req.body
+        const id = req.params.id
+
+        Course.findByIdAndUpdate(id, courseData, (err, courseUpdate) => {
+            if(err) {
+                res.status(500).send({ code: 500, message: "Error del servidor."})
+            } else {
+                if(!courseUpdate) {
+                    res.status(404).send({ code: 404, message: "No se ha encontrado ningún curso."})
+                } else {
+                    res.status(200).send({ code: 200, message: "Curso actualizado correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addCourse,
+        getCourses,
+        deleteCourse,
+        updateCourse
+    }
     ```
+2. Agregar el endpoint **update-course** en **server\routers\course.js**:
+    ```js
+    ≡
+    api.put("/update-course/:id", [md_auth.ensureAuth], CourseController.updateCourse)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/update-course/61bb432edc6d913fb55343ca
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk2NTY1ODIsImV4cCI6MTYzOTY2NzM4Mn0.luSfWNCuthDXiV4gTVQo9uYQwj9zYleJY9DO4C2fWHU
+            ```
+        + Body:
+            ```json
+            {
+                "idCourse": 43403509,
+                "link": "https://www.actualizado.com"
+            }
+            ```
+    + Guardar endpoint como: **update-course**
+4. Commit Video 164:
+    + $ git add .
+    + $ git commit -m "Enpoint para actualizar cursos"
+    + $ git push -u origin main
 
 ### 165. Añadiendo sección del curso en el back office
 5. Commit Video 165:
