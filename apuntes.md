@@ -11904,18 +11904,18 @@
         getCourse   
     } 
     ```
-2. Crear ruta **get-course** en **server\routers\course.js**:
+2. Crear ruta **get-courses** en **server\routers\course.js**:
     ```js
     ≡
-    api.get("/get-course", CourseController.getCourses)
+    api.get("/get-courses", CourseController.getCourses)
 
     module.exports = api
     ```
 3. Prueba http:
     + Realizar petición http:
         + Método: get
-        + URL: http://localhost:3977/api/v1/get-course
-    + Guardar endpoint como: **get-course**
+        + URL: http://localhost:3977/api/v1/get-courses
+    + Guardar endpoint como: **get-courses**
 4. Commit Video 162:
     + $ git add .
     + $ git commit -m "Endpoint para obtener todos los cursos ordenados"
@@ -12116,14 +12116,74 @@
     + $ git push -u origin main
 
 ### 166. Obteniendo todos los cursos de la base de datos
-5. Commit Video 166:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear **client\src\api\course.js**:
     ```js
+    import { basePath, apiVersion } from "./config"
+
+    export function getCoursesApi() {
+        const url = `${basePath}/${apiVersion}/get-courses`
+
+        return fetch(url)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err.message
+            })
+    }
     ```
+2. Modificar la página **client\src\pages\Admin\Courses.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import CoursesList from "../../components/Admin/Courses/CoursesList"
+    import { getCoursesApi } from "../../api/course"
+
+    export default function Courses() {
+        const [courses, setCourses] = useState([]);
+        const [reloadCourses, setReloadCourses] = useState(false);
+
+        useEffect(() => {
+            getCoursesApi().then(response => {
+                setCourses(response.courses);
+            });
+            setReloadCourses(false);
+        }, [reloadCourses]);
+
+        return (
+            <div className="courses">
+                <CoursesList courses={courses} setReloadCourses={setReloadCourses} />
+            </div>
+        )
+    }
+    ```
+3. Crear **client\src\components\Admin\Courses\CoursesList\index.js**:
+    ```js
+    export { default } from "./CoursesList"
+    ```
+4. Crear archivo de estilo **client\src\components\Admin\Courses\CoursesList\CoursesList.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .courses-list {
+    }
+    ```
+5. Crear componente **client\src\components\Admin\Courses\CoursesList\CoursesList.js**:
+    ```js
+    import "./CoursesList.scss"
+
+    export default function CoursesList(props) {
+        const { courses, setReloadCourses } = props
+ 
+        return <h1>Lista de cursos ....</h1>
+    }
+    ```
+6. Commit Video 166:
+    + $ git add .
+    + $ git commit -m "Obteniendo todos los cursos de la base de datos"
+    + $ git push -u origin main
 
 ### 167. Obteniendo los datos de los cursos de la API Udemy
 5. Commit Video 167:
