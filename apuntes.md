@@ -13643,9 +13643,56 @@
     + $ git push -u origin main
 
 ### 178. Obteniendo la información publica de cada curso de la API de Udemy
-5. Commit Video 178:
+1. Modificar componente **client\src\components\Web\Courses\CoursesList\CoursesList.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Card, Button, Rate, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { getCourseDataUdemyApi } from "../../../../api/course"
+    import "./CoursesList.scss";
+
+    export default function CoursesList(props) {
+        const { courses } = props
+        const [courseInfo, setCourseInfo] = useState({})
+        console.log(courses)
+
+        return (
+            <div className="courses-list">
+                <Row>
+                    {courses.map(course => (
+                        <Col key={course._id} md={8} className="courses-list__course">
+                            <Course course={course} />
+                        </Col>
+                    ))}
+                </Row>
+            </div>
+        )
+    }
+
+    function Course(props) {
+        const { course } = props
+        const [courseInfo, setCourseInfo] = useState({})
+
+        useEffect(() => {
+            getCourseDataUdemyApi(course.idCourse)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setCourseInfo(response.data)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor, inténtelo más tarde." })
+                })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [course])
+        return <p>{courseInfo.title}</p>
+    }
+    ```
+2. Commit Video 178:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Obteniendo la información publica de cada curso de la API de Udemy"
     + $ git push -u origin main
 
     ≡

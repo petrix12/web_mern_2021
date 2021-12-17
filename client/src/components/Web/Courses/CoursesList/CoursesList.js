@@ -1,32 +1,32 @@
-/* import { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Row, Col, Card, Button, Rate, notification } from "antd"
 import 'antd/dist/antd.css'
-import { getCourseDataUdemyApi } from "../../../../api/course" */
+import { getCourseDataUdemyApi } from "../../../../api/course"
 import "./CoursesList.scss";
 
 export default function CoursesList(props) {
 	const { courses } = props
+	const [courseInfo, setCourseInfo] = useState({})
 	console.log(courses)
 
 	return (
 		<div className="courses-list">
-			<h1>Lista de cursos...</h1>
-			{/* <Row>
+			<Row>
 				{courses.map(course => (
-				<Col key={course._id} md={8} className="courses-list__course">
-					<Course course={course} />
-				</Col>
+					<Col key={course._id} md={8} className="courses-list__course">
+						<Course course={course} />
+					</Col>
 				))}
-			</Row> */}
+			</Row>
 		</div>
 	)
 }
 
-/* function Course(props) {
+function Course(props) {
 	const { course } = props
 	const [courseInfo, setCourseInfo] = useState({})
-	const [urlCourse, setUrlCourse] = useState("")
-	const { Meta } = Card
+/* 		const [urlCourse, setUrlCourse] = useState("")
+	const { Meta } = Card */
 
 	useEffect(() => {
 		getCourseDataUdemyApi(course.idCourse)
@@ -35,7 +35,7 @@ export default function CoursesList(props) {
 					notification["warning"]({ message: response.message })
 				} else {
 					setCourseInfo(response.data)
-					mountUrl(response.data.url)
+					//mountUrl(response.data.url)
 				}
 			})
 			.catch(() => {
@@ -43,7 +43,7 @@ export default function CoursesList(props) {
 			})
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [course])
-
+/*
 	const mountUrl = url => {
 		if (!course.link) {
 			const baseUrl = `https://www.udemy.com${url}`
@@ -69,5 +69,6 @@ export default function CoursesList(props) {
 				</div>
 			</Card>
 		</a>
-	)
-} */
+	) */
+	return <p>{courseInfo.title}</p>
+}
