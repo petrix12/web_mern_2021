@@ -13455,14 +13455,80 @@
     + $ git push -u origin main
 
 ### 175. Creando estructura de la página de cursos
-5. Commit Video 175:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+### 175. Creando estructura de la página de cursos1. 
+1. Crear **client\src\components\Web\Courses\PresentationCourses\index.js**:
     ```js
+    export { default } from "./PresentationCourses"
     ```
+2. Crear archivo de estilo **client\src\components\Web\Courses\PresentationCourses\PresentationCourses.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .presentation-courses {
+    }
+    ```
+3. Crear componente **client\src\components\Web\Courses\PresentationCourses\PresentationCourses.js**:
+    ```js
+    import "./PresentationCourses.scss"
+
+    export default function PresentationCourses() {
+        return (
+            <div className="presentation-courses">
+                <h2>Presentación del curso...</h2>
+            </div>
+        )
+    }
+    ```
+4. Crear **client\src\components\Web\Courses\CoursesList\index.js**:
+    ```js
+    export { default } from "./CoursesList"
+    ```
+5. Crear archivo de estilo **client\src\components\Web\Courses\CoursesList\CoursesList.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .courses-list {
+    }
+    ```
+6. Crear componente **client\src\components\Web\Courses\CoursesList\CoursesList.js**:
+    ```js
+    import "./CoursesList.scss";
+
+    export default function CoursesList(props) {
+        const { courses } = props
+
+        return (
+            <div className="courses-list">
+                <h1>Lista de cursos...</h1>
+            </div>
+        )
+    }
+    ```
+7. Modificar página **client\src\pages\Courses.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Spin, notification } from "antd"
+    import { getCoursesApi } from "../api/course"
+    import PresentationCourses from "../components/Web/Courses/PresentationCourses"
+    import CoursesList from "../components/Web/Courses/CoursesList"
+
+    export default function Courses() {
+        return (
+            <Row>
+                <Col md={4} />
+                <Col md={16}>
+                    <PresentationCourses />
+                    <CoursesList />
+                </Col>
+                <Col md={4} />
+            </Row>
+        )
+    }
+    ```
+8. Commit Video 175:
+    + $ git add .
+    + $ git commit -m "Creando estructura de la página de cursos"
+    + $ git push -u origin main
 
 ### 176. Creando PresentationCourses
 5. Commit Video 176:
