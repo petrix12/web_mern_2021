@@ -26,7 +26,7 @@ export default function CoursesList(props) {
 				<Course
 					course={course}
 					deleteCourse={deleteCourse}
-					/* editCourseModal={editCourseModal} */
+					editCourseModal={editCourseModal}
 				/>
 				)
 			})
@@ -57,7 +57,7 @@ export default function CoursesList(props) {
 		)
 	}
 
-	/* const editCourseModal = course => {
+	const editCourseModal = course => {
 		setIsVisibleModal(true)
 		setModalTitle("Actualizando curso")
 		setModalContent(
@@ -67,7 +67,7 @@ export default function CoursesList(props) {
 			course={course}
 		/>
 		)
-	} */
+	}
 
 	const deleteCourse = course => {
 		const accesToken = getAccessTokenApi()
@@ -121,7 +121,7 @@ export default function CoursesList(props) {
 }
 
 function Course(props) {
-	const { course, deleteCourse/* , editCourseModal */ } = props
+	const { course, deleteCourse, editCourseModal } = props
 	console.log(course)
 	const [courseData, setCourseData] = useState(null)
 
@@ -141,7 +141,7 @@ function Course(props) {
 	return (
 		<List.Item
 			actions={[
-				<Button type="primary" onClick={() => /* editCourseModal(course) */ console.log('Editar curso')}>
+				<Button type="primary" onClick={() => editCourseModal(course)}>
 					<EditOutlined />
 				</Button>,
 				<Button type="danger" onClick={() => deleteCourse(course)}>

@@ -3,16 +3,16 @@ import { Form, Input, Button, notification } from "antd"
 import { KeyOutlined, LinkOutlined, GiftOutlined, DollarOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { getAccessTokenApi } from "../../../../api/auth"
-import { addCourseApi/* , updateCourseApi */ } from "../../../../api/course"
+import { addCourseApi, updateCourseApi } from "../../../../api/course"
 import "./AddEditCourseForm.scss"
 
 export default function AddEditCourseForm(props) {
 	const { setIsVisibleModal, setReloadCourses, course } = props
 	const [courseData, setCourseData] = useState({})
 
-	/* useEffect(() => {
+	useEffect(() => {
 		course ? setCourseData(course) : setCourseData({});
-	}, [course]) */
+	}, [course])
 
 	const addCourse = e => {
 		//e.preventDefault()
@@ -40,7 +40,7 @@ export default function AddEditCourseForm(props) {
 		console.log('Actualizando curso ...')
 		//e.preventDefault()
 
-	/* 	const accessToken = getAccessTokenApi()
+		const accessToken = getAccessTokenApi()
 
 		updateCourseApi(accessToken, course._id, courseData)
 			.then(response => {
@@ -52,7 +52,7 @@ export default function AddEditCourseForm(props) {
 			})
 			.catch(() => {
 				notification["error"]({ message: "Error del servidor, intentelo más tarde." })
-			}) */
+			})
 	}
 
 	return (

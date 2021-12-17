@@ -12976,14 +12976,312 @@
     + $ git push -u origin main
 
 ### 173. Añadiendo funcionalidad para actualizar cursos
-5. Commit Video 173:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Admin\Courses\CoursesList\CoursesList.js**:
     ```js
+    import { useState, useEffect } from "react"
+    import { List, Button, Modal as ModalAntd, notification } from "antd"
+    import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import DragSortableList from "react-drag-sortable"
+    import Modal from "../../../Modal"
+    import AddEditCourseForm from "../AddEditCourseForm"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { getCourseDataUdemyApi, deleteCourseApi } from "../../../../api/course"
+    import "./CoursesList.scss"
+
+    const { confirm } = ModalAntd
+
+    export default function CoursesList(props) {
+        const { courses, setReloadCourses } = props
+        const [listCourses, setListCourses] = useState([])
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        useEffect(() => {
+            const listCourseArray = []
+            courses.forEach(course => {
+                listCourseArray.push({
+                    content: (
+                    <Course
+                        course={course}
+                        deleteCourse={deleteCourse}
+                        editCourseModal={editCourseModal}
+                    />
+                    )
+                })
+            })
+            setListCourses(listCourseArray)
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [courses])
+
+        const onSort = (sortedList, dropEvent) => {
+            console.log(sortedList)
+        }
+
+        const addCourseModal = () => {
+            setIsVisibleModal(true)
+            setModalTitle("Creando nuevo curso")
+            setModalContent(
+                <AddEditCourseForm
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadCourses={setReloadCourses}
+                />
+            )
+        }
+
+        const editCourseModal = course => {
+            setIsVisibleModal(true)
+            setModalTitle("Actualizando curso")
+            setModalContent(
+            <AddEditCourseForm
+                setIsVisibleModal={setIsVisibleModal}
+                setReloadCourses={setReloadCourses}
+                course={course}
+            />
+            )
+        }
+
+        const deleteCourse = course => {
+            const accesToken = getAccessTokenApi()
+
+            confirm({
+                title: "Eliminando curso",
+                content: `¿Estas seguro de que quieres eliminar el curso ${course.idCourse}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deleteCourseApi(accesToken, course._id)
+                    .then(response => {
+                        const typeNotification = response.code === 200 ? "success" : "warning"
+                        notification[typeNotification]({ message: response.message })
+                        setReloadCourses(true)
+                    })
+                    .catch(() => {
+                        notification["error"]({ message: "Error del servidor, intentelo más tarde." })
+                    })
+                }
+            })
+        }
+
+        return (
+            <div className="courses-list">
+                <div className="courses-list__header">
+                    <Button type="primary" onClick={addCourseModal}>
+                        Nuevo curso
+                    </Button>
+                </div>
+
+                <div className="courses-list__items">
+                    {listCourses.length === 0 && (
+                        <h2 style={{ textAlign: "center", margin: 0 }}>
+                            No tienes cursos creados
+                        </h2>
+                    )}
+                    <DragSortableList items={listCourses} onSort={onSort} type="vertical" />
+                </div>
+
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    function Course(props) {
+        const { course, deleteCourse, editCourseModal } = props
+        console.log(course)
+        const [courseData, setCourseData] = useState(null)
+
+        useEffect(() => {
+            getCourseDataUdemyApi(course.idCourse).then(response => {
+                if (response.code !== 200) {
+                    notification["warning"]({ message: `El curso con el id ${course.idCourse} no se ha encontrado.` })
+                }
+                setCourseData(response.data)
+            })
+        }, [course])
+
+        if (!courseData) {
+            return null
+        }
+
+        return (
+            <List.Item
+                actions={[
+                    <Button type="primary" onClick={() => editCourseModal(course)}>
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={() => deleteCourse(course)}>
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <img
+                    src={courseData.image_480x270}
+                    alt={courseData.title}
+                    style={{ width: "100px", marginRight: "20px" }}
+                />
+                <List.Item.Meta
+                    title={`${courseData.title} | ID: ${course.idCourse}`}
+                    description={courseData.headline}
+                />
+            </List.Item>
+        )
+    }
     ```
+2. Modificar componente **client\src\components\Admin\Courses\AddEditCourseForm\AddEditCourseForm.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Form, Input, Button, notification } from "antd"
+    import { KeyOutlined, LinkOutlined, GiftOutlined, DollarOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { addCourseApi, updateCourseApi } from "../../../../api/course"
+    import "./AddEditCourseForm.scss"
+
+    export default function AddEditCourseForm(props) {
+        const { setIsVisibleModal, setReloadCourses, course } = props
+        const [courseData, setCourseData] = useState({})
+
+        useEffect(() => {
+            course ? setCourseData(course) : setCourseData({});
+        }, [course])
+
+        const addCourse = e => {
+            if (!courseData.idCourse) {
+                notification["error"]({ message: "El id del curso es obligatorio" })
+            } else {
+                const accessToken = getAccessTokenApi()
+
+                addCourseApi(accessToken, courseData)
+                    .then(response => {
+                        const typeNotification = response.code === 200 ? "success" : "warning"
+                        notification[typeNotification]({ message: response.message })
+                        setIsVisibleModal(false)
+                        setReloadCourses(true)
+                        setCourseData({})
+                    })
+                    .catch(() => {
+                        notification["error"]({ message: "Error del servidor, intentelo más tarde." })
+                    })
+            }
+        }
+
+        const updateCourse = e => {
+            console.log('Actualizando curso ...')
+
+            const accessToken = getAccessTokenApi()
+
+            updateCourseApi(accessToken, course._id, courseData)
+                .then(response => {
+                    const typeNotification = response.code === 200 ? "success" : "warning";
+                    notification[typeNotification]({ message: response.message })
+                    setIsVisibleModal(false)
+                    setReloadCourses(true)
+                    setCourseData({})
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor, intentelo más tarde." })
+                })
+        }
+
+        return (
+            <div className="add-edit-course-form">
+                <AddEditForm
+                    course={course}
+                    addCourse={addCourse}
+                    updateCourse={updateCourse}
+                    courseData={courseData}
+                    setCourseData={setCourseData}
+                />
+            </div>
+        )
+    }
+
+    function AddEditForm(props) {
+        const { course, addCourse, updateCourse, courseData, setCourseData } = props
+
+        return (
+            <Form className="form-add-edit" onFinish={course ? updateCourse : addCourse} >
+                <Form.Item>
+                    <Input
+                        prefix={<span className="icon"><KeyOutlined/></span>}
+                        placeholder="ID del curso"
+                        value={courseData.idCourse}
+                        onChange={e => setCourseData({ ...courseData, idCourse: e.target.value }) }
+                        disabled={course ? true : false}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<span className="icon"><LinkOutlined /></span>}
+                        placeholder="URL del curso"
+                        value={courseData.link}
+                        onChange={e => setCourseData({ ...courseData, link: e.target.value })}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<span className="icon"><GiftOutlined /></span>}
+                        placeholder="Cupón de descuento"
+                        value={courseData.coupon}
+                        onChange={e => setCourseData({ ...courseData, coupon: e.target.value }) }
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Input
+                        prefix={<span className="icon"><DollarOutlined /></span>}
+                        placeholder="Precio del curso"
+                        value={courseData.price}
+                        onChange={e => setCourseData({ ...courseData, price: e.target.value }) }
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="btn-submit">
+                        {course ? "Actualizar curso" : "Crear curso"}
+                    </Button>
+                </Form.Item>
+            </Form>
+        )
+    }
+    ```
+3. Crear función **updateCourseApi** en **client\src\api\course.js**:
+    ```js
+    ≡
+    export function updateCourseApi(token, id, data) {
+        const url = `${basePath}/${apiVersion}/update-course/${id}`
+
+        const params = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(data)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
+4. Commit Video 173:
+    + $ git add .
+    + $ git commit -m "Añadiendo funcionalidad para actualizar cursos"
+    + $ git push -u origin main
 
 ### 174. Cambiando orden de los cursos
 5. Commit Video 174:
