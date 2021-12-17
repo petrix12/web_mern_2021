@@ -11,7 +11,7 @@ export function getMenuApi() {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -32,10 +32,10 @@ export function updateMenuApi(token, menuId, data) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -56,10 +56,10 @@ export function activateMenuApi(token, menuId, status) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -80,10 +80,10 @@ export function addMenuApi(token, menu) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -103,9 +103,9 @@ export function deleteMenuApi(token, menuId) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }

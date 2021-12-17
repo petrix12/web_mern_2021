@@ -49,10 +49,10 @@ export function deleteCourseApi(token, id) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -73,10 +73,10 @@ export function addCourseApi(token, course) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 

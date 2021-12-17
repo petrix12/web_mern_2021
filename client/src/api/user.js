@@ -45,7 +45,7 @@ export function signInApi(data) {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -68,7 +68,7 @@ export function getUsersApi(token) {
             return result;
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -91,10 +91,9 @@ export function getUsersActiveApi(token, status) {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
-
 
 export function uploadAvatarApi(token, avatar, userId) {
     const url = `${basePath}/${apiVersion}/upload-avatar/${userId}`
@@ -118,7 +117,7 @@ export function uploadAvatarApi(token, avatar, userId) {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -154,7 +153,7 @@ export function updateUserApi(token, user, userId) {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -178,10 +177,10 @@ export function activateUserApi(token, userId, status) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -201,10 +200,10 @@ export function deleteUserApi(token, userId) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 
@@ -225,9 +224,9 @@ export function signUpAdminApi(token, data) {
             return response.json()
         })
         .then(result => {
-            return result.message
+            return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
