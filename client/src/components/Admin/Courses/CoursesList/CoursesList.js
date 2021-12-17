@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import DragSortableList from "react-drag-sortable"
 import Modal from "../../../Modal"
-/*import AddEditCourseForm from "../AddEditCourseForm"*/
+import AddEditCourseForm from "../AddEditCourseForm"
 import { getAccessTokenApi } from "../../../../api/auth"
 import { getCourseDataUdemyApi, deleteCourseApi/*, updateCourseApi */} from "../../../../api/course"
 import "./CoursesList.scss"
@@ -17,15 +17,6 @@ export default function CoursesList(props) {
 	const [isVisibleModal, setIsVisibleModal] = useState(false)
 	const [modalTitle, setModalTitle] = useState("")
 	const [modalContent, setModalContent] = useState(null)
-
-	/* if(courses.length > 0){
-		courses.forEach(course => {
-			//console.log(course)
-			getCourseDataUdemyApi(course.idCourse).then(response => {
-				console.log(response)
-			})
-		})
-	} */
 
 	useEffect(() => {
 		const listCourseArray = []
@@ -55,7 +46,7 @@ export default function CoursesList(props) {
 		}) */
 	}
 
-	/* const addCourseModal = () => {
+	const addCourseModal = () => {
 		setIsVisibleModal(true)
 		setModalTitle("Creando nuevo curso")
 		setModalContent(
@@ -64,7 +55,7 @@ export default function CoursesList(props) {
 				setReloadCourses={setReloadCourses}
 			/>
 		)
-	} */
+	}
 
 	/* const editCourseModal = course => {
 		setIsVisibleModal(true)
@@ -104,7 +95,7 @@ export default function CoursesList(props) {
 	return (
 		<div className="courses-list">
 			<div className="courses-list__header">
-				<Button type="primary" onClick={/* addCourseModal */ () => console.log('Creando curso...')}>
+				<Button type="primary" onClick={addCourseModal}>
 					Nuevo curso
 				</Button>
 			</div>
@@ -118,13 +109,13 @@ export default function CoursesList(props) {
 				<DragSortableList items={listCourses} onSort={onSort} type="vertical" />
 			</div>
 
-			{/* <Modal
+			<Modal
 				title={modalTitle}
 				isVisible={isVisibleModal}
 				setIsVisible={setIsVisibleModal}
 			>
 				{modalContent}
-			</Modal> */}
+			</Modal>
 		</div>
 	)
 }
