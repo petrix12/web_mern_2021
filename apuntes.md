@@ -13531,14 +13531,53 @@
     + $ git push -u origin main
 
 ### 176. Creando PresentationCourses
-5. Commit Video 176:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Web\Courses\PresentationCourses\PresentationCourses.js**:
     ```js
+    import AcademyLogo from "../../../../assets/img/png/logospp.png"
+
+    import "./PresentationCourses.scss"
+
+    export default function PresentationCourses() {
+        return (
+            <div className="presentation-courses">
+                <img src={AcademyLogo} alt="Cursos de Soluciones++" />
+                <p>
+                    En Soluciones++ vas a encontrar los mejores cursos online de
+                    desarrollo web en Español. Unete a nosotros y empieza tu camino como
+                    Desarrodor Web o Desarrollador de CMS. Sinceramente, estos curso es el
+                    tipo de contenido que a mi me hubiera gustado encontrar cuando empecé en
+                    el mundo del desarrollo web profesional.
+                </p>
+                <p>¡¡¡Échales un vistazo y aprovecha las ofertas!!!</p>
+            </div>
+        )
+    }
     ```
+2. Modificar archivo de estilo **client\src\components\Web\Courses\PresentationCourses\PresentationCourses.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .presentation-courses {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        text-align: center;
+
+        img {
+            width: 150px;
+        }
+
+        p {
+            padding-top: 20px;
+            color: $primary-color-dark;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    }
+    ```
+3. Commit Video 176:
+    + $ git add .
+    + $ git commit -m "Creando PresentationCourses"
+    + $ git push -u origin main
 
 ### 177. Obteniendo todos los cursos de la base de datos
 5. Commit Video 177:

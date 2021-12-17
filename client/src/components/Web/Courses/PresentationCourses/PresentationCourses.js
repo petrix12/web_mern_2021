@@ -1,12 +1,11 @@
-//import AcademyLogo from "../../../../assets/img/png/academy-logo.png"
+import AcademyLogo from "../../../../assets/img/png/logospp.png"
 
 import "./PresentationCourses.scss"
 
 export default function PresentationCourses() {
 	return (
 		<div className="presentation-courses">
-			<h2>Presentación del curso...</h2>
-			{/* <img src={AcademyLogo} alt="Cursos de Soluciones++" />
+			<img src={AcademyLogo} alt="Cursos de Soluciones++" />
 			<p>
 				En Soluciones++ vas a encontrar los mejores cursos online de
 				desarrollo web en Español. Unete a nosotros y empieza tu camino como
@@ -14,7 +13,7 @@ export default function PresentationCourses() {
 				tipo de contenido que a mi me hubiera gustado encontrar cuando empecé en
 				el mundo del desarrollo web profesional.
 			</p>
-			<p>¡¡¡Échales un vistazo y aprovecha las ofertas!!!</p> */}
+			<p>¡¡¡Échales un vistazo y aprovecha las ofertas!!!</p>
 		</div>
 	)
 }
