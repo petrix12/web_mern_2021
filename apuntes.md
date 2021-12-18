@@ -13877,15 +13877,18 @@
     + $ git push -u origin main
 
 ### 181. Borrar inputs al haber editado un curso previamente
-5. Commit Video 181:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
++ **Contenido**: pequeña corrección en componente **client\src\components\Admin\Courses\AddEditCourseForm\AddEditCourseForm.js**:
     ```js
+    ≡
+	useEffect(() => {
+		course ? setCourseData(course) : setCourseData({});
+	}, [course])
+    ≡
     ```
-
+1. Commit Video 181:
+    + $ git add .
+    + $ git commit -m "181. Borrar inputs al haber editado un curso previamente"
+    + $ git push -u origin main
 
 ## Sección 14: Blog
 
