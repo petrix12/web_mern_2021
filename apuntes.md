@@ -13695,19 +13695,104 @@
     + $ git commit -m "Obteniendo la información publica de cada curso de la API de Udemy"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 179. 1/2 - Pintando todos los curso por pantalla
-5. Commit Video 179:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\components\Web\Courses\CoursesList\CoursesList.js**:
     ```js
+    ≡
+    function Course(props) {
+        const { course } = props
+        const [courseInfo, setCourseInfo] = useState({})
+        const { Meta } = Card
+
+        useEffect(() => {
+            getCourseDataUdemyApi(course.idCourse)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setCourseInfo(response.data)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor, inténtelo más tarde." })
+                })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [course])
+
+        return (
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <Card
+                    cover={<img src={courseInfo.image_480x270} alt={courseInfo.title} />}
+                >
+                    <Meta title={courseInfo.title} description={courseInfo.headline} />
+                    <Button>Entrar en el curso</Button>
+                    <div className="courses-list__course-footer">
+                        <span>{course.price ? `${course.price} €` : courseInfo.price}</span>
+                        <div>
+                            <Rate disabled defaultValue={5} />
+                        </div>
+                    </div>
+                </Card>
+            </a>
+        )
+    }
     ```
+2. Modificar archivo de estilo **client\src\components\Web\Courses\CoursesList\CoursesList.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .courses-list {
+        &__course {
+            margin-bottom: 50px;
+
+            .ant-card {
+                width: 90%;
+                border: 0;
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.23);
+                -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.23);
+                -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.23);
+                background-color: transparent;
+            }
+
+            .ant-card-meta-title {
+                color: $font-light;
+                font-weight: bold;
+            }
+
+            .ant-card-meta-description {
+                color: $primary-color-dark;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 30px;
+                background-color: $primary-color-light;
+                color: $font-light;
+                border: 0;
+                font-weight: bold;
+                font-size: 15px;
+                height: 40px;
+                text-transform: uppercase;
+            }
+
+            &-footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 20px;
+
+                span {
+                    color: $font-light;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    ```
+3. Commit Video 179:
+    + $ git add .
+    + $ git commit -m "1/2 - Pintando todos los curso por pantalla"
+    + $ git push -u origin main
 
 ### 180. 2/2 - Pintando todos los curso por pantalla
 5. Commit Video 180:

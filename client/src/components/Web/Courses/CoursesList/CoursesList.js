@@ -25,8 +25,8 @@ export default function CoursesList(props) {
 function Course(props) {
 	const { course } = props
 	const [courseInfo, setCourseInfo] = useState({})
-/* 		const [urlCourse, setUrlCourse] = useState("")
-	const { Meta } = Card */
+/* 		const [urlCourse, setUrlCourse] = useState("") */
+	const { Meta } = Card
 
 	useEffect(() => {
 		getCourseDataUdemyApi(course.idCourse)
@@ -52,10 +52,10 @@ function Course(props) {
 		} else {
 			setUrlCourse(course.link)
 		}
-	}
+	}*/
 
 	return (
-		<a href={urlCourse} target="_blank" rel="noopener noreferrer">
+		<a href="#" /* {urlCourse} */ target="_blank" rel="noopener noreferrer">
 			<Card
 				cover={<img src={courseInfo.image_480x270} alt={courseInfo.title} />}
 			>
@@ -69,6 +69,5 @@ function Course(props) {
 				</div>
 			</Card>
 		</a>
-	) */
-	return <p>{courseInfo.title}</p>
+	)
 }
