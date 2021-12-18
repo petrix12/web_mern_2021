@@ -25,7 +25,7 @@ export default function CoursesList(props) {
 function Course(props) {
 	const { course } = props
 	const [courseInfo, setCourseInfo] = useState({})
-/* 		const [urlCourse, setUrlCourse] = useState("") */
+	const [urlCourse, setUrlCourse] = useState("")
 	const { Meta } = Card
 
 	useEffect(() => {
@@ -35,7 +35,7 @@ function Course(props) {
 					notification["warning"]({ message: response.message })
 				} else {
 					setCourseInfo(response.data)
-					//mountUrl(response.data.url)
+					mountUrl(response.data.url)
 				}
 			})
 			.catch(() => {
@@ -43,7 +43,7 @@ function Course(props) {
 			})
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [course])
-/*
+
 	const mountUrl = url => {
 		if (!course.link) {
 			const baseUrl = `https://www.udemy.com${url}`
@@ -52,10 +52,10 @@ function Course(props) {
 		} else {
 			setUrlCourse(course.link)
 		}
-	}*/
+	}
 
 	return (
-		<a href="#" /* {urlCourse} */ target="_blank" rel="noopener noreferrer">
+		<a href={urlCourse} target="_blank" rel="noopener noreferrer">
 			<Card
 				cover={<img src={courseInfo.image_480x270} alt={courseInfo.title} />}
 			>
