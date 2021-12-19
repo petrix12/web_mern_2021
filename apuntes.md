@@ -13987,14 +13987,52 @@
     + $ git push -u origin main
 
 ### 183. Endpoint para crear nuevos posts
-5. Commit Video 183:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar controlador **server\controllers\post.js**:
     ```js
+    const Post = require("../models/post")
+
+    function addPost(req, res) {
+        const body = req.body
+        const post = new Post(body)
+
+        post.save((err, postStored) => {
+            if(err) {
+                res.status(500).send({ code: 500, message: "Error del servidor."})
+            } else {
+                if(!postStored){
+                    res.status(400).send({ code: 400, message: "No se ha podido crear el post."})
+                } else {
+                    res.status(200).send({ code: 200, message: "El post se creo correctamente." })
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addPost
+    }
     ```
+2. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-post
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk5NDQ4MjEsImV4cCI6MTYzOTk1NTYyMX0.6wN_VcSI9NtjVR2fTNeGCVNzt6GGkI-K-zCbNEKsTqk
+            ```
+        + Body:
+            ```json
+            {
+                "title": "¿Qué es React Js?",    
+                "url": "que-es-react-js",
+                "description": "Aquí va una breve explicación sobre React Js"
+            }
+            ```
+3. Commit Video 183:
+    + $ git add .
+    + $ git commit -m "Endpoint para crear nuevos posts"
+    + $ git push -u origin main
 
 ### 184. Endpoint para obtener todos los posts de la base de datos paginados
 5. Commit Video 184:
