@@ -14083,14 +14083,59 @@
     + $ git push -u origin main
 
 ### 185. Endpoint para actualizar posts
-5. Commit Video 185:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear la función **updatePost** en el controlador **server\controllers\post.js**:
     ```js
+    ≡
+    function updatePost(req, res) {
+        let postData = req.body
+        const { id } = req.params
+
+        Post.findByIdAndUpdate(id, postData, (err, postUpdate) => {
+            if(err) {
+                res.status(500).send({ code:500, message: "Error del servidor." })
+            } else {
+                if(!postUpdate) {
+                    res.status(404).send({ code:404, message: "No se ha encontrado ningún post." })
+                } else {
+                    res.status(200).send({ code:200, message: "Post actualizado correctamente." })
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addPost,
+        getPosts,
+        updatePost
+    }
     ```
+2. Crear ruta **update-post** en el archivo de rutas **server\routers\post.js**:
+    ```js
+    ≡
+    api.put("/update-post/:id", [md_auth.ensureAuth], PostController.updatePost)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: put
+        + URL: http://localhost:3977/api/v1/update-post/61bfa41bfd34e7574d35fe27
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk5NDQ4MjEsImV4cCI6MTYzOTk1NTYyMX0.6wN_VcSI9NtjVR2fTNeGCVNzt6GGkI-K-zCbNEKsTqk
+            ```
+        + Body:
+            ```json
+            {
+                "title": "¿Qué es React Js 2?",    
+                "url": "que-es-react-js-2"
+            }
+            ```
+4. Commit Video 185:
+    + $ git add .
+    + $ git commit -m "Endpoint para actualizar posts"
+    + $ git push -u origin main
 
 ### 186. Endpoint para eliminar posts
 5. Commit Video 186:
