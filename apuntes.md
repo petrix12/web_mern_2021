@@ -13873,7 +13873,7 @@
     ```
 2. Commit Video 180:
     + $ git add .
-    + $ git commit -m "180. 2/2 - Pintando todos los curso por pantalla"
+    + $ git commit -m "2/2 - Pintando todos los curso por pantalla"
     + $ git push -u origin main
 
 ### 181. Borrar inputs al haber editado un curso previamente
@@ -13887,13 +13887,107 @@
     ```
 1. Commit Video 181:
     + $ git add .
-    + $ git commit -m "181. Borrar inputs al haber editado un curso previamente"
+    + $ git commit -m "Borrar inputs al haber editado un curso previamente"
     + $ git push -u origin main
 
 ## Sección 14: Blog
 
 ### 182. Estructura del Blog en el servidor
-5. Commit Video 18:
++ https://classic.yarnpkg.com/en/package/mongoose-paginate
++ https://yarn.pm/mongoose-paginate
+1. Ir a la raíz del proyecto **server** y ejecutar:
+    + $ yarn add mongoose-paginate
+2. Crear modelo **server\models\post.js**:
+    ```js
+    const mongoose = require('mongoose')
+    const mongoosePaginate = require('mongoose-paginate')
+
+    const Schema = mongoose.Schema
+
+    const PostSchema = Schema({
+        title: String,
+        url: {
+            type: String,
+            unique: true
+        },
+        description: String,
+        date: Date
+    })
+
+    PostSchema.plugin(mongoosePaginate)
+
+    module.exports = mongoose.model("Post", PostSchema)
+    ```
+3. Crear controlador **server\controllers\post.js**:
+    ```js
+    const Post = require("../models/post")
+
+    function addPost(req, res) {
+        console.log("addPost...")
+    }
+
+    module.exports = {
+        addPost
+    }
+    ```
+4. Crear archivo de rutas **server\routers\post.js**:
+    ```js
+    const express = require('express')
+    const PostController = require('../controllers/post')
+
+    const md_auth = require("../middlewares/authenticated")
+
+    const api = express.Router()
+
+    api.post("/add-post", [md_auth.ensureAuth], PostController.addPost)
+
+    module.exports = api
+    ```
+5. Modificar **server\app.js**:
+    ```js
+    ≡
+    // Load routings
+    ≡
+    const postRoutes = require('./routers/post')
+
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+
+    // Configure Header HTTP
+    ≡
+
+    // Basic Routers
+    ≡
+    app.use(`/api/${API_VERSION}`, postRoutes)
+
+    module.exports = app
+    ```
+6. Prueba http:
+    + Realizar petición http:
+        + Método: post
+        + URL: http://localhost:3977/api/v1/add-post
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk5NDQ4MjEsImV4cCI6MTYzOTk1NTYyMX0.6wN_VcSI9NtjVR2fTNeGCVNzt6GGkI-K-zCbNEKsTqk
+            ```
+        + Body:
+            ```json
+            {
+                "title": "",    
+                "url": "",
+                "description": "",
+                "date": "",
+            }
+            ```
+    + Guardar endpoint como: **add-post**
+7. Commit Video 182:
+    + $ git add .
+    + $ git commit -m "Estructura del Blog en el servidor"
+    + $ git push -u origin main
+
+### 183. Endpoint para crear nuevos posts
+5. Commit Video 183:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main
@@ -13902,44 +13996,295 @@
     ```js
     ```
 
-### 183. Endpoint para crear nuevos posts
 ### 184. Endpoint para obtener todos los posts de la base de datos paginados
+5. Commit Video 184:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 185. Endpoint para actualizar posts
+5. Commit Video 185:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 186. Endpoint para eliminar posts
+5. Commit Video 186:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 187. Endpoint para obtener post especifico
+5. Commit Video 187:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 188. Creando la sección del blog en el panel de administrador
+5. Commit Video 188:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 189. Creando la estructura básica de la sección del blog
+5. Commit Video 189:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 190. Obteniendo los post de la base de datos con paginación
+5. Commit Video 190:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 191. Pintando los posts obtenidos en el admin
+5. Commit Video 191:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 192. Añadiendo sistema de paginación
+5. Commit Video 192:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 193. Eliminando posts
+5. Commit Video 193:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 194. 1/3 - Estructura del formulario con editor TinyMCE
+5. Commit Video 194:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 195. 2/3 - Estructura del formulario con editor TinyMCE
+5. Commit Video 195:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 196. 3/3 - Estructura del formulario con editor TinyMCE
+5. Commit Video 196:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 197. 1/2 - Creando nuevos posts
+5. Commit Video 197:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 198. 2/2 - Creando nuevos posts
+5. Commit Video 198:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 199. Editando posts
+5. Commit Video 199:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 200. Rutas del blog de la parte web del usuario
+5. Commit Video 200:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 201. 1/2 - Mostrando el listado de todos los posts
+5. Commit Video 201:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 202. 2/2 - Mostrando el listado de todos los posts
+5. Commit Video 202:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 203. Mostrando la información del post seleccionado
+5. Commit Video 203:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 
 ## Sección 15: SEO con React Helmet
 
 ### 204. Instalando React Helmet y Actualizando todos los títulos de la web
+5. Commit Video 204:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 205. Actualizando las meta descripciones
+5. Commit Video 205:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 
 ## Sección 16: Desplegando aplicación
 
 ### 206. Cambiando el favicon
+5. Commit Video 206:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 207. Subiendo base de datos a MongoDB Atlas
+5. Commit Video 207:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 208. Subiendo Servidor a Heroku
+5. Commit Video 208:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 209. Subiendo Cliente a Netlify
+5. Commit Video 209:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 
 ## Sección 17: Despedida
 
 ### 210. Repositorio de la aplicación
+5. Commit Video 210:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 ### 211. Clase Extra
+5. Commit Video 211:
+    + $ git add .
+    + $ git commit -m ""
+    + $ git push -u origin main
+
+    ≡
+    ```js
+    ```
+
 
 ## Equivalencias entre yarn y npm
 + https://shift.infinite.red/npm-vs-yarn-cheat-sheet-8755b092e5cc
