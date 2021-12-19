@@ -14132,20 +14132,60 @@
                 "url": "que-es-react-js-2"
             }
             ```
+    + Guardar endpoint como: **update-post**
 4. Commit Video 185:
     + $ git add .
     + $ git commit -m "Endpoint para actualizar posts"
     + $ git push -u origin main
 
 ### 186. Endpoint para eliminar posts
-5. Commit Video 186:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear la función **deletePost** en el controlador **server\controllers\post.js**:
     ```js
+    ≡
+    function deletePost(req,res) {
+        const { id } = req.params
+
+        Post.findByIdAndRemove(id, (err, postDeleted) => {
+            if(err){
+                res.status(500).send({ code:500, message: "Error al eliminar menú."})
+            } else {
+                if (!postDeleted){
+                    res.status(404).send({ code:404, message: "No se ha encontrado el post."})
+                } else {
+                    res.status(200).send({ code:200, message: "El post se eliminó correctamente."})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addPost,
+        getPosts,
+        updatePost,
+        deletePost
+    }
     ```
+2. Crear endpoint **delete-post** en el archivo de rutas **server\routers\post.js**:
+    ```js
+    ≡
+    api.delete("/delete-post/:id",[md_auth.ensureAuth] , PostController.deletePost)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: delete
+        + URL: http://localhost:3977/api/v1/delete-post/61bfa41bfd34e7574d35fe27
+        + Headers:
+            ```
+            Content-Type: application/json
+            Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjYxYTNjZDRkNWY3YzY1Y2JhYzEzMjNmYyIsIm5hbWUiOiJDdWlkcm8iLCJsYXN0bmFtZSI6Ik1jQ2xvdXQiLCJlbWFpbCI6ImJhem8ucGVkcm9AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiY3JlYXRlVG9rZW4iOjE2Mzk5NDQ4MjEsImV4cCI6MTYzOTk1NTYyMX0.6wN_VcSI9NtjVR2fTNeGCVNzt6GGkI-K-zCbNEKsTqk
+            ```
+    + Guardar endpoint como: **delete-post**
+4. Commit Video 186:
+    + $ git add .
+    + $ git commit -m "Endpoint para eliminar posts"
+    + $ git push -u origin main
 
 ### 187. Endpoint para obtener post especifico
 5. Commit Video 187:

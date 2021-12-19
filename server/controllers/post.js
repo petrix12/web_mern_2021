@@ -56,8 +56,25 @@ function updatePost(req, res) {
     })
 }
 
+function deletePost(req,res) {
+    const { id } = req.params
+
+    Post.findByIdAndRemove(id, (err, postDeleted) => {
+        if(err){
+            res.status(500).send({ code:500, message: "Error al eliminar menú."})
+        } else {
+            if (!postDeleted){
+                res.status(404).send({ code:404, message: "No se ha encontrado el post."})
+            } else {
+                res.status(200).send({ code:200, message: "El post se eliminó correctamente."})
+            }
+        }
+    })
+}
+
 module.exports = {
     addPost,
     getPosts,
-    updatePost
+    updatePost,
+    deletePost
 }
