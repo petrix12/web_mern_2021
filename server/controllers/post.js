@@ -31,9 +31,9 @@ function getPosts(req, res) {
             res.status(500).send({ code: 500, message: "Error del servidor." })
         } else {
             if(!postsStored) {
-                res.status(404).send({ code: 404, message: "No se ha encontrado ningún post en la base de datos."})
+                res.status(404).send({ code: 404, message: "No se ha encontrado ningún post en la base de datos." })
             } else {
-                res.status(200).send({ code: 200, posts: postsStored})
+                res.status(200).send({ code: 200, posts: postsStored })
             }
         }
     })
@@ -61,7 +61,7 @@ function deletePost(req,res) {
 
     Post.findByIdAndRemove(id, (err, postDeleted) => {
         if(err){
-            res.status(500).send({ code:500, message: "Error al eliminar menú."})
+            res.status(500).send({ code:500, message: "Error al eliminar post."})
         } else {
             if (!postDeleted){
                 res.status(404).send({ code:404, message: "No se ha encontrado el post."})
@@ -72,9 +72,26 @@ function deletePost(req,res) {
     })
 }
 
+function getPost(req, res) {
+    const { url } = req.params
+
+    Post.findOne({ url }, (err, postStored) => {
+        if(err){
+            res.status(500).send({ code:500, message: "Error del servidor."})
+        } else {
+            if (!postStored){
+                res.status(404).send({ code:404, message: "No se ha encontrado el post."})
+            } else {
+                res.status(200).send({ code:200, post: postStored })
+            }
+        }
+    })
+}
+
 module.exports = {
     addPost,
     getPosts,
     updatePost,
-    deletePost
+    deletePost,
+    getPost
 }

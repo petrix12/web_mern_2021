@@ -14147,7 +14147,7 @@
 
         Post.findByIdAndRemove(id, (err, postDeleted) => {
             if(err){
-                res.status(500).send({ code:500, message: "Error al eliminar menú."})
+                res.status(500).send({ code:500, message: "Error al eliminar post."})
             } else {
                 if (!postDeleted){
                     res.status(404).send({ code:404, message: "No se ha encontrado el post."})
@@ -14187,15 +14187,49 @@
     + $ git commit -m "Endpoint para eliminar posts"
     + $ git push -u origin main
 
-### 187. Endpoint para obtener post especifico
-5. Commit Video 187:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+### 187. Endpoint para obtener post específico
+1. Crear función **getPost** en el controlador **server\controllers\post.js**:
     ```js
+    function getPost(req, res) {
+        const { url } = req.params
+
+        Post.findOne({ url }, (err, postStored) => {
+            if(err){
+                res.status(500).send({ code:500, message: "Error del servidor."})
+            } else {
+                if (!postStored){
+                    res.status(404).send({ code:404, message: "No se ha encontrado el post."})
+                } else {
+                    res.status(200).send({ code:200, post: postStored })
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addPost,
+        getPosts,
+        updatePost,
+        deletePost,
+        getPost
+    }
     ```
+2. Crear endpoint **get-post** en archivo de rutas **server\routers\post.js**:
+    ```js
+    ≡
+    api.get("/get-post/:url", PostController.getPost)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/get-post/que-es-vue-js
+    + Guardar endpoint como: **get-post**
+4. Commit Video 187:
+    + $ git add .
+    + $ git commit -m "Endpoint para obtener post específico"
+    + $ git push -u origin main
 
 ### 188. Creando la sección del blog en el panel de administrador
 5. Commit Video 188:
