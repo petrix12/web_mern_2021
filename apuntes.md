@@ -14035,14 +14035,52 @@
     + $ git push -u origin main
 
 ### 184. Endpoint para obtener todos los posts de la base de datos paginados
-5. Commit Video 184:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear la función **getPost** en el controlador **server\controllers\post.js**:
     ```js
+    ≡
+    function getPosts(req, res) {
+        const { page = 1, limit = 10 } = req.query
+
+        const options = {
+            page,   // page: page,
+            limit: parseInt(limit),
+            sorts: { date: "desc" }
+        }
+
+        Post.paginate({}, options, (err, postsStored) => {
+            if(err){
+                res.status(500).send({ code: 500, message: "Error del servidor." })
+            } else {
+                if(!postsStored) {
+                    res.status(404).send({ code: 404, message: "No se ha encontrado ningún post en la base de datos."})
+                } else {
+                    res.status(200).send({ code: 200, posts: postsStored})
+                }
+            }
+        })
+    }
+
+    module.exports = {
+        addPost,
+        getPosts
+    }
     ```
+2. Crear endpoint **get-posts** en el archivo de rutas **server\routers\post.js**:
+    ```js
+    ≡
+    api.get("/get-posts", PostController.getPosts)
+
+    module.exports = api
+    ```
+3. Prueba http:
+    + Realizar petición http:
+        + Método: get
+        + URL: http://localhost:3977/api/v1/get-posts?page=1&limit=7
+    + Guardar endpoint como: **get-posts**
+4. Commit Video 184:
+    + $ git add .
+    + $ git commit -m "Endpoint para obtener todos los posts de la base de datos paginados"
+    + $ git push -u origin main
 
 ### 185. Endpoint para actualizar posts
 5. Commit Video 185:

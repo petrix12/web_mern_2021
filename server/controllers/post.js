@@ -17,6 +17,29 @@ function addPost(req, res) {
     })
 }
 
+function getPosts(req, res) {
+    const { page = 1, limit = 10 } = req.query
+
+    const options = {
+        page,   // page: page,
+        limit: parseInt(limit),
+        sorts: { date: "desc" }
+    }
+
+    Post.paginate({}, options, (err, postsStored) => {
+        if(err){
+            res.status(500).send({ code: 500, message: "Error del servidor." })
+        } else {
+            if(!postsStored) {
+                res.status(404).send({ code: 404, message: "No se ha encontrado ningún post en la base de datos."})
+            } else {
+                res.status(200).send({ code: 200, posts: postsStored})
+            }
+        }
+    })
+}
+
 module.exports = {
-    addPost
+    addPost,
+    getPosts
 }
