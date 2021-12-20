@@ -1,22 +1,22 @@
-import { List, Button, Icon, Modal, notification } from "antd"
+import { List, Button, Modal, notification } from "antd"
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import { Link } from "react-router-dom"
-/* import { getAccessTokenApi } from "../../../../api/auth"
-import { deletePostApi } from "../../../../api/post" */
+import { getAccessTokenApi } from "../../../../api/auth"
+import { deletePostApi } from "../../../../api/post"
 import "./PostsList.scss"
 
 const { confirm } = Modal
 
 export default function PostsList(props)  {
-	const { posts/* , setReloadPosts, editPost */ } = props
+	const { posts, setReloadPosts/* , editPost */ } = props
 
-	/* const deletePost = post => {
+	const deletePost = post => {
 		const accessToken = getAccessTokenApi();
-
+ 
 		confirm({
 			title: "Eliminando post",
-			content: `¿Estas segurod de eliminar el post ${post.title}?`,
+			content: `¿Estas seguro de eliminar el post ${post.title}?`,
 			okText: "Eliminar",
 			okType: "danger",
 			cancelText: "Cancelar",
@@ -27,24 +27,23 @@ export default function PostsList(props)  {
 						notification[typeNotification]({ message: response.message })
 						setReloadPosts(true)
 					})
-					.catch(() => { notification["error"]({ message: "Error del servidor." })
-					})
+					.catch(() => { notification["error"]({ message: "Error del servidor." }) })
 			}
 		})
-	} */
+	}
 
 	return (
 		<div className="posts-list">
 			<List
 				dataSource={posts.docs}
-				renderItem={post => ( <Post post={post} /* deletePost={deletePost} editPost={editPost} */ /> )}
+				renderItem={post => ( <Post post={post} deletePost={deletePost} /* editPost={editPost} */ /> )}
 			/>
 		</div>
 	)
 }
 
 function Post(props) {
-	const { post/* , deletePost, editPost */ } = props
+	const { post, deletePost/* , editPost */ } = props
 
 	return (
 		<List.Item
@@ -57,7 +56,7 @@ function Post(props) {
 				<Button type="primary" /* onClick={() => editPost(post)} */>
 					<EditOutlined />
 				</Button>,
-				<Button type="danger" /* onClick={() => deletePost(post)} */>
+				<Button type="danger" onClick={() => deletePost(post)}>
 					<DeleteOutlined />
 				</Button>
 			]}

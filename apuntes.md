@@ -14697,14 +14697,167 @@
     + $ git push -u origin main
 
 ### 193. Eliminando posts
-5. Commit Video 193:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear función **deletePostApi** en **client\src\api\post.js**:
     ```js
+    export function deletePostApi(token, id) {
+        const url = `${basePath}/${apiVersion}/delete-post/${id}`
+
+        const params = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            }
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
     ```
+2. Modificar componente **client\src\components\Admin\Blog\PostsList\PostsList.js**:
+    ```js
+    import { List, Button, Modal, notification } from "antd"
+    import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { deletePostApi } from "../../../../api/post"
+    import "./PostsList.scss"
+
+    const { confirm } = Modal
+
+    export default function PostsList(props)  {
+        const { posts, setReloadPosts } = props
+
+        const deletePost = post => {
+            const accessToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando post",
+                content: `¿Estas seguro de eliminar el post ${post.title}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deletePostApi(accessToken, post._id)
+                        .then(response => {
+                            const typeNotification = response.code === 200 ? "success" : "warning"
+                            notification[typeNotification]({ message: response.message })
+                            setReloadPosts(true)
+                        })
+                        .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+                }
+            })
+        }
+
+        return (
+            <div className="posts-list">
+                <List
+                    dataSource={posts.docs}
+                    renderItem={post => ( <Post post={post} deletePost={deletePost} /> )}
+                />
+            </div>
+        )
+    }
+
+    function Post(props) {
+        const { post, deletePost } = props
+
+        return (
+            <List.Item
+                actions={[
+                    <Link to={`/blog/${post.url}`} target="_blank">
+                        <Button type="primary">
+                            <EyeOutlined />
+                        </Button>
+                    </Link>,
+                    <Button type="primary" >
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={() => deletePost(post)}>
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={post.title} />
+            </List.Item>
+        )
+    }
+    ```
+3. Modificar página **client\src\pages\Admin\Blog\Blog.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import PostsList from "../../../components/Admin/Blog/PostsList"
+    import Pagination from "../../../components/Pagination"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        if (!posts) {
+            return null
+        }
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" >
+                        Nuevo post
+                    </Button>
+                </div>
+                <PostsList posts={posts} setReloadPosts={setReloadPosts} />
+                <Pagination posts={posts} location={location} history={history} />
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
+    ```
+4. Commit Video 193:
+    + $ git add .
+    + $ git commit -m "Eliminando posts"
+    + $ git push -u origin main
 
 ### 194. 1/3 - Estructura del formulario con editor TinyMCE
 5. Commit Video 194:

@@ -67,7 +67,7 @@ function Blog(props) {
 					Nuevo post
 				</Button>
 			</div>
-			<PostsList posts={posts} />
+			<PostsList posts={posts} setReloadPosts={setReloadPosts} />
 			<Pagination posts={posts} location={location} history={history} />
 			{/* <PostsList
 				posts={posts}
