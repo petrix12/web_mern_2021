@@ -1,12 +1,12 @@
 import { Link, withRouter } from "react-router-dom"
 import { Layout, Menu } from "antd"
-import { HomeOutlined, UserOutlined, MenuOutlined, BookOutlined } from '@ant-design/icons'
+import { HomeOutlined, UserOutlined, MenuOutlined, BookOutlined, MessageOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import "./MenuSider.scss"
 
 function MenuSider(props) {
     const { menuCollapsed, location } = props
-    const { Sider } = Layout;
+    const { Sider } = Layout
 
     return (
         <Sider className="admin-sider" collapsed={menuCollapsed} >
@@ -37,6 +37,12 @@ function MenuSider(props) {
                     <Link to="/admin/courses">
                         <BookOutlined />
                         <span className="nav-text">Cursos</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="/admin/blog">
+                    <Link to="/admin/blog">
+                        <MessageOutlined />
+                        <span className="nav-text">Blog</span>
                     </Link>
                 </Menu.Item>
             </Menu>

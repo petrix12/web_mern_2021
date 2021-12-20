@@ -14232,14 +14232,91 @@
     + $ git push -u origin main
 
 ### 188. Creando la sección del blog en el panel de administrador
-5. Commit Video 188:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear **client\src\pages\Admin\Blog\index.js**:
     ```js
+    export { default } from "./Blog"
     ```
+2. Crear archivo de estilo **client\src\pages\Admin\Blog\Blog.scss**:
+    ```js
+    @import "../../../scss/index.scss";
+
+    .blog {
+        &__add-post {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    }
+    ```
+3. Crear componente **client\src\pages\Admin\Blog\Blog.js**:
+    ```js
+    import "./Blog.scss"
+
+    export default function Blog(props) {
+        return <h1>Blog...</h1>
+    }
+    ```
+4. Modificar **client\src\config\routes.js**:
+    ```js
+    ≡
+    // Admin Pages
+    ≡
+    import AdminBlog from "../pages/Admin/Blog"
+
+    // Pages
+    ≡
+    // Sistema de rutas
+    const routes = [
+        {
+            path: "/admin",
+            component: LayoutAdmin,
+            exact: false,
+            routes: [
+                ≡
+                {
+                    path: "/admin/blog",
+                    component: AdminBlog, 
+                    exact: true
+                },
+                {
+                    component: Error404
+                }
+            ]
+        },
+        ≡
+    ]
+
+    export default routes
+    ```
+5. Modificar componente **client\src\components\Admin\MenuSider\MenuSider.js**:
+    ```js
+    import { Link, withRouter } from "react-router-dom"
+    import { Layout, Menu } from "antd"
+    import { HomeOutlined, UserOutlined, MenuOutlined, BookOutlined, MessageOutlined } from '@ant-design/icons'
+    ≡
+    function MenuSider(props) {
+        ≡
+        return (
+            <Sider className="admin-sider" collapsed={menuCollapsed} >
+                <Menu
+                    ≡
+                >
+                    ≡
+                    <Menu.Item key="/admin/blog">
+                        <Link to="/admin/blog">
+                            <MessageOutlined />
+                            <span className="nav-text">Blog</span>
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+        )
+    }
+    ≡
+    ```
+6. Commit Video 188:
+    + $ git add .
+    + $ git commit -m "Creando la sección del blog en el panel de administrador"
+    + $ git push -u origin main
 
 ### 189. Creando la estructura básica de la sección del blog
 5. Commit Video 189:
