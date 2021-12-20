@@ -14467,14 +14467,129 @@
     + $ git push -u origin main
 
 ### 191. Pintando los posts obtenidos en el admin
+1. Crear **client\src\components\Admin\Blog\PostsList\index.js**:
+    ```js
+    export { default } from "./PostsList"
+    ```
+2. Crear archivo de estilo **client\src\components\Admin\Blog\PostsList\PostsList.scss**:
+    ```js
+    @import "../../../../scss/index.scss";
+
+    .posts-list {
+    }
+    ```
+3. Crear componente **client\src\components\Admin\Blog\PostsList\PostsList.js**:
+    ```js
+    import { List, Button, Icon, Modal, notification } from "antd"
+    import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom"
+    import "./PostsList.scss"
+
+    const { confirm } = Modal
+
+    export default function PostsList(props)  {
+        const { posts } = props
+
+        return (
+            <div className="posts-list">
+                <List
+                    dataSource={posts.docs}
+                    renderItem={post => ( <Post post={post} /> )}
+                />
+            </div>
+        )
+    }
+
+    function Post(props) {
+        const { post } = props
+
+        return (
+            <List.Item
+                actions={[
+                    <Link to={`/blog/${post.url}`} target="_blank">
+                        <Button type="primary">
+                            <EyeOutlined />
+                        </Button>
+                    </Link>,
+                    <Button type="primary" >
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" >
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={post.title} />
+            </List.Item>
+        )
+    }
+    ```
+4. Modificar componente **client\src\pages\Admin\Blog\Blog.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import PostsList from "../../../components/Admin/Blog/PostsList"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        if (!posts) {
+            return null
+        }
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" >
+                        Nuevo post
+                    </Button>
+                </div>
+                <PostsList posts={posts} />
+                <h2>Páginación ....</h2>
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
+    ```
 5. Commit Video 191:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Pintando los posts obtenidos en el admin"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 192. Añadiendo sistema de paginación
 5. Commit Video 192:

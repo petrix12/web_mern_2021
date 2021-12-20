@@ -4,8 +4,8 @@ import 'antd/dist/antd.css'
 import { withRouter } from "react-router-dom"
 import queryString from "query-string"
 import Modal from "../../../components/Modal"
-/* import PostsList from "../../../components/Admin/Blog/PostsList"
-import Pagination from "../../../components/Pagination"
+import PostsList from "../../../components/Admin/Blog/PostsList"
+/* import Pagination from "../../../components/Pagination"
 import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm" */
 import { getPostsApi } from "../../../api/post"
 import "./Blog.scss"
@@ -18,8 +18,6 @@ function Blog(props) {
 	const [modalTitle, setModalTitle] = useState("")
 	const [modalContent, setModalContent] = useState(null)
 	const { page = 1 } = queryString.parse(location.search)
-
-	console.log(posts)
 
 	useEffect(() => {
 		getPostsApi(12, page)
@@ -58,9 +56,9 @@ function Blog(props) {
 		)
 	} */
 
-	/* if (!posts) {
+	if (!posts) {
 		return null
-	} */
+	}
 
 	return (
 		<div className="blog">
@@ -69,7 +67,7 @@ function Blog(props) {
 					Nuevo post
 				</Button>
 			</div>
-			<h1>Lista de post ....</h1>
+			<PostsList posts={posts} />
 			<h2>Páginación ....</h2>
 			{/* <PostsList
 				posts={posts}
