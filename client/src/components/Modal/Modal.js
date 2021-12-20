@@ -2,7 +2,7 @@ import { Modal as ModalAntd } from "antd"
 import 'antd/dist/antd.css'
 
 export default function Modal(props) {
-    const { children, title, isVisible, setIsVisible/* , ...other */ } = props;
+    const { children, title, isVisible, setIsVisible, ...other } = props;
 
     return (
         <ModalAntd
@@ -11,7 +11,7 @@ export default function Modal(props) {
             visible={isVisible}
             onCancel={() => setIsVisible(false)}
             footer={false}
-            /* {...other} */
+            {...other}
         >
             {children}
         </ModalAntd>

@@ -14319,14 +14319,66 @@
     + $ git push -u origin main
 
 ### 189. Creando la estructura básica de la sección del blog
-5. Commit Video 189:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente **client\src\pages\Admin\Blog\Blog.js**:
     ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import Modal from "../../../components/Modal"
+    import "./Blog.scss"
+
+    export default function Blog(props) {
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" >
+                        Nuevo post
+                    </Button>
+                </div>
+                <h1>Lista de post ....</h1>
+                <h2>Páginación ....</h2>
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
     ```
+2. Modificar componente **client\src\components\Modal\Modal.js**:
+    ```js
+    import { Modal as ModalAntd } from "antd"
+    import 'antd/dist/antd.css'
+
+    export default function Modal(props) {
+        const { children, title, isVisible, setIsVisible, ...other } = props;
+
+        return (
+            <ModalAntd
+                title={title}
+                centered
+                visible={isVisible}
+                onCancel={() => setIsVisible(false)}
+                footer={false}
+                {...other}
+            >
+                {children}
+            </ModalAntd>
+        );
+    }
+    ```
+3. Commit Video 189:
+    + $ git add .
+    + $ git commit -m "Creando la estructura básica de la sección del blog"
+    + $ git push -u origin main
 
 ### 190. Obteniendo los post de la base de datos con paginación
 5. Commit Video 190:
