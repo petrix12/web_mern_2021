@@ -5,8 +5,8 @@ import { withRouter } from "react-router-dom"
 import queryString from "query-string"
 import Modal from "../../../components/Modal"
 import PostsList from "../../../components/Admin/Blog/PostsList"
-/* import Pagination from "../../../components/Pagination"
-import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm" */
+import Pagination from "../../../components/Pagination"
+/* import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm" */
 import { getPostsApi } from "../../../api/post"
 import "./Blog.scss"
 
@@ -68,7 +68,7 @@ function Blog(props) {
 				</Button>
 			</div>
 			<PostsList posts={posts} />
-			<h2>Páginación ....</h2>
+			<Pagination posts={posts} location={location} history={history} />
 			{/* <PostsList
 				posts={posts}
 				setReloadPosts={setReloadPosts}

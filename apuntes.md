@@ -14592,14 +14592,109 @@
     + $ git push -u origin main
 
 ### 192. Añadiendo sistema de paginación
+1. Crear **client\src\components\Pagination\index.js**:
+    ```js
+    export { default } from "./Pagination"
+    ```
+2. Crear archivo de estilo client\src\components\Pagination\Pagination.scss:
+    ```scss
+    @import "../../scss/index.scss";
+
+    .pagination {
+        text-align: center;
+    }
+    ```
+3. Crear componente **client\src\components\Pagination\Pagination.js**:
+    ```js
+    import { Pagination as PaginationAntd } from "antd"
+
+    import "./Pagination.scss"
+
+    export default function Pagination(props) {
+        const { posts, location, history } = props
+        const currentPage = parseInt(posts.page)
+
+        const onChangePage = newPage => {
+            history.push(`${location.pathname}?page=${newPage}`)
+        }
+
+        return (
+            <PaginationAntd
+                defaultCurrent={currentPage}
+                total={posts.total}
+                pageSize={posts.limit}
+                onChange={newPage => onChangePage(newPage)}
+                className="pagination"
+            />
+        )
+    }
+    ```
+4. Modificar componente **client\src\pages\Admin\Blog\Blog.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import PostsList from "../../../components/Admin/Blog/PostsList"
+    import Pagination from "../../../components/Pagination"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        if (!posts) {
+            return null
+        }
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" >
+                        Nuevo post
+                    </Button>
+                </div>
+                <PostsList posts={posts} />
+                <Pagination posts={posts} location={location} history={history} /> 
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
+    ```
 5. Commit Video 192:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Añadiendo sistema de paginación"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 193. Eliminando posts
 5. Commit Video 193:
