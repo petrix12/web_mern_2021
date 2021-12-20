@@ -1,40 +1,38 @@
 import { useState, useEffect } from "react"
 import { Button, notification } from "antd"
 import 'antd/dist/antd.css'
-/* import { withRouter } from "react-router-dom"
-import queryString from "query-string" */
+import { withRouter } from "react-router-dom"
+import queryString from "query-string"
 import Modal from "../../../components/Modal"
 /* import PostsList from "../../../components/Admin/Blog/PostsList"
 import Pagination from "../../../components/Pagination"
-import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm"
-import { getPostsApi } from "../../../api/post" */
+import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm" */
+import { getPostsApi } from "../../../api/post"
 import "./Blog.scss"
 
-export default function Blog(props) {
-	/* const { location, history } = props
+function Blog(props) {
+	const { location, history } = props
 	const [posts, setPosts] = useState(null)
-	const [reloadPosts, setReloadPosts] = useState(false) */
+	const [reloadPosts, setReloadPosts] = useState(false)
 	const [isVisibleModal, setIsVisibleModal] = useState(false)
 	const [modalTitle, setModalTitle] = useState("")
 	const [modalContent, setModalContent] = useState(null)
-	/* const { page = 1 } = queryString.parse(location.search) */
+	const { page = 1 } = queryString.parse(location.search)
 
-	/* useEffect(() => {
+	console.log(posts)
+
+	useEffect(() => {
 		getPostsApi(12, page)
-		.then(response => {
-			if (response?.code !== 200) {
-				notification["warning"]({ message: response.message })
-			} else {
-				setPosts(response.posts)
-			}
-		})
-		.catch(() => {
-			notification["error"]({
-			message: "Error del servidor."
+			.then(response => {
+				if (response?.code !== 200) {
+					notification["warning"]({ message: response.message })
+				} else {
+					setPosts(response.posts)
+				}
 			})
-		})
+			.catch(() => { notification["error"]({ message: "Error del servidor." }) })
 		setReloadPosts(false)
-	}, [page, reloadPosts]) */
+	}, [page, reloadPosts])
 
 	/* const addPost = () => {
 		setIsVisibleModal(true)
@@ -91,4 +89,4 @@ export default function Blog(props) {
 	)
 }
 
-//export default withRouter(Blog)
+export default withRouter(Blog)

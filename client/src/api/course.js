@@ -11,7 +11,7 @@ export function getCoursesApi() {
             return result
         })
         .catch(err => {
-            return err.message
+            return err
         })
 }
 

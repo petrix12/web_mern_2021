@@ -14381,14 +14381,90 @@
     + $ git push -u origin main
 
 ### 190. Obteniendo los post de la base de datos con paginación
-5. Commit Video 190:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
++ https://yarnpkg.com/package/query-string
+1. Instalar query-string en el 
+    + $ cd client
+    + $ yarn add query-string
+2. Modificar página **client\src\pages\Admin\Blog\Blog.js**:
     ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" >
+                        Nuevo post
+                    </Button>
+                </div>
+                <h1>Lista de post ....</h1>
+                <h2>Páginación ....</h2>
+                
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
     ```
+3. Crear archivo de peticiones **client\src\api\post.js**:
+    ```js
+    import { basePath, apiVersion } from "./config"
+
+    export function getPostsApi(limit, page) {
+        const url = `${basePath}/${apiVersion}/get-posts?limit=${limit}&page=${page}`
+
+        return fetch(url)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
+4. Commit Video 190:
+    + $ git add .
+    + $ git commit -m "Obteniendo los post de la base de datos con paginación"
+    + $ git push -u origin main
 
 ### 191. Pintando los posts obtenidos en el admin
 5. Commit Video 191:
