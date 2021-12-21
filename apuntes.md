@@ -15179,17 +15179,145 @@
     + $ git push -u origin main
 
 ### 197. 1/2 - Creando nuevos posts
-5. Commit Video 197:
+1. Crear función addPostApi en **client\src\api\post.js**:
+    ```js
+    export function addPostApi(token, course) {
+        const url = `${basePath}/${apiVersion}/add-post`
+
+        const params = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(course)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
+2. Modificar componente **client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.js**:
+    ```js
+    import { useState, useEffect, useRef  } from "react"
+    import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
+    import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import moment from "moment"
+    import { Editor } from "@tinymce/tinymce-react"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { addPostApi } from "../../../../api/post"
+    import "./AddEditPostForm.scss"
+
+    export default function AddEditPostForm(props) {
+        const { setIsVisibleModal, setReloadPosts, post } = props
+        const [postData, setPostData] = useState({})
+
+        useEffect(() => {
+            if (post) {
+                setPostData(post)
+            } else {
+                setPostData({})
+            }
+        }, [post])
+
+        const processPost = e => {
+            (!post) ? console.log('Creando post') : console.log('Editando post')
+            console.log(postData)
+        }
+
+        return (
+            <div className="add-edit-post-form">
+                <AddEditForm
+                    postData={postData}
+                    setPostData={setPostData}
+                    post={post}
+                    processPost={processPost}
+                />
+            </div>
+        )
+    }
+
+    function AddEditForm(props) {
+        const { postData, setPostData, post, processPost } = props
+        const editorRef = useRef(null)
+
+        return (
+            <Form className="add-edit-post-form" layout="inline" onFinish={processPost} >
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Input
+                            prefix={<FontSizeOutlined />}
+                            placeholder="Titulo"
+                            value={postData.title}
+                            onChange={e => setPostData({ ...postData, title: e.target.value })}
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <Input
+                            prefix={<LinkOutlined />}
+                            placeholder="url"
+                            value={postData.url}
+                            onChange={e => setPostData({ ...postData, url: transformTextToUrl(e.target.value) }) }
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <DatePicker
+                            style={{ width: "100%" }}
+                            format="DD/MM/YYYY HH:mm:ss"
+                            placeholder="Fecha de publicación"
+                            value={postData.date && moment(postData.date)}
+                            onChange={(e, value) => setPostData({ ...postData, date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString() }) }
+                        />
+                    </Col>
+                </Row>
+
+                <Editor 
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    value=""
+                    init={{
+                        height: 400,
+                        menubar: true,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                />
+
+                <Button type="primary" htmlType="submit" className="btn-submit">
+                    {post ? "Actualizar post" : "Crear post"}
+                </Button>
+            </Form>
+        )
+    }
+
+    function transformTextToUrl(text) {
+        const url = text.replace(" ", "-")
+        return url.toLowerCase()
+    }
+    ```
+3. Commit Video 197:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "1/2 - Creando nuevos posts"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 198. 2/2 - Creando nuevos posts
-5. Commit Video 198:
+3. Commit Video 198:
     + $ git add .
     + $ git commit -m ""
     + $ git push -u origin main

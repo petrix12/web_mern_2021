@@ -5,7 +5,7 @@ import 'antd/dist/antd.css'
 import moment from "moment"
 import { Editor } from "@tinymce/tinymce-react"
 import { getAccessTokenApi } from "../../../../api/auth"
-/* import { addPostApi, updatePostApi } from "../../../../api/post" */
+import { addPostApi/* , updatePostApi */ } from "../../../../api/post"
 import "./AddEditPostForm.scss"
 
 export default function AddEditPostForm(props) {
@@ -20,22 +20,21 @@ export default function AddEditPostForm(props) {
 		}
 	}, [post])
 
-	/* const processPost = e => {
-		e.preventDefault();
-		const { title, url, description, date } = postData;
+	const processPost = e => {
+		/* const { title, url, description, date } = postData
 
 		if (!title || !url || !description || !date) {
-		notification["error"]({
-			message: "Todos los campos son obligatorios."
-		});
+			notification["error"]({ message: "Todos los campos son obligatorios." })
 		} else {
-		if (!post) {
-			addPost();
-		} else {
-			updatePost();
-		}
-		}
-	} */
+			if (!post) {
+				addPost()
+			} else {
+				updatePost()
+			}
+		} */
+		(!post) ? console.log('Creando post') : console.log('Editando post')
+		console.log(postData)
+	}
 
 	/* const addPost = () => {
 		const token = getAccessTokenApi();
@@ -82,33 +81,33 @@ export default function AddEditPostForm(props) {
 				postData={postData}
 				setPostData={setPostData}
 				post={post}
-				/* processPost={processPost} */
+				processPost={processPost}
 			/>
 		</div>
 	)
 }
 
 function AddEditForm(props) {
-	const { postData, setPostData, post/* , processPost */ } = props
+	const { postData, setPostData, post, processPost } = props
 	const editorRef = useRef(null)
 
 	return (
-		<Form className="add-edit-post-form" layout="inline" /* onFinish={processPost} */>
+		<Form className="add-edit-post-form" layout="inline" onFinish={processPost} >
 			<Row gutter={24}>
 				<Col span={8}>
 					<Input
 						prefix={<FontSizeOutlined />}
 						placeholder="Titulo"
-						//value={postData.title}
-						//onChange={e => setPostData({ ...postData, title: e.target.value })}
+						value={postData.title}
+						onChange={e => setPostData({ ...postData, title: e.target.value })}
 					/>
 				</Col>
 				<Col span={8}>
 					<Input
 						prefix={<LinkOutlined />}
 						placeholder="url"
-						//value={postData.url}
-						//onChange={e => setPostData({ ...postData, url: transformTextToUrl(e.target.value) }) }
+						value={postData.url}
+						onChange={e => setPostData({ ...postData, url: transformTextToUrl(e.target.value) }) }
 					/>
 				</Col>
 				<Col span={8}>
@@ -116,13 +115,8 @@ function AddEditForm(props) {
 						style={{ width: "100%" }}
 						format="DD/MM/YYYY HH:mm:ss"
 						placeholder="Fecha de publicación"
-						/* value={postData.date && moment(postData.date)}
-						onChange={(e, value) =>
-							setPostData({
-								...postData,
-								date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString()
-							})
-						} */
+						value={postData.date && moment(postData.date)}
+						onChange={(e, value) => setPostData({ ...postData, date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString() }) }
 					/>
 				</Col>
 			</Row>
@@ -153,7 +147,7 @@ function AddEditForm(props) {
 	)
 }
 
-/* function transformTextToUrl(text) {
+function transformTextToUrl(text) {
 	const url = text.replace(" ", "-")
 	return url.toLowerCase()
-} */
+}
