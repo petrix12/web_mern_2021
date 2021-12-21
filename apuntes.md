@@ -15848,14 +15848,83 @@
     + $ git push -u origin main
 
 ### 201. 1/2 - Mostrando el listado de todos los posts
+1. Modificar página **client\src\pages\Blog.js**:
+    ```js
+    import { Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import { useParams, withRouter } from "react-router-dom"
+    import PostsListWeb from "../components/Web/Blog/PostsListWeb"
+
+    export default function Blog(props) {
+        const { location, history } = props
+        const { url } = useParams()
+        
+        return (
+            <Row>
+                <Col md={4} />
+                <Col md={16}>
+                    {url ? (
+                        "PostInfo"
+                    ) : (
+                        <PostsListWeb location={location} history={history} />
+                    )}
+                </Col>
+                <Col md={4} />
+            </Row>
+        )
+    }
+    ```
+2. Crear **client\src\components\Web\Blog\PostsListWeb\index.js**:
+    ```js
+    export { default } from "./PostsListWeb"
+    ```
+3. Crear archivo de estilo **client\src\components\Web\Blog\PostsListWeb\PostsListWeb.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .posts-list-web {
+    }
+    ```
+4. Crear componente **client\src\components\Web\Blog\PostsListWeb\PostsListWeb.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Spin, List, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom"
+    import moment from "moment"
+    import queryString from "query-string"
+    import Pagination from "../../../Pagination"
+    import { getPostsApi } from "../../../../api/post"
+    import "moment/locale/es"
+
+    import "./PostsListWeb.scss"
+
+    export default function PostsListWeb(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ essage: "Error del servidor." })
+                })
+        }, [page])
+        
+        return <h1>PostsListWeb</h1>
+    }
+    ```
 5. Commit Video 201:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "1/2 - Mostrando el listado de todos los posts"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 202. 2/2 - Mostrando el listado de todos los posts
 5. Commit Video 202:
