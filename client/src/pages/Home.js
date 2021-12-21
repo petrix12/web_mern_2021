@@ -9,6 +9,7 @@ export default function Home(){
         <>
             <Helmet>
                 <title>Home | Soluciones++</title>
+                <meta name="description" content="Home | Web sobre programación | Soluciones++" data-react-helmet="true"/>
             </Helmet>
             <MainBanner />
             <HomeCourses />

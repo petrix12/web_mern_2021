@@ -27,6 +27,7 @@ export default function Courses() {
         <>
             <Helmet>
                 <title>Cursos | Soluciones++</title>
+                <meta name="description" content="Cursos | Web sobre programación | Soluciones++" data-react-helmet="true"/>
             </Helmet>
             <Row>
                 <Col md={4} />
