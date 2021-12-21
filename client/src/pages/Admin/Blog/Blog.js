@@ -6,7 +6,7 @@ import queryString from "query-string"
 import Modal from "../../../components/Modal"
 import PostsList from "../../../components/Admin/Blog/PostsList"
 import Pagination from "../../../components/Pagination"
-/* import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm" */
+import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm"
 import { getPostsApi } from "../../../api/post"
 import "./Blog.scss"
 
@@ -32,7 +32,7 @@ function Blog(props) {
 		setReloadPosts(false)
 	}, [page, reloadPosts])
 
-	/* const addPost = () => {
+	const addPost = () => {
 		setIsVisibleModal(true)
 		setModalTitle("Creando nuevo post")
 		setModalContent(
@@ -42,7 +42,7 @@ function Blog(props) {
 				post={null}
 			/>
 		)
-	} */
+	}
 
 	/* const editPost = post => {
 		setIsVisibleModal(true)
@@ -63,7 +63,7 @@ function Blog(props) {
 	return (
 		<div className="blog">
 			<div className="blog__add-post">
-				<Button type="primary" /* onClick={addPost} */>
+				<Button type="primary" onClick={addPost}>
 					Nuevo post
 				</Button>
 			</div>
