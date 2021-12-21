@@ -15795,14 +15795,57 @@
     + $ git push -u origin main
 
 ### 200. Rutas del blog de la parte web del usuario
-5. Commit Video 200:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear página **client\src\pages\Blog.js**:
     ```js
+    import { Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import { useParams, withRouter } from "react-router-dom"
+
+    export default function Blog(props) {
+        const { url } = useParams()
+        
+        return <div>{url ? <h1>En un post</h1> : <h1>En una lista de posts</h1>}</div>
+    }
     ```
+2. Construir las rutas **blog** y la ruta específica de un post en **client\src\config\routes.js**:
+    ```js
+    ≡
+    // Pages
+    ≡
+    import Blog from '../pages/Blog'
+    ≡
+    // Sistema de rutas
+    const routes = [
+        ≡
+        {
+            path: "/",
+            component: LayoutBasic,
+            exact: false,
+            routes: [
+                ≡
+                {
+                    path: "/blog",
+                    component: Blog, 
+                    exact: true
+                },
+                {
+                    path: "/blog/:url",
+                    component: Blog, 
+                    exact: true
+                },
+                {
+                    component: Error404
+                }
+            ]
+        }
+    ]
+
+    export default routes
+    ```
+3. Commit Video 200:
+    + $ git add .
+    + $ git commit -m "Rutas del blog de la parte web del usuario"
+    + $ git push -u origin main
 
 ### 201. 1/2 - Mostrando el listado de todos los posts
 5. Commit Video 201:
