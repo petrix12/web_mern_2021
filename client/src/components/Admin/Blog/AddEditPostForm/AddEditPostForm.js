@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react"
 import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
-//import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
-/* import moment from "moment" */
+import moment from "moment"
 import { Editor } from "tinymce"
-/*import { getAccessTokenApi } from "../../../../api/auth"
-import { addPostApi, updatePostApi } from "../../../../api/post" */
+import { getAccessTokenApi } from "../../../../api/auth"
+/* import { addPostApi, updatePostApi } from "../../../../api/post" */
 import "./AddEditPostForm.scss"
 
-export default function AddEditPostForm(/* props */) {
-	/* const { setIsVisibleModal, setReloadPosts, post } = props
-	const [postData, setPostData] = useState({}) */
+export default function AddEditPostForm(props) {
+	const { setIsVisibleModal, setReloadPosts, post } = props
+	const [postData, setPostData] = useState({})
 
-	/* useEffect(() => {
+	useEffect(() => {
 		if (post) {
-		setPostData(post);
+			setPostData(post)
 		} else {
-		setPostData({});
+			setPostData({})
 		}
-	}, [post]) */
+	}, [post])
 
 	/* const processPost = e => {
 		e.preventDefault();
@@ -76,63 +76,57 @@ export default function AddEditPostForm(/* props */) {
 		})
 	} */
 
-	/* return (
+	return (
 		<div className="add-edit-post-form">
-		<AddEditForm
-			postData={postData}
-			setPostData={setPostData}
-			post={post}
-			processPost={processPost}
-		/>
+			<AddEditForm
+				postData={postData}
+				setPostData={setPostData}
+				post={post}
+				/* processPost={processPost} */
+			/>
 		</div>
-	) */
-	return <h1>Add Edit Post Form *****</h1>
+	)
 }
 
-/* function AddEditForm(props) {
-	const { postData, setPostData, post, processPost } = props;
+function AddEditForm(props) {
+	const { postData, setPostData, post/* , processPost */ } = props;
 
 	return (
-		<Form className="add-edit-post-form" layout="inline" onSubmit={processPost}>
+		<Form className="add-edit-post-form" layout="inline" /* onFinish={processPost} */>
 			<Row gutter={24}>
 				<Col span={8}>
-				<Input
-					prefix={<Icon type="font-size" />}
-					placeholder="Titulo"
-					value={postData.title}
-					onChange={e => setPostData({ ...postData, title: e.target.value })}
-				/>
+					<Input
+						prefix={<FontSizeOutlined />}
+						placeholder="Titulo"
+						//value={postData.title}
+						//onChange={e => setPostData({ ...postData, title: e.target.value })}
+					/>
 				</Col>
 				<Col span={8}>
-				<Input
-					prefix={<Icon type="link" />}
-					placeholder="url"
-					value={postData.url}
-					onChange={e =>
-					setPostData({
-						...postData,
-						url: transformTextToUrl(e.target.value)
-					})
-					}
-				/>
+					<Input
+						prefix={<LinkOutlined />}
+						placeholder="url"
+						//value={postData.url}
+						//onChange={e => setPostData({ ...postData, url: transformTextToUrl(e.target.value) }) }
+					/>
 				</Col>
 				<Col span={8}>
-				<DatePicker
-					style={{ width: "100%" }}
-					format="DD/MM/YYYY HH:mm:ss"
-					placeholder="Fecha de publicación"
-					value={postData.date && moment(postData.date)}
-					onChange={(e, value) =>
-					setPostData({
-						...postData,
-						date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString()
-					})
-					}
-				/>
+					<DatePicker
+						style={{ width: "100%" }}
+						format="DD/MM/YYYY HH:mm:ss"
+						placeholder="Fecha de publicación"
+						/* value={postData.date && moment(postData.date)}
+						onChange={(e, value) =>
+							setPostData({
+								...postData,
+								date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString()
+							})
+						} */
+					/>
 				</Col>
 			</Row>
 
-			<Editor
+			{/* <Editor
 				value={postData.description ? postData.description : ""}
 				init={{
 				height: 400,
@@ -154,10 +148,10 @@ export default function AddEditPostForm(/* props */) {
 
 			<Button type="primary" htmlType="submit" className="btn-submit">
 				{post ? "Actualizar post" : "Crear post"}
-			</Button>
+			</Button> */}
 		</Form>
 	)
-} */
+}
 
 /* function transformTextToUrl(text) {
 	const url = text.replace(" ", "-")
