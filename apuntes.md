@@ -16181,7 +16181,7 @@
     + $ cd client
     + $ yarn add react-helmet
 2. Modificar **client\public\index.html**:
-    ```js
+    ```html
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -16409,27 +16409,126 @@
     + $ git push -u origin main
 
 ### 205. Actualizando las meta descripciones
-5. Commit Video 205:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
++ https://yarnpkg.com/package/serve
+1. Instalar **serve** en el equipo:
+    + $ yarn global add serve
+2. Modificar **client\public\index.html**:
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="description" content="Web de programación" data-react-helmet="true" />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <script src="https://cdn.tiny.cloud/1/4be6p71a9hj3eerdgnw75wyxkgtilo59lzwjc0kg9r1gwook/tinymce/5/tinymce.min.js"></script>
 
-    ≡
-    ```js
+        <title>Soluciones++</title>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
+    </html>
     ```
+3. Modificar página **client\src\pages\Home.js**:
+    ```js
+    import { Helmet } from "react-helmet"
+    import MainBanner from "../components/Web/MainBanner"
+    import HomeCourses from "../components/Web/HomeCourses"
+    import HowMyCoursesWork from "../components/Web/HowMyCoursesWork"
+    import ReviewsCourses from "../components/Web/ReviewsCourses"
 
+    export default function Home(){
+        return(
+            <>
+                <Helmet>
+                    <title>Home | Soluciones++</title>
+                    <meta name="description" content="Home | Web sobre programación | Soluciones++" data-react-helmet="true"/>
+                </Helmet>
+                <MainBanner />
+                <HomeCourses />
+                <HowMyCoursesWork />
+                <ReviewsCourses />
+            </>
+        )
+    }
+    ```
+4. Modificar página **client\src\pages\Courses.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Spin, notification } from "antd"
+    import { Helmet } from "react-helmet"
+    import { getCoursesApi } from "../api/course"
+    import PresentationCourses from "../components/Web/Courses/PresentationCourses"
+    import CoursesList from "../components/Web/Courses/CoursesList"
+
+    export default function Courses() {
+        const [courses, setCourses] = useState(null)
+        console.log(courses)
+
+        useEffect(() => {
+            getCoursesApi()
+                .then(response => {
+                    if(response?.code !== 200){
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setCourses(response.courses)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor, intentelo más tarde." })
+                })
+        }, [])
+
+        return (
+            <>
+                <Helmet>
+                    <title>Cursos | Soluciones++</title>
+                    <meta name="description" content="Cursos | Web sobre programación | Soluciones++" data-react-helmet="true"/>
+                </Helmet>
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                        <PresentationCourses />
+                        {!courses ? (
+                            <Spin tip="Cargando cursos" style={{ textAlign: "center", width: "100%", padding: "20px"}} />
+                        ) : (
+                            <CoursesList courses={courses} />
+                        )}
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </>
+        )
+    }
+    ```
+5. Seguir los siguiente pasos para poder ver la descripción de la página:
+   + $ Ctrl + C
+   + $ yarn build
+   + **Nota**: se creara una carpeta de nombre **client\build**, en donde se encontrará nuestro proyecto cliente compilado. Esta carpeta será la que se tendrá que subir a producción.
+   + Ejecutar el proyecto compilado:
+       + serve build
+6. Commit Video 205:
+    + $ git add .
+    + $ git commit -m "Actualizando las meta descripciones"
+    + $ git push -u origin main
 
 ## Sección 16: Desplegando aplicación
 
 ### 206. Cambiando el favicon
-5. Commit Video 206:
+1. Borrar las siguientes imagenes:
+   + client\public\logo192.png
+   + client\public\logo512.png
+2. Reemplazar el favicon **client\public\favicon.ico** por el nuestro, luego reiniciar el servidor del cliente.
+4. Commit Video 206:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Cambiando el favicon"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 207. Subiendo base de datos a MongoDB Atlas
 5. Commit Video 207:
