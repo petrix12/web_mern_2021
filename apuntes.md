@@ -16176,14 +16176,237 @@
 ## Sección 15: SEO con React Helmet
 
 ### 204. Instalando React Helmet y Actualizando todos los títulos de la web
-5. Commit Video 204:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
++ https://yarnpkg.com/package/react-helmet
+1. Ir al proyecto cliente e instalar react-helmet:
+    + $ cd client
+    + $ yarn add react-helmet
+2. Modificar **client\public\index.html**:
     ```js
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="description" content="Web de programación" />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <script src="https://cdn.tiny.cloud/1/4be6p71a9hj3eerdgnw75wyxkgtilo59lzwjc0kg9r1gwook/tinymce/5/tinymce.min.js"></script>
+
+        <title>Soluciones++</title>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
+    </html>
     ```
+3. Modificar página **client\src\pages\Courses.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Spin, notification } from "antd"
+    import { Helmet } from "react-helmet"
+    import { getCoursesApi } from "../api/course"
+    import PresentationCourses from "../components/Web/Courses/PresentationCourses"
+    import CoursesList from "../components/Web/Courses/CoursesList"
+
+    export default function Courses() {
+        const [courses, setCourses] = useState(null)
+        console.log(courses)
+
+        useEffect(() => {
+            getCoursesApi()
+                .then(response => {
+                    if(response?.code !== 200){
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setCourses(response.courses)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor, intentelo más tarde." })
+                })
+        }, [])
+
+        return (
+            <>
+                <Helmet>
+                    <title>Cursos | Soluciones++</title>
+                </Helmet>
+                <Row>
+                    <Col md={4} />
+                    <Col md={16}>
+                        <PresentationCourses />
+                        {!courses ? (
+                            <Spin tip="Cargando cursos" style={{ textAlign: "center", width: "100%", padding: "20px"}} />
+                        ) : (
+                            <CoursesList courses={courses} />
+                        )}
+                    </Col>
+                    <Col md={4} />
+                </Row>
+            </>
+        )
+    }
+    ```
+4. Modificar página **client\src\pages\Home.js**:
+    ```js
+    import { Helmet } from "react-helmet"
+    import MainBanner from "../components/Web/MainBanner"
+    import HomeCourses from "../components/Web/HomeCourses"
+    import HowMyCoursesWork from "../components/Web/HowMyCoursesWork"
+    import ReviewsCourses from "../components/Web/ReviewsCourses"
+
+    export default function Home(){
+        return(
+            <>
+                <Helmet>
+                    <title>Home | Soluciones++</title>
+                </Helmet>
+                <MainBanner />
+                <HomeCourses />
+                <HowMyCoursesWork />
+                <ReviewsCourses />
+            </>
+        )
+    }
+    ```
+5. Modificar componente **client\src\components\Web\Blog\PostInfo\PostInfo.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Spin, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { Helmet } from "react-helmet"
+    import moment from "moment"
+    import { getPostApi } from "../../../../api/post"
+    import "moment/locale/es"
+    import "./PostInfo.scss"
+
+    export default function PostInfo(props) {
+        const { url } = props
+        const [postInfo, setPostInfo] = useState(null)
+
+        useEffect(() => {
+            getPostApi(url)
+                .then(response => {
+                    if (response.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPostInfo(response.post)
+                    }
+                })
+                .catch(() => {
+                    notification["warning"]({ message: "Error del servidor." })
+                })
+        }, [url])
+
+        if (!postInfo) {
+            return (
+                <Spin tip="Cargando" style={{ width: "100%", padding: "200px 0" }} />
+            )
+        }
+
+        return (
+            <>
+                <Helmet>
+                    <title>{postInfo.title} | Soluciones++</title>
+                </Helmet>
+                <div className="post-info">
+                    <h1 className="post-info__title">{postInfo.title}</h1>
+                    <div className="post-info__creation-date">
+                        {moment(postInfo.date).local("es").format("LL")}
+                    </div>
+
+                    <div
+                        className="post-info__description"
+                        dangerouslySetInnerHTML={{ __html: postInfo.description }}
+                    />
+                </div>
+            </>
+        )
+    }
+    ```
+6. Modificar componente **client\src\components\Web\Blog\PostsListWeb\PostsListWeb.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Spin, List, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom"
+    import { Helmet } from "react-helmet"
+    import moment from "moment"
+    import queryString from "query-string"
+    import Pagination from "../../../Pagination"
+    import { getPostsApi } from "../../../../api/post"
+    import "moment/locale/es"
+
+    import "./PostsListWeb.scss"
+
+    export default function PostsListWeb(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => {
+                    notification["error"]({ essage: "Error del servidor." })
+                })
+        }, [page])
+
+        if (!posts) {
+            return (
+                <Spin tip="Cargando" style={{ width: "100%", padding: "200px 0" }} />
+            )
+        }
+
+        return (
+            <>
+                <Helmet>
+                    <title>Blog de programación | Soluciones++</title>
+                </Helmet>
+                <div className="posts-list-web">
+                    <h1>Blog</h1>
+                    <List
+                        dataSource={posts.docs}
+                        renderItem={post => <Post post={post} />}
+                    />
+                    <Pagination posts={posts} location={location} history={history} />
+                </div>
+            </>
+        )
+    }
+
+    function Post(props) {
+        const { post } = props
+        const day = moment(post.date).format("DD")
+        const month = moment(post.date).format("MMMM")
+
+        return (
+            <List.Item className="post">
+                <div className="post__date">
+                    <span>{day}</span>
+                    <span>{month}</span>
+                </div>
+                <Link to={`blog/${post.url}`}>
+                    <List.Item.Meta title={post.title} />
+                </Link>
+            </List.Item>
+        )
+    }
+    ```
+7. Commit Video 204:
+    + $ git add .
+    + $ git commit -m "Instalando React Helmet y Actualizando todos los títulos de la web"
+    + $ git push -u origin main
 
 ### 205. Actualizando las meta descripciones
 5. Commit Video 205:

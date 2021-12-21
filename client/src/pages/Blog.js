@@ -1,6 +1,6 @@
 import { Row, Col } from "antd"
 import 'antd/dist/antd.css'
-import { useParams, withRouter } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import PostsListWeb from "../components/Web/Blog/PostsListWeb"
 import PostInfo from "../components/Web/Blog/PostInfo"
 

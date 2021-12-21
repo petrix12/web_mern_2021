@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Spin, List, notification } from "antd"
 import 'antd/dist/antd.css'
 import { Link } from "react-router-dom"
-/* import { Helmet } from "react-helmet" */
+import { Helmet } from "react-helmet"
 import moment from "moment"
 import queryString from "query-string"
 import Pagination from "../../../Pagination"
@@ -36,10 +36,10 @@ export default function PostsListWeb(props) {
 		)
 	}
 
-	/* return (
+	return (
 		<>
 			<Helmet>
-				<title>Blog de programación | Agustín Navarro Galdon</title>
+				<title>Blog de programación | Soluciones++</title>
 			</Helmet>
 			<div className="posts-list-web">
 				<h1>Blog</h1>
@@ -50,8 +50,8 @@ export default function PostsListWeb(props) {
 				<Pagination posts={posts} location={location} history={history} />
 			</div>
 		</>
-	) */
-	return (
+	)
+	/* return (
 		<div className="posts-list-web">
 			<h1>Blog</h1>
 			<List
@@ -60,7 +60,7 @@ export default function PostsListWeb(props) {
 			/>
 			<Pagination posts={posts} location={location} history={history} />
 		</div>
-	)
+	) */
 }
 
 function Post(props) {
