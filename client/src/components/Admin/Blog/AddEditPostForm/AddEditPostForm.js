@@ -21,7 +21,7 @@ export default function AddEditPostForm(props) {
 	}, [post])
 
 	const processPost = e => {
-		/* const { title, url, description, date } = postData
+		const { title, url, description, date } = postData
 
 		if (!title || !url || !description || !date) {
 			notification["error"]({ message: "Todos los campos son obligatorios." })
@@ -29,32 +29,28 @@ export default function AddEditPostForm(props) {
 			if (!post) {
 				addPost()
 			} else {
-				updatePost()
+				//updatePost()
+				console.log('Editando post')
 			}
-		} */
-		(!post) ? console.log('Creando post') : console.log('Editando post')
+		}
 		console.log(postData)
 	}
 
-	/* const addPost = () => {
+	const addPost = () => {
 		const token = getAccessTokenApi();
 
 		addPostApi(token, postData)
-		.then(response => {
-			const typeNotification = response.code === 200 ? "success" : "warning";
-			notification[typeNotification]({
-			message: response.message
-			});
-			setIsVisibleModal(false)
-			setReloadPosts(true)
-			setPostData({})
-		})
-		.catch(() => {
-			notification["error"]({
-			message: "Error del servidor."
+			.then(response => {
+				const typeNotification = response.code === 200 ? "success" : "warning"
+				notification[typeNotification]({ message: response.message })
+				setIsVisibleModal(false)
+				setReloadPosts(true)
+				setPostData({})
 			})
-		})
-	} */
+			.catch(() => {
+				notification["error"]({ message: "Error del servidor." })
+			})
+	}
 
 	/* const updatePost = () => {
 		const token = getAccessTokenApi();
@@ -123,7 +119,7 @@ function AddEditForm(props) {
 
 			<Editor 
 				onInit={(evt, editor) => editorRef.current = editor}
-				value=""
+				value={postData.description ? postData.description : ""}
 				init={{
 					height: 400,
 					menubar: true,
@@ -138,6 +134,7 @@ function AddEditForm(props) {
 						'removeformat | help',
 					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 				}}
+				onBlur={e => setPostData({ ...postData, description: e.target.getContent() })}
 			/>
 
 			<Button type="primary" htmlType="submit" className="btn-submit">
