@@ -16039,15 +16039,139 @@
     + $ git push -u origin main
 
 ### 203. Mostrando la información del post seleccionado
-5. Commit Video 203:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Crear **client\src\components\Web\Blog\PostInfo\index.js**:
     ```js
+    export { default } from "./PostInfo"
     ```
+2. Crear archivo de estilo **client\src\components\Web\Blog\PostInfo\PostInfo.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
 
+    .post-info {
+        margin-top: 50px;
+
+        &__title {
+            text-align: center;
+            margin-bottom: 0;
+            color: $font-light;
+            font-weight: bold;
+            font-size: 40px;
+        }
+
+        &__creation-date {
+            text-align: center;
+            color: $font-light;
+            width: 100%;
+            margin-bottom: 100px;
+        }
+
+        &__description {
+            color: $primary-color-dark;
+            font-size: 16px;
+            margin-bottom: 100px;
+        }
+    }
+    ```
+3. Crear componente **client\src\components\Web\Blog\PostInfo\PostInfo.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Spin, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import moment from "moment"
+    import { getPostApi } from "../../../../api/post"
+    import "moment/locale/es"
+    import "./PostInfo.scss"
+
+    export default function PostInfo(props) {
+        const { url } = props
+        const [postInfo, setPostInfo] = useState(null)
+
+        useEffect(() => {
+            getPostApi(url)
+                .then(response => {
+                    if (response.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPostInfo(response.post)
+                    }
+                })
+                .catch(() => {
+                    notification["warning"]({ message: "Error del servidor." })
+                })
+        }, [url])
+
+        if (!postInfo) {
+            return (
+                <Spin tip="Cargando" style={{ width: "100%", padding: "200px 0" }} />
+            )
+        }
+
+        return (
+            <>
+                <div className="post-info">
+                    <h1 className="post-info__title">{postInfo.title}</h1>
+                    <div className="post-info__creation-date">
+                        {moment(postInfo.date).local("es").format("LL")}
+                    </div>
+
+                    <div
+                        className="post-info__description"
+                        dangerouslySetInnerHTML={{ __html: postInfo.description }}
+                    />
+                </div>
+            </>
+        )
+    }
+    ```
+4. Modificar página **client\src\pages\Blog.js**:
+    ```js
+    import { Row, Col } from "antd"
+    import 'antd/dist/antd.css'
+    import { useParams, withRouter } from "react-router-dom"
+    import PostsListWeb from "../components/Web/Blog/PostsListWeb"
+    import PostInfo from "../components/Web/Blog/PostInfo"
+
+    export default function Blog(props) {
+        const { location, history } = props
+        const { url } = useParams()
+        
+        return (
+            <Row>
+                <Col md={4} />
+                <Col md={16}>
+                    {url ? (
+                        <PostInfo url={url} />
+                    ) : (
+                        <PostsListWeb location={location} history={history} />
+                    )}
+                </Col>
+                <Col md={4} />
+            </Row>
+        )
+    }
+    ```
+5. Agregar función **getPostApi** en **client\src\api\post.js**:
+    ```js
+    ≡
+    export function getPostApi(urlPost) {
+        const url = `${basePath}/${apiVersion}/get-post/${urlPost}`
+
+        return fetch(url)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
+6. Commit Video 203:
+    + $ git add .
+    + $ git commit -m "Mostrando la información del post seleccionado"
+    + $ git push -u origin main
 
 ## Sección 15: SEO con React Helmet
 
