@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef  } from "react"
 import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
 import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import moment from "moment"
-import { Editor } from "tinymce"
+import { Editor } from "@tinymce/tinymce-react"
 import { getAccessTokenApi } from "../../../../api/auth"
 /* import { addPostApi, updatePostApi } from "../../../../api/post" */
 import "./AddEditPostForm.scss"
@@ -89,7 +89,8 @@ export default function AddEditPostForm(props) {
 }
 
 function AddEditForm(props) {
-	const { postData, setPostData, post/* , processPost */ } = props;
+	const { postData, setPostData, post/* , processPost */ } = props
+	const editorRef = useRef(null)
 
 	return (
 		<Form className="add-edit-post-form" layout="inline" /* onFinish={processPost} */>
@@ -126,29 +127,28 @@ function AddEditForm(props) {
 				</Col>
 			</Row>
 
-			{/* <Editor
-				value={postData.description ? postData.description : ""}
+			<Editor 
+				onInit={(evt, editor) => editorRef.current = editor}
+				value=""
 				init={{
-				height: 400,
-				menubar: true,
-				plugins: [
-					"advlist autolink lists link image charmap print preview anchor",
-					"searchreplace visualblocks code fullscreen",
-					"insertdatetime media table paste code help wordcount"
-				],
-				toolbar:
-					"undo redo | formatselect | bold italic backcolor | \
-					alignleft aligncenter alignright alignjustify | \
-					bullist numlist outdent indent | removeformat | help"
+					height: 400,
+					menubar: true,
+					plugins: [
+						'advlist autolink lists link image charmap print preview anchor',
+						'searchreplace visualblocks code fullscreen',
+						'insertdatetime media table paste code help wordcount'
+					],
+					toolbar: 'undo redo | formatselect | ' +
+						'bold italic backcolor | alignleft aligncenter ' +
+						'alignright alignjustify | bullist numlist outdent indent | ' +
+						'removeformat | help',
+					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 				}}
-				onBlur={e =>
-				setPostData({ ...postData, description: e.target.getContent() })
-				}
 			/>
 
 			<Button type="primary" htmlType="submit" className="btn-submit">
 				{post ? "Actualizar post" : "Crear post"}
-			</Button> */}
+			</Button>
 		</Form>
 	)
 }

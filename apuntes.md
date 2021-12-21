@@ -14860,34 +14860,323 @@
     + $ git push -u origin main
 
 ### 194. 1/3 - Estructura del formulario con editor TinyMCE
-5. Commit Video 194:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
++ https://yarnpkg.com/package/tinymce
++ https://yarnpkg.com/package/moment
+1. Instalar **TinyMCE** en el proyecto cliente:
+    + $ cd client
+    + $ yarn add @tinymce/tinymce-react
+2. Modificar página **client\src\pages\Admin\Blog\Blog.js**:
     ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import PostsList from "../../../components/Admin/Blog/PostsList"
+    import Pagination from "../../../components/Pagination"
+    import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        const addPost = () => {
+            setIsVisibleModal(true)
+            setModalTitle("Creando nuevo post")
+            setModalContent(
+                <AddEditPostForm
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadPosts={setReloadPosts}
+                    post={null}
+                />
+            )
+        }
+
+        if (!posts) {
+            return null
+        }
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" onClick={addPost}>
+                        Nuevo post
+                    </Button>
+                </div>
+                <PostsList posts={posts} setReloadPosts={setReloadPosts} />
+                <Pagination posts={posts} location={location} history={history} />
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
     ```
+3. Crear **client\src\components\Admin\Blog\AddEditPostForm\index.js**:
+    ```js
+    export { default } from "./AddEditPostForm"
+    ```
+4. Crear archivo de estilo client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.scss:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .add-edit-post-form {
+    }
+    ```
+5. Crear componente **client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { Editor } from "tinymce"
+    import "./AddEditPostForm.scss"
+
+    export default function AddEditPostForm() {
+        return <h1>Add Edit Post Form *****</h1>
+    }
+    ```
+6. Instalar moment en el proyecto cliente:
+    + $ cd client
+    + $ yarn add moment
+7. Commit Video 194:
+    + $ git add .
+    + $ git commit -m "1/3 - Estructura del formulario con editor TinyMCE"
+    + $ git push -u origin main
 
 ### 195. 2/3 - Estructura del formulario con editor TinyMCE
-5. Commit Video 195:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
+1. Modificar componente client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.js:
     ```js
+    import { useState, useEffect } from "react"
+    import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
+    import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import moment from "moment"
+    import { Editor } from "tinymce"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./AddEditPostForm.scss"
+
+    export default function AddEditPostForm(props) {
+        const { setIsVisibleModal, setReloadPosts, post } = props
+        const [postData, setPostData] = useState({})
+
+        useEffect(() => {
+            if (post) {
+                setPostData(post)
+            } else {
+                setPostData({})
+            }
+        }, [post])
+
+        return (
+            <div className="add-edit-post-form">
+                <AddEditForm
+                    postData={postData}
+                    setPostData={setPostData}
+                    post={post}
+                />
+            </div>
+        )
+    }
+
+    function AddEditForm(props) {
+        const { postData, setPostData, post } = props;
+
+        return (
+            <Form className="add-edit-post-form" layout="inline" >
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Input
+                            prefix={<FontSizeOutlined />}
+                            placeholder="Titulo"
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <Input
+                            prefix={<LinkOutlined />}
+                            placeholder="url"
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <DatePicker
+                            style={{ width: "100%" }}
+                            format="DD/MM/YYYY HH:mm:ss"
+                            placeholder="Fecha de publicación"
+                        />
+                    </Col>
+                </Row>
+            </Form>
+        )
+    }
     ```
+2. Commit Video 195:
+    + $ git add .
+    + $ git commit -m "195. 2/3 - Estructura del formulario con editor TinyMCE"
+    + $ git push -u origin main
 
 ### 196. 3/3 - Estructura del formulario con editor TinyMCE
-5. Commit Video 196:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
-    ```js
++ https://www.tiny.cloud/docs/quick-start
++ https://www.tiny.cloud/docs/integrations/react/#tinymcereactintegrationquickstartguide
+1. Registrarse en https://www.tiny.cloud/my-account/dashboard/?already-logged-in y obtener API Key, y generar el siguiente script:
+    ```html
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
     ```
+    Reemplazar:
+    + no-api-key
+    Por el key obtenido:
+    + 4be6p71a9hj3eerdgnw75wyxkgtilo59lzwjc0kg9r1gwook
+2. Modificar **client\public\index.html**:
+    ```html
+    ≡
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script src="https://cdn.tiny.cloud/1/4be6p71a9hj3eerdgnw75wyxkgtilo59lzwjc0kg9r1gwook/tinymce/5/tinymce.min.js"></script>
+    ≡
+    ```
+4. Modificar componente **client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.js**:
+    ```js
+    import { useState, useEffect, useRef  } from "react"
+    import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
+    import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import moment from "moment"
+    import { Editor } from "@tinymce/tinymce-react"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import "./AddEditPostForm.scss"
+
+    export default function AddEditPostForm(props) {
+        const { setIsVisibleModal, setReloadPosts, post } = props
+        const [postData, setPostData] = useState({})
+
+        useEffect(() => {
+            if (post) {
+                setPostData(post)
+            } else {
+                setPostData({})
+            }
+        }, [post])
+
+        return (
+            <div className="add-edit-post-form">
+                <AddEditForm
+                    postData={postData}
+                    setPostData={setPostData}
+                    post={post}
+                />
+            </div>
+        )
+    }
+
+    function AddEditForm(props) {
+        const { postData, setPostData, post } = props
+        const editorRef = useRef(null)
+
+        return (
+            <Form className="add-edit-post-form" layout="inline" >
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Input
+                            prefix={<FontSizeOutlined />}
+                            placeholder="Titulo"
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <Input
+                            prefix={<LinkOutlined />}
+                            placeholder="url"
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <DatePicker
+                            style={{ width: "100%" }}
+                            format="DD/MM/YYYY HH:mm:ss"
+                            placeholder="Fecha de publicación"
+                        />
+                    </Col>
+                </Row>
+
+                <Editor 
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    value=""
+                    init={{
+                        height: 400,
+                        menubar: true,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                />
+
+                <Button type="primary" htmlType="submit" className="btn-submit">
+                    {post ? "Actualizar post" : "Crear post"}
+                </Button>
+            </Form>
+        )
+    }
+    ```
+5. Modificar archivo de estilo **client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.scss**:
+    ```scss
+    @import "../../../../scss/index.scss";
+
+    .add-edit-post-form {
+        text-align: center;
+
+        .ant-form-item {
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+            i {
+                color: rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .tox-tinymce {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .btn-submit {
+            width: 100%;
+        }
+    }
+    ```
+6. Commit Video 196:
+    + $ git add .
+    + $ git commit -m "3/3 - Estructura del formulario con editor TinyMCE"
+    + $ git push -u origin main
 
 ### 197. 1/2 - Creando nuevos posts
 5. Commit Video 197:
