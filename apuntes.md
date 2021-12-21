@@ -15456,14 +15456,343 @@
     + $ git push -u origin main
 
 ### 199. Editando posts
+1. Modificar página **client\src\pages\Admin\Blog\Blog.js**:
+    ```js
+    import { useState, useEffect } from "react"
+    import { Button, notification } from "antd"
+    import 'antd/dist/antd.css'
+    import { withRouter } from "react-router-dom"
+    import queryString from "query-string"
+    import Modal from "../../../components/Modal"
+    import PostsList from "../../../components/Admin/Blog/PostsList"
+    import Pagination from "../../../components/Pagination"
+    import AddEditPostForm from "../../../components/Admin/Blog/AddEditPostForm"
+    import { getPostsApi } from "../../../api/post"
+    import "./Blog.scss"
+
+    function Blog(props) {
+        const { location, history } = props
+        const [posts, setPosts] = useState(null)
+        const [reloadPosts, setReloadPosts] = useState(false)
+        const [isVisibleModal, setIsVisibleModal] = useState(false)
+        const [modalTitle, setModalTitle] = useState("")
+        const [modalContent, setModalContent] = useState(null)
+        const { page = 1 } = queryString.parse(location.search)
+
+        useEffect(() => {
+            getPostsApi(12, page)
+                .then(response => {
+                    if (response?.code !== 200) {
+                        notification["warning"]({ message: response.message })
+                    } else {
+                        setPosts(response.posts)
+                    }
+                })
+                .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+            setReloadPosts(false)
+        }, [page, reloadPosts])
+
+        const addPost = () => {
+            setIsVisibleModal(true)
+            setModalTitle("Creando nuevo post")
+            setModalContent(
+                <AddEditPostForm
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadPosts={setReloadPosts}
+                    post={null}
+                />
+            )
+        }
+
+        const editPost = post => {
+            setIsVisibleModal(true)
+            setModalTitle("Editar post")
+            setModalContent(
+                <AddEditPostForm
+                    setIsVisibleModal={setIsVisibleModal}
+                    setReloadPosts={setReloadPosts}
+                    post={post}
+                />
+            )
+        }
+
+        if (!posts) {
+            return null
+        }
+
+        return (
+            <div className="blog">
+                <div className="blog__add-post">
+                    <Button type="primary" onClick={addPost}>
+                        Nuevo post
+                    </Button>
+                </div>
+                <PostsList posts={posts} setReloadPosts={setReloadPosts} editPost={editPost} />
+                <Pagination posts={posts} location={location} history={history} />
+                
+                <Modal
+                    title={modalTitle}
+                    isVisible={isVisibleModal}
+                    setIsVisible={setIsVisibleModal}
+                    width="75%"
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        )
+    }
+
+    export default withRouter(Blog)
+    ```
+2. Modificar componente **client\src\components\Admin\Blog\PostsList\PostsList.js**:
+    ```js
+    import { List, Button, Modal, notification } from "antd"
+    import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import { Link } from "react-router-dom"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { deletePostApi } from "../../../../api/post"
+    import "./PostsList.scss"
+
+    const { confirm } = Modal
+
+    export default function PostsList(props)  {
+        const { posts, setReloadPosts, editPost } = props
+
+        const deletePost = post => {
+            const accessToken = getAccessTokenApi();
+    
+            confirm({
+                title: "Eliminando post",
+                content: `¿Estas seguro de eliminar el post ${post.title}?`,
+                okText: "Eliminar",
+                okType: "danger",
+                cancelText: "Cancelar",
+                onOk() {
+                    deletePostApi(accessToken, post._id)
+                        .then(response => {
+                            const typeNotification = response.code === 200 ? "success" : "warning"
+                            notification[typeNotification]({ message: response.message })
+                            setReloadPosts(true)
+                        })
+                        .catch(() => { notification["error"]({ message: "Error del servidor." }) })
+                }
+            })
+        }
+
+        return (
+            <div className="posts-list">
+                <List
+                    dataSource={posts.docs}
+                    renderItem={post => ( <Post post={post} deletePost={deletePost} editPost={editPost} /> )}
+                />
+            </div>
+        )
+    }
+
+    function Post(props) {
+        const { post, deletePost, editPost } = props
+
+        return (
+            <List.Item
+                actions={[
+                    <Link to={`/blog/${post.url}`} target="_blank">
+                        <Button type="primary">
+                            <EyeOutlined />
+                        </Button>
+                    </Link>,
+                    <Button type="primary" onClick={() => editPost(post)}>
+                        <EditOutlined />
+                    </Button>,
+                    <Button type="danger" onClick={() => deletePost(post)}>
+                        <DeleteOutlined />
+                    </Button>
+                ]}
+            >
+                <List.Item.Meta title={post.title} />
+            </List.Item>
+        )
+    }
+    ```
+3. Modificar componente **client\src\components\Admin\Blog\AddEditPostForm\AddEditPostForm.js**:
+    ```js
+    import { useState, useEffect, useRef  } from "react"
+    import { Row, Col, Form, Input, Button, DatePicker, notification } from "antd"
+    import { FontSizeOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons'
+    import 'antd/dist/antd.css'
+    import moment from "moment"
+    import { Editor } from "@tinymce/tinymce-react"
+    import { getAccessTokenApi } from "../../../../api/auth"
+    import { addPostApi, updatePostApi } from "../../../../api/post"
+    import "./AddEditPostForm.scss"
+
+    export default function AddEditPostForm(props) {
+        const { setIsVisibleModal, setReloadPosts, post } = props
+        const [postData, setPostData] = useState({})
+
+        useEffect(() => {
+            if (post) {
+                setPostData(post)
+            } else {
+                setPostData({})
+            }
+        }, [post])
+
+        const processPost = e => {
+            const { title, url, description, date } = postData
+
+            if (!title || !url || !description || !date) {
+                notification["error"]({ message: "Todos los campos son obligatorios." })
+            } else {
+                if (!post) {
+                    addPost()
+                } else {
+                    updatePost()
+                }
+            }
+            console.log(postData)
+        }
+
+        const addPost = () => {
+            const token = getAccessTokenApi();
+
+            addPostApi(token, postData)
+                .then(response => {
+                    const typeNotification = response.code === 200 ? "success" : "warning"
+                    notification[typeNotification]({ message: response.message })
+                    setIsVisibleModal(false)
+                    setReloadPosts(true)
+                    setPostData({})
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor." })
+                })
+        }
+
+        const updatePost = () => {
+            const token = getAccessTokenApi()
+            updatePostApi(token, post._id, postData)
+                .then(response => {
+                    const typeNotification = response.code === 200 ? "success" : "warning"
+                    notification[typeNotification]({ message: response.message })
+                    setIsVisibleModal(false)
+                    setReloadPosts(true)
+                    setPostData({})
+                })
+                .catch(() => {
+                    notification["error"]({ message: "Error del servidor." })
+                })
+        }
+
+        return (
+            <div className="add-edit-post-form">
+                <AddEditForm
+                    postData={postData}
+                    setPostData={setPostData}
+                    post={post}
+                    processPost={processPost}
+                />
+            </div>
+        )
+    }
+
+    function AddEditForm(props) {
+        const { postData, setPostData, post, processPost } = props
+        const editorRef = useRef(null)
+
+        return (
+            <Form className="add-edit-post-form" layout="inline" onFinish={processPost} >
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Input
+                            prefix={<FontSizeOutlined />}
+                            placeholder="Titulo"
+                            value={postData.title}
+                            onChange={e => setPostData({ ...postData, title: e.target.value })}
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <Input
+                            prefix={<LinkOutlined />}
+                            placeholder="url"
+                            value={postData.url}
+                            onChange={e => setPostData({ ...postData, url: transformTextToUrl(e.target.value) }) }
+                        />
+                    </Col>
+                    <Col span={8}>
+                        <DatePicker
+                            style={{ width: "100%" }}
+                            format="DD/MM/YYYY HH:mm:ss"
+                            placeholder="Fecha de publicación"
+                            value={postData.date && moment(postData.date)}
+                            onChange={(e, value) => setPostData({ ...postData, date: moment(value, "DD/MM/YYYY HH:mm:ss").toISOString() }) }
+                        />
+                    </Col>
+                </Row>
+
+                <Editor 
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    value={postData.description ? postData.description : ""}
+                    init={{
+                        height: 400,
+                        menubar: true,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                    onBlur={e => setPostData({ ...postData, description: e.target.getContent() })}
+                />
+
+                <Button type="primary" htmlType="submit" className="btn-submit">
+                    {post ? "Actualizar post" : "Crear post"}
+                </Button>
+            </Form>
+        )
+    }
+
+    function transformTextToUrl(text) {
+        const url = text.replace(" ", "-")
+        return url.toLowerCase()
+    }
+    ```
+4. Crear función **addPostApi** en **client\src\api\post.js**:
+    ```js
+    ≡
+    export function updatePostApi(token, id, data) {
+        const url = `${basePath}/${apiVersion}/update-post/${id}`
+
+        const params = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token
+            },
+            body: JSON.stringify(data)
+        }
+
+        return fetch(url, params)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                return result
+            })
+            .catch(err => {
+                return err
+            })
+    }
+    ```
 5. Commit Video 199:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Editando posts"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
 
 ### 200. Rutas del blog de la parte web del usuario
 5. Commit Video 200:
