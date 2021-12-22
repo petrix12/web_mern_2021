@@ -16531,14 +16531,42 @@
     + $ git push -u origin main
 
 ### 207. Subiendo base de datos a MongoDB Atlas
-5. Commit Video 207:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
-    ```js
++ https://www.mongodb.com/atlas/database
+1. Iniciar sesión en https://account.mongodb.com/account/login
+2. Crear un nuevo Cluster.
+3. Ir a **Network Access**, presionar en **+ ADD IP ADDRESS** y seleccionar **ALLOW ACCESS FROM ANYWHERE**.
+4. Ir a **Databases** y presionar en **Connect**, seleccionar **Connect Your Application** y copiar la cadena de conexión.
     ```
+    mongodb+srv://petrix:<password>@cluster0.1xxtr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+    ```
+5. Modificar **server\index.js** para que conecte con la base de datos de Atlas:
+    ```js
+    const mongoose = require("mongoose")
+    const app = require("./app")
+    const port = process.env.PORT || 3977
+    const { API_VERSION, IP_SERVER, PORT_DB } = require("./config")
+
+    mongoose.connect(
+        //`mongodb://${IP_SERVER}:${PORT_DB}/solucionespp`, 
+        `mongodb+srv://petrix:micontraseña@cluster0.hrqzg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+        {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
+        if(err){
+            throw err
+        }else{
+            console.log('Conexión exitosa a MongoDB')
+            app.listen(port, () => {
+                console.log("########################")
+                console.log("####### API REST #######")
+                console.log("########################")
+                console.log(`http://${IP_SERVER}:${port}/api/${API_VERSION}/`)
+            })
+        }
+    });
+    ```
+6. Commit Video 207:
+    + $ git add .
+    + $ git commit -m "Subiendo base de datos a MongoDB Atlas"
+    + $ git push -u origin main
 
 ### 208. Subiendo Servidor a Heroku
 5. Commit Video 208:
