@@ -16643,9 +16643,12 @@
 ## Sección 17: Despedida
 
 ### 210. Repositorio de la aplicación
-5. Commit Video 210:
+1. Repositorio de la aplicación:
+    + Client > https://github.com/xAgustin93/web-personal-client
+    + Server > https://github.com/xAgustin93/web-personal-server
+2. Commit Video 210:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Repositorio de la aplicación"
     + $ git push -u origin main
 
     ≡
