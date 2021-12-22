@@ -16569,14 +16569,45 @@
     + $ git push -u origin main
 
 ### 208. Subiendo Servidor a Heroku
-5. Commit Video 208:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
-    ```js
+1. Modificar **server\package.json**:
+    ```json
+    {
+        ≡
+        "dependencies": {
+            ≡
+        },
+        "devDependencies": {
+            "nodemon": "^1.19.2"
+        },
+        "scripts": {
+            "dev": "nodemon index.js",
+            "start": "node index.js"
+        }
+    }
     ```
+2. Crear **server\procfile**:
+    ```
+    web: node index.js
+    ```
+3. Ingresar a [Heroku](https://www.heroku.com)
+4. En la terminal en local:
+    + $ cd server
+    + $ heroku login
+    + $ heroku app:create solppmern2021
+    + $ git init
+    + $ heroku git:remote -a solppmern2021
+    + $ git add .
+    + $ git commit -am "Desplegando V0.0.1"
+    + $ git push heroku master
+5. Modificar client\src\api\config.js:
+    ```js
+    export const basePath = "https://solppmern2021.herokuapp.com/api"
+    export const apiVersion = "v1"
+    ```
+6. Commit Video 208:
+    + $ git add .
+    + $ git commit -m "Subiendo Servidor a Heroku"
+    + $ git push -u origin main
 
 ### 209. Subiendo Cliente a Netlify
 5. Commit Video 209:
