@@ -16651,20 +16651,28 @@
     + $ git commit -m "Repositorio de la aplicación"
     + $ git push -u origin main
 
-    ≡
-    ```js
-    ```
-
 ### 211. Clase Extra
++ Otros cursos:
+    + React y Django: Crea una carta digital para restaurantes
+    + Django REST Framework de cero a experto
+    + React Native: Crea tu E-Commerce móvil para iOS y Android
+    + Vue 3 JS: De cero a experto creando aplicaciones reales
+    + Next JS: Crea tu tienda online completa
+    + Gatsby JS: De cero a experto
+    + Crea un Instagram con React, GraphQL, Apollo, MongoDB y AWS
+    + React Native: Crea aplicaciones móviles reales iOS y Android
+    + Electron JS y React JS: Creando un Spotify
+    + Web Personal MERN Full Stack: MongoDB, Express, React y Node
+    + React JS Hooks: De Cero a Experto Creado Aplicaciones Reales
+    + React Native Expo: Creando un TripAdvisor de Restaurantes
+    + JavaScript y ES6: Lo último en JS con Proyectos Reales
+    + WordPress 2019: ¡Crea tu web Profesional de 0 a Experto!
+    + Prestashop 1.7: Crea tu Tienda Online de 0 a Experto!
+    + CSS Grid: Principiante a Experto Creando Web Responsive
 5. Commit Video 211:
     + $ git add .
-    + $ git commit -m ""
+    + $ git commit -m "Clase Extra"
     + $ git push -u origin main
-
-    ≡
-    ```js
-    ```
-
 
 ## Equivalencias entre yarn y npm
 + https://shift.infinite.red/npm-vs-yarn-cheat-sheet-8755b092e5cc
