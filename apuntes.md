@@ -16610,15 +16610,35 @@
     + $ git push -u origin main
 
 ### 209. Subiendo Cliente a Netlify
-5. Commit Video 209:
-    + $ git add .
-    + $ git commit -m ""
-    + $ git push -u origin main
-
-    ≡
-    ```js
+1. Compilar el proyecto cliente:
+    + $ cd client
+    + $ yarn build
+2. Ingresar a [Netlify](https://www.netlify.com).
+3. Arrastra la carpeta **client\build** a Netlify y cambiar el nombre a **mern2021**.
+4. Modificar **client\package.json**:
+    ```json
+    {
+        ≡
+        "homepage": "https://mern2021.netlify.app/"
+    }
     ```
-
+5. Crear archivo **client\public\_redirects**:
+    ```
+    /* /index.html 200
+    ```
+6. Modificar **client\src\App.js**:
+    ```js
+    import { HashRouter as Router, Route, Switch } from "react-router-dom"
+    ≡
+    ```
+7. Compilar nuevamente el proyecto cliente:
+    + $ cd client
+    + $ yarn build
+8. Volver a subir la carpeta **client\build** a Netlify (Recordar que ahora es en Deploys).
+9. Commit Video 209:
+    + $ git add .
+    + $ git commit -m "Subiendo Cliente a Netlify"
+    + $ git push -u origin main
 
 ## Sección 17: Despedida
 
